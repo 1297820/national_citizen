@@ -29,6 +29,7 @@ class CustomTextField extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class CustomButton extends StatelessWidget {
   CustomButton(
       {Key? key,

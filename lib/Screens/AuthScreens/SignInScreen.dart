@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:national_citizen/Screens/AuthScreens/forgotPassword.dart';
+import 'package:national_citizen/Screens/AuthScreens/signUpScreen.dart';
 import 'package:national_citizen/customwidgets.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -66,6 +67,7 @@ class _SignInScreenState extends State<SignInScreen> {
               width: 230,
               text: 'Sign In',
               onpressed: () {
+                _showMyDialog();
                 // showMyDialog(
                 //   context: context,
                 //   text: 'Network Error',
@@ -77,27 +79,35 @@ class _SignInScreenState extends State<SignInScreen> {
             const SizedBox(
               height: 20,
             ),
-            Center(
-              child: RichText(
-                text: const TextSpan(
-                  text: 'New user ',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'New user ',
                   style: TextStyle(
                       color: Color.fromRGBO(0, 0, 0, 1),
                       fontSize: 13,
                       fontWeight: FontWeight.w300,
                       fontFamily: 'Poppins'),
-                  children: [
-                    TextSpan(
-                      text: 'Sign Up',
-                      style: TextStyle(
-                          color: Color.fromRGBO(173, 34, 224, 1),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w300,
-                          fontFamily: 'Poppins'),
-                    ),
-                  ],
                 ),
-              ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const SignUpScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Sign Up',
+                    style: TextStyle(
+                        color: Color.fromRGBO(173, 34, 224, 1),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w300,
+                        fontFamily: 'Poppins'),
+                  ),
+                ),
+              ],
             ),
             const Spacer()
           ],
@@ -111,70 +121,83 @@ class _SignInScreenState extends State<SignInScreen> {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          insetPadding:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 280),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-          actionsPadding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-          title: Row(
-            children: [
-              const Spacer(),
-              const Text(
-                'Sign In Failed',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: Color.fromRGBO(154, 34, 240, 1)),
-              ),
-              const Spacer(),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Icon(
-                  Icons.cancel_outlined,
-                  color: Color.fromRGBO(124, 119, 142, 1),
-                ),
-              ),
-            ],
-          ),
-          content: const Text(
-            'NIN or Password Incorrect, Please input your details correctly',
-            textAlign: TextAlign.center,
-          ),
-          actions: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return Expanded(
+          child: AlertDialog(
+            insetPadding: const EdgeInsets.symmetric(
+              horizontal: 10,
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            actionsPadding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+            title: Row(
               children: [
-                CustomButton(
-                  width: 128,
-                  height: 35,
-                  text: 'Sign In',
-                  onpressed: () {
+                const Spacer(),
+                const Text(
+                  'Sign In Failed',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(154, 34, 240, 1)),
+                ),
+                const Spacer(),
+                GestureDetector(
+                  onTap: () {
                     Navigator.of(context).pop();
                   },
-                ),
-                SizedBox(
-                  height: 35,
-                  child: OutlinedButton(
-                    style: ButtonStyle(
-                        side: MaterialStateProperty.all<BorderSide>(
-                            const BorderSide(
-                                color: Color.fromRGBO(154, 34, 240, 1)))),
-                    onPressed: () {},
-                    child: const Text(
-                      'Reset Password',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromRGBO(154, 34, 240, 1)),
-                    ),
+                  child: const Icon(
+                    Icons.cancel_outlined,
+                    color: Color.fromRGBO(124, 119, 142, 1),
                   ),
                 ),
               ],
             ),
-          ],
+            content: const Text(
+              'NIN or Password Incorrect, Please input your details correctly',
+              textAlign: TextAlign.center,
+            ),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomButton(
+                    width: 128,
+                    height: 35,
+                    text: 'Sign In',
+                    onpressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  SizedBox(
+                    height: 35,
+                    child: OutlinedButton(
+                      style: ButtonStyle(
+                        side: MaterialStateProperty.all<BorderSide>(
+                          const BorderSide(
+                            color: Color.fromRGBO(154, 34, 240, 1),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Reset Password',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Color.fromRGBO(154, 34, 240, 1)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         );
       },
     );

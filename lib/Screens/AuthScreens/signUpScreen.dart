@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:national_citizen/customwidgets.dart';
+
+import 'SignInScreen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -70,9 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               controller: passwordController,
             ),
             const Spacer(),
-            CustomButton(
-              width: 230,
-              text: 'Sign Up', onpressed: () {}),
+            CustomButton(width: 230, text: 'Sign Up', onpressed: () {}),
             const SizedBox(
               height: 20,
             ),
@@ -142,27 +141,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
             const SizedBox(
               height: 5,
             ),
-            Center(
-              child: RichText(
-                text: const TextSpan(
-                  text: 'Existing user ',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Existing user ',
                   style: TextStyle(
-                      color: Color.fromRGBO(0, 0, 0, 1),
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w300,
+                    fontFamily: 'Poppins',
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const SignInScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Sign In',
+                    style: TextStyle(
+                      color: Color.fromRGBO(173, 34, 224, 1),
                       fontSize: 13,
                       fontWeight: FontWeight.w300,
-                      fontFamily: 'Poppins'),
-                  children: [
-                    TextSpan(
-                      text: 'Sign In',
-                      style: TextStyle(
-                          color: Color.fromRGBO(173, 34, 224, 1),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w300,
-                          fontFamily: 'Poppins'),
+                      fontFamily: 'Poppins',
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
             const SizedBox(
               height: 20,

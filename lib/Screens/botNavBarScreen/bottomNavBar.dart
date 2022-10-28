@@ -3,6 +3,7 @@ import 'package:national_citizen/Screens/botNavBarScreen/home.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/profile.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/search.dart';
 
+// ignore: must_be_immutable
 class BottomNavBar extends StatefulWidget {
   BottomNavBar({
     Key? key,
@@ -36,9 +37,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     List screens = [
-      HomeScreen(),
-      SearchScreen(),
-      ProfileScreen()
+      const HomeScreen(),
+      const SearchScreen(),
+      const ProfileScreen()
     ];
 
     return Scaffold(

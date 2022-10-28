@@ -37,6 +37,17 @@ dependencies:
   cached_network_image: ^3.2.0
   skeletons: ^0.0.3
   flutter_svg: ^1.0.3
+  flutter_native_splash: ^2.1.6
+  flutter_launcher_icons: ^0.10.0
+
+# flutter_native_splash:
+#   image: assets/images/Exclude.png
+#   background_image: assets/images/background.svg
+
+flutter_icons:
+  image_path: assets/images/Exclude.png
+  android: 'launcher_icon'
+  ios: true
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:national_citizen/Screens/settingsEdit/editProfileScreen.dart';
 import 'package:national_citizen/Screens/settingsEdit/settings.dart';
-import 'package:skeletons/skeletons.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);

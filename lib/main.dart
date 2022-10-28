@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:national_citizen/Screens/AuthScreens/SignInScreen.dart';
-import 'package:national_citizen/Screens/AuthScreens/forgotPassword.dart';
-import 'package:national_citizen/Screens/AuthScreens/passwordReset.dart';
-import 'package:national_citizen/Screens/AuthScreens/signUpScreen.dart';
-import 'package:national_citizen/Screens/botNavBarScreen/bottomNavBar.dart';
 import 'package:national_citizen/Screens/startScreen.dart';
 
 void main() {
@@ -22,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "Poppins"
       ),
-      home: BottomNavBar() ,
+      home: const startScreen() ,
     );
   }
 }

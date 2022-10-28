@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:national_citizen/Screens/AuthScreens/SignInScreen.dart';
+import 'package:national_citizen/Screens/AuthScreens/signUpScreen.dart';
 
 class startScreen extends StatelessWidget {
   const startScreen({Key? key}) : super(key: key);
@@ -27,7 +29,9 @@ class startScreen extends StatelessWidget {
               'assets/images/Exclude.png',
               scale: 4,
             ),
-            const SizedBox(height: 14,),
+            const SizedBox(
+              height: 14,
+            ),
             const Text(
               "let's Get Started",
               style: TextStyle(
@@ -44,7 +48,13 @@ class startScreen extends StatelessWidget {
                     side: MaterialStateProperty.all<BorderSide>(
                         const BorderSide(
                             color: Color.fromRGBO(255, 255, 255, 1)))),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const SignUpScreen(),
+                    ),
+                  );
+                },
                 child: const Text(
                   'Sign Up',
                   style: TextStyle(
@@ -54,7 +64,9 @@ class startScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 35,),
+            const SizedBox(
+              height: 35,
+            ),
             SizedBox(
               width: 230,
               height: 45,
@@ -62,9 +74,15 @@ class startScreen extends StatelessWidget {
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         const Color.fromRGBO(255, 255, 255, 1))),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const SignInScreen(),
+                    ),
+                  );
+                },
                 child: const Text(
-                  'Login',
+                  'Sign In',
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -72,7 +90,9 @@ class startScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 34,)
+            const SizedBox(
+              height: 34,
+            )
           ],
         ),
       ),

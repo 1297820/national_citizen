@@ -6,9 +6,9 @@ String url = "https://newsapi.org/v2/everything?q=feed&";
 String apiKey = "apiKey=31d7878c1a9641bfb9c2adb9c3f54473";
 
 
-Future<dynamic>? getNewsData() async {
+Future<dynamic>? getNewsData(pageCount) async {
   try {
-    var response = await https.get(Uri.parse(url + apiKey),);
+    var response = await https.get(Uri.parse("https://newsapi.org/v2/everything?q=feed&pageSize=10&page=$pageCount&apiKey=31d7878c1a9641bfb9c2adb9c3f54473"),);
     var body = jsonDecode(response.body);
 
     print('>>>>>>>>>>> $body');
@@ -19,5 +19,7 @@ Future<dynamic>? getNewsData() async {
     rethrow;
   }
 }
+
+
 
 
