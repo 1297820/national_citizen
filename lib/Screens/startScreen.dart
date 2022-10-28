@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/AuthScreens/SignInScreen.dart';
 import 'package:national_citizen/Screens/AuthScreens/signUpScreen.dart';
 
-class startScreen extends StatelessWidget {
-  const startScreen({Key? key}) : super(key: key);
+class StartScreen extends StatelessWidget {
+  const StartScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

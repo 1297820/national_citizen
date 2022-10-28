@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:national_citizen/customwidgets.dart';
 
+// ignore: must_be_immutable
 class EditScreen extends StatefulWidget {
   EditScreen({Key? key, required this.editValue}) : super(key: key);
   String editValue;
@@ -34,7 +35,7 @@ class _EditScreenState extends State<EditScreen> {
           Container(
             // height: 143,
             width: double.infinity,
-            decoration: BoxDecoration(color: Color.fromRGBO(241, 241, 241, 1)),
+            decoration: const BoxDecoration(color: Color.fromRGBO(241, 241, 241, 1)),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
               child: Column(
