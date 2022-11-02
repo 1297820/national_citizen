@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:national_citizen/Screens/settingsEdit/editProfileScreen.dart';
 import 'package:national_citizen/Screens/startScreen.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "Poppins"
       ),
-      home: const StartScreen() ,
+      home: StartScreen() ,
     );
   }
 }

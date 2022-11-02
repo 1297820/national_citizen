@@ -58,7 +58,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
               height: 18,
             ),
             CustomTextField(
-              text: 'Re-type password',
+              text: 'Re type password',
               controller: confirmPasswordController,
             ),
             const Spacer(),

@@ -40,12 +40,12 @@ dependencies:
   flutter_native_splash: ^2.1.6
   flutter_launcher_icons: ^0.10.0
 
-# flutter_native_splash:
-#   image: assets/images/Exclude.png
-#   background_image: assets/images/background.svg
+flutter_native_splash:
+  image: assets/images/Exclude.png
+  background_image: assets/images/background.png
 
 flutter_icons:
-  image_path: assets/images/Exclude.png
+  image_path: assets/images/Logo.png
   android: 'launcher_icon'
   ios: true
 

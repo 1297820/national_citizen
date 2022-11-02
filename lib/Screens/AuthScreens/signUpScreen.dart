@@ -70,8 +70,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               text: 'Password',
               controller: passwordController,
             ),
-            const Spacer(),
-            CustomButton(width: 230, text: 'Sign Up', onpressed: () {}),
             const SizedBox(
               height: 20,
             ),
@@ -138,14 +136,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ],
             ),
+            const Spacer(),
+            CustomButton(width: 230, text: 'Sign Up', onpressed: () {}),
+            
+            
             const SizedBox(
-              height: 5,
+              height: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Existing user ',
+                  'Existing user? ',
                   style: TextStyle(
                     color: Color.fromRGBO(0, 0, 0, 1),
                     fontSize: 13,

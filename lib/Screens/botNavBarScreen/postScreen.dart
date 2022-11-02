@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class PostScreen extends StatefulWidget {
-   PostScreen({Key? key, required this.content}) : super(key: key);
+  PostScreen({Key? key, required this.content}) : super(key: key);
   dynamic content;
 
   @override
@@ -11,6 +11,13 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('!!!!!!!!!!!! ${widget.content}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +77,9 @@ class _PostScreenState extends State<PostScreen> {
                       Row(
                         children: [
                           Text(
-                            widget.content["publishedAt"].toString().substring(0,10),
+                            widget.content["publishedAt"]
+                                .toString()
+                                .substring(0, 10),
                             style: const TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w300,
@@ -81,7 +90,7 @@ class _PostScreenState extends State<PostScreen> {
                             width: 10,
                           ),
                           Text(
-                            "${widget.content["publishedAt"].toString().substring(11,16)} ${int.parse(widget.content["publishedAt"].toString().substring(11,13)) > 11.99 ? 'PM': 'AM'}",
+                            "${widget.content["publishedAt"].toString().substring(11, 16)} ${int.parse(widget.content["publishedAt"].toString().substring(11, 13)) > 11.99 ? 'PM' : 'AM'}",
                             style: const TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w300,
@@ -114,21 +123,37 @@ class _PostScreenState extends State<PostScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  width: double.infinity,
-                                  height: 170,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: const Color.fromRGBO(
-                                        218, 218, 218, 0.4),
-                                    image: DecorationImage(
-                                      image: CachedNetworkImageProvider(
-                                        widget.content["urlToImage"],
+                                widget.content["urlToImage"].toString() == "null"
+                                    ? Container(
+                                        width: double.infinity,
+                                        height: 170,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          color: const Color.fromRGBO(
+                                              218, 218, 218, 0.4),
+                                        ),
+                                        child: const Icon(
+                                          Icons.wifi_off_outlined,
+                                          size: 40,
+                                        ),
+                                      )
+                                    : Container(
+                                        width: double.infinity,
+                                        height: 170,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          color: const Color.fromRGBO(
+                                              218, 218, 218, 0.4),
+                                          image: DecorationImage(
+                                            image: CachedNetworkImageProvider(
+                                              widget.content["urlToImage"],
+                                            ),
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
                                       ),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -143,7 +168,6 @@ class _PostScreenState extends State<PostScreen> {
                                 const SizedBox(
                                   height: 20,
                                 ),
-
                                 Text(
                                   widget.content["content"],
                                   textAlign: TextAlign.start,

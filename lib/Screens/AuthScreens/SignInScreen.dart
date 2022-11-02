@@ -83,7 +83,7 @@ class _SignInScreenState extends State<SignInScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'New user ',
+                  'New user? ',
                   style: TextStyle(
                       color: Color.fromRGBO(0, 0, 0, 1),
                       fontSize: 13,

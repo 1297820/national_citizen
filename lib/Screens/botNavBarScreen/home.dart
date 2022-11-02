@@ -262,182 +262,176 @@ class _HomeScreenState extends State<HomeScreen> {
                             // print('Image URI ******** ${news[i]["urlToImage"]}');
                             return Column(
                               children: [
-                                Card(
-                                  elevation: 4.0,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5)),
-                                  color: const Color.fromRGBO(255, 255, 255, 1),
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                        color: Colors.transparent),
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(13),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Text(
-                                                      news[i]["description"]
-                                                              .toString()
-                                                              .isEmpty
-                                                          ? "Unknown"
-                                                          : news[i]
-                                                              ["description"],
-                                                      maxLines: 5,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      textAlign:
-                                                          TextAlign.start,
-                                                      style: const TextStyle(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  news[i]["urlToImage"]
-                                                              .toString() ==
-                                                          "null"
-                                                      ? Expanded(
-                                                          flex: 1,
-                                                          child: Container(
-                                                            width: 100,
-                                                            height: 100,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          4),
-                                                              color: const Color
-                                                                      .fromRGBO(
-                                                                  218,
-                                                                  218,
-                                                                  218,
-                                                                  0.4),
-                                                              // image:
-                                                              //     const DecorationImage(
-                                                              //   image: AssetImage('assets/images/profileImage.png'),
-                                                              //   fit:
-                                                              //       BoxFit.fill,
-                                                              // ),
-                                                            ),
-                                                            child: const Icon(
-                                                              Icons
-                                                                  .wifi_off_outlined,
-                                                              size: 30,
-                                                            ),
-                                                          ),
-                                                        )
-                                                      : Expanded(
-                                                          flex: 1,
-                                                          child: Container(
-                                                            width: 100,
-                                                            height: 100,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          4),
-                                                              color: const Color
-                                                                      .fromRGBO(
-                                                                  218,
-                                                                  218,
-                                                                  218,
-                                                                  0.4),
-                                                              image:
-                                                                  DecorationImage(
-                                                                image:
-                                                                    CachedNetworkImageProvider(
-                                                                  news[i][
-                                                                      "urlToImage"],
-                                                                ),
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => PostScreen(
+                                          content: news[i],
                                         ),
-                                        // const Spacer(),
-                                        Container(
-                                          // height: 80,
-                                          decoration: const BoxDecoration(
-                                            color: Color.fromRGBO(
-                                                219, 227, 255, 1),
-                                            borderRadius: BorderRadius.only(
-                                                bottomLeft: Radius.circular(5),
-                                                bottomRight:
-                                                    Radius.circular(5)),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8),
+                                      ),
+                                    );
+                                  },
+                                  child: Card(
+                                    elevation: 4.0,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5)),
+                                    color:
+                                        const Color.fromRGBO(255, 255, 255, 1),
+                                    child: Container(
+                                      decoration: const BoxDecoration(
+                                          color: Colors.transparent),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(13),
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Row(
                                                   children: [
-                                                    Text(
-                                                      news[i]["source"]["name"]
-                                                              .toString()
-                                                              .isEmpty
-                                                          ? "Unknown"
-                                                          : news[i]["source"]
-                                                              ["name"],
-                                                      style: const TextStyle(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        news[i]["description"]
+                                                                .toString()
+                                                                .isEmpty
+                                                            ? "Unknown"
+                                                            : news[i]
+                                                                ["description"],
+                                                        maxLines: 5,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: const TextStyle(
+                                                          fontSize: 11,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
                                                       ),
                                                     ),
                                                     const SizedBox(
                                                       width: 5,
                                                     ),
-                                                    const Icon(
-                                                      Icons.circle,
-                                                      size: 4,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    const Text(
-                                                      "2d",
-                                                      style: TextStyle(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                      ),
-                                                    ),
-                                                    const Spacer(),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.of(context)
-                                                            .push(
-                                                          MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    PostScreen(
-                                                              content: news[i],
+                                                    news[i]["urlToImage"]
+                                                                .toString() ==
+                                                            "null"
+                                                        ? Expanded(
+                                                            flex: 1,
+                                                            child: Container(
+                                                              width: 100,
+                                                              height: 100,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            4),
+                                                                color: const Color
+                                                                        .fromRGBO(
+                                                                    218,
+                                                                    218,
+                                                                    218,
+                                                                    0.4),
+                                                              ),
+                                                              child: const Icon(
+                                                                Icons
+                                                                    .wifi_off_outlined,
+                                                                size: 30,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : Expanded(
+                                                            flex: 1,
+                                                            child: Container(
+                                                              width: 100,
+                                                              height: 100,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            4),
+                                                                color: const Color
+                                                                        .fromRGBO(
+                                                                    218,
+                                                                    218,
+                                                                    218,
+                                                                    0.4),
+                                                                image:
+                                                                    DecorationImage(
+                                                                  image:
+                                                                      CachedNetworkImageProvider(
+                                                                    news[i][
+                                                                        "urlToImage"],
+                                                                  ),
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
-                                                        );
-                                                      },
-                                                      child: const Text(
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          // const Spacer(),
+                                          Container(
+                                            // height: 80,
+                                            decoration: const BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  219, 227, 255, 1),
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(5),
+                                                  bottomRight:
+                                                      Radius.circular(5)),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        news[i]["source"]
+                                                                    ["name"]
+                                                                .toString()
+                                                                .isEmpty
+                                                            ? "Unknown"
+                                                            : news[i]["source"]
+                                                                ["name"],
+                                                        style: const TextStyle(
+                                                          fontSize: 11,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      const Icon(
+                                                        Icons.circle,
+                                                        size: 4,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      const Text(
+                                                        "2d",
+                                                        style: TextStyle(
+                                                          fontSize: 11,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                      const Spacer(),
+                                                      const Text(
                                                         "View more >>",
                                                         style: TextStyle(
                                                           fontSize: 11,
@@ -445,14 +439,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               FontWeight.w400,
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        )
-                                      ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -477,7 +471,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: 4,
                     itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.fromLTRB(4, 6, 4, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 6, 0, 0),
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                         decoration: const BoxDecoration(color: Colors.white),

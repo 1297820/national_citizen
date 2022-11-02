@@ -285,7 +285,7 @@ class ProfileScreen extends StatelessWidget {
                           Text(
                             'Designer',
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w400,
                                 color: Color.fromRGBO(0, 0, 0, 0.7)),
                           ),
@@ -304,7 +304,7 @@ class ProfileScreen extends StatelessWidget {
                           Text(
                             '02/02/1992',
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w400,
                                 color: Color.fromRGBO(0, 0, 0, 0.7)),
                           ),
@@ -324,7 +324,7 @@ class ProfileScreen extends StatelessWidget {
                           Text(
                             '165cm',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
                               fontWeight: FontWeight.w400,
                               color: Color.fromRGBO(0, 0, 0, 0.7),
                             ),
