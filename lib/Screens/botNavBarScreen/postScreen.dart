@@ -169,6 +169,14 @@ class _PostScreenState extends State<PostScreen> {
                                   height: 20,
                                 ),
                                 Text(
+                                  widget.content["description"],
+                                  textAlign: TextAlign.start,
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Text(
                                   widget.content["content"],
                                   textAlign: TextAlign.start,
                                   style: const TextStyle(

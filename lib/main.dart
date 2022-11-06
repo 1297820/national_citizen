@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:national_citizen/Screens/botNavBarScreen/bottomNavBar.dart';
 import 'package:national_citizen/Screens/settingsEdit/editProfileScreen.dart';
 import 'package:national_citizen/Screens/startScreen.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:national_citizen/utils/constants.dart';
 
-void main() {
+final getX = GetStorage();
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -18,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "Poppins"
       ),
-      home: StartScreen() ,
+      home: getX.read(Constants().GETX_ISLOGGEDIN) == 'true'?BottomNavBar(): const StartScreen() ,
     );
   }
 }

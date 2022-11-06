@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/AuthScreens/forgotPassword.dart';
 import 'package:national_citizen/Screens/AuthScreens/signUpScreen.dart';
+import 'package:national_citizen/Screens/botNavBarScreen/bottomNavBar.dart';
 import 'package:national_citizen/customwidgets.dart';
+import 'package:national_citizen/main.dart';
+import 'package:national_citizen/utils/apirequest.dart';
+import 'package:national_citizen/utils/constants.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -14,6 +18,26 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController ninController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool value = false;
+
+  logInFunction() async {
+    print('******** rannnnnn');
+    Map<String, dynamic> response;
+    response = await logInRequest(
+      ninController.text.toString().trim(),
+      passwordController.text.toString().trim(),
+    );
+    if (response["status"] == "ok" &&
+        response["msg"] == "Successfully logged in") {
+      getX.write(Constants().GETX_TOKEN, response['token']);
+      getX.write(Constants().GETX_ISLOGGEDIN, 'true');
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => BottomNavBar()),
+          (route) => false);
+    } else {
+      // showToast(response["msg"]);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,86 +55,94 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Sign In',
-              style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
-            ),
-            const Text(
-              'Welcome Back',
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black),
-            ),
-            const Spacer(),
-            CustomTextField(
-              text: 'NIN',
-              controller: ninController,
-            ),
-            const SizedBox(
-              height: 18,
-            ),
-            CustomTextField(
-              text: 'Password',
-              controller: passwordController,
-            ),
-            const Spacer(),
-            CustomButton(
-              width: 230,
-              text: 'Sign In',
-              onpressed: () {
-                _showMyDialog();
-                // showMyDialog(
-                //   context: context,
-                //   text: 'Network Error',
-                //   content:
-                //       "Couldn't connect to database, Connect to the internet",
-                //   buttonText: 'Try again');
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'New user? ',
-                  style: TextStyle(
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                      fontSize: 13,
-                      fontWeight: FontWeight.w300,
-                      fontFamily: 'Poppins'),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => const SignUpScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'Sign Up',
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Sign In',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black),
+              ),
+              const Text(
+                'Welcome Back',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black),
+              ),
+              const SizedBox(
+                height: 120,
+              ),
+              CustomTextField(
+                text: 'NIN',
+                controller: ninController,
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              CustomTextField(
+                text: 'Password',
+                controller: passwordController,
+              ),
+              const SizedBox(
+                height: 120,
+              ),
+              CustomButton(
+                width: 230,
+                text: 'Sign In',
+                onpressed: () {
+                  logInFunction();
+                  // _showMyDialog();
+                  // showMyDialog(
+                  //   context: context,
+                  //   text: 'Network Error',
+                  //   content:
+                  //       "Couldn't connect to database, Connect to the internet",
+                  //   buttonText: 'Try again');
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'New user? ',
                     style: TextStyle(
-                        color: Color.fromRGBO(173, 34, 224, 1),
+                        color: Color.fromRGBO(0, 0, 0, 1),
                         fontSize: 13,
                         fontWeight: FontWeight.w300,
                         fontFamily: 'Poppins'),
                   ),
-                ),
-              ],
-            ),
-            const Spacer()
-          ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const SignUpScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Sign Up',
+                      style: TextStyle(
+                          color: Color.fromRGBO(173, 34, 224, 1),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w300,
+                          fontFamily: 'Poppins'),
+                    ),
+                  ),
+                ],
+              ),
+              // const Spacer()
+            ],
+          ),
         ),
       ),
     );

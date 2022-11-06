@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:national_citizen/Screens/botNavBarScreen/usersProfile.dart';
+import 'package:national_citizen/main.dart';
+import 'package:national_citizen/utils/constants.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -74,76 +77,86 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemCount: 15,
                       physics: const BouncingScrollPhysics(),
                       itemBuilder: (context, i) {
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(4, 0, 4, 10),
-                          child: Container(
-                            width: double.infinity,
-                            // height: 54,
-                            decoration: BoxDecoration(
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  offset: Offset(0, 0),
-                                  spreadRadius: 0,
-                                  blurRadius: 3,
-                                ),
-                              ],
-                              borderRadius: BorderRadius.circular(4),
-                              // shape: BoxShape.circle,
-                              color: const Color.fromRGBO(255, 255, 255, 1),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 10, 8, 10),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color.fromRGBO(217, 217, 217, 1),
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          'assets/images/profileImage.png',
-                                        ),
-                                      ),
-                                    ),
-                                    // child: Image.asset(
-                                    //   'assets/images/profileImage.png',
-                                    //   fit: BoxFit.cover,
-                                    // ),
-                                  ),
-                                  const SizedBox(
-                                    width: 15,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text(
-                                        'Alex Johnson',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      Text(
-                                        'AlexJohnson@gmail.com',
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w300,
-                                          color: Colors.black54,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  const Icon(
-                                    Icons.more_vert_outlined,
-                                    color: Color.fromRGBO(45, 38, 75, 0.6),
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => UsersProfileScreen(token: getX.read(Constants().GETX_TOKEN), userId: "6364515201a37cb91f29cae9",),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(4, 0, 4, 10),
+                            child: Container(
+                              width: double.infinity,
+                              // height: 54,
+                              decoration: BoxDecoration(
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    offset: Offset(0, 0),
+                                    spreadRadius: 0,
+                                    blurRadius: 3,
                                   ),
                                 ],
+                                borderRadius: BorderRadius.circular(4),
+                                // shape: BoxShape.circle,
+                                color: const Color.fromRGBO(255, 255, 255, 1),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 10, 8, 10),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 50,
+                                      width: 50,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color.fromRGBO(217, 217, 217, 1),
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            'assets/images/profileImage.png',
+                                          ),
+                                        ),
+                                      ),
+                                      // child: Image.asset(
+                                      //   'assets/images/profileImage.png',
+                                      //   fit: BoxFit.cover,
+                                      // ),
+                                    ),
+                                    const SizedBox(
+                                      width: 15,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: const [
+                                        Text(
+                                          'Alex Johnson',
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Text(
+                                          'AlexJohnson@gmail.com',
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w300,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                    const Icon(
+                                      Icons.more_vert_outlined,
+                                      color: Color.fromRGBO(45, 38, 75, 0.6),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

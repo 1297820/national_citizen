@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // print('feeds >>>>>> $feeds');
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent / 1.5) {
+          _scrollController.position.maxScrollExtent / 1.25) {
         // print(">>>>>>>>>>> getMoreData");
         _getMoreData();
       }
@@ -169,84 +169,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 } else if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasError) {
-                    // return Expanded(
-                    //   child: ListView.builder(
-                    //     physics: NeverScrollableScrollPhysics(),
-                    //     itemCount: 4,
-                    //     itemBuilder: (context, index) => Padding(
-                    //     padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
-                    //     child: Container(
-                    //       padding: const EdgeInsets.all(8.0),
-                    //       decoration: const BoxDecoration(color: Colors.white),
-                    //       child: SkeletonItem(
-                    //         child: Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: [
-                    //             Row(
-                    //               crossAxisAlignment: CrossAxisAlignment.start,
-                    //               children: [
-                    //                 Expanded(
-                    //                   flex: 2,
-                    //                   child: SkeletonParagraph(
-                    //                     style: SkeletonParagraphStyle(
-                    //                       lines: 5,
-                    //                       spacing: 6,
-                    //                       lineStyle: SkeletonLineStyle(
-                    //                         randomLength: true,
-                    //                         height: 10,
-                    //                         borderRadius:
-                    //                             BorderRadius.circular(4),
-                    //                         minLength: MediaQuery.of(context)
-                    //                                 .size
-                    //                                 .width /
-                    //                             2,
-                    //                       ),
-                    //                     ),
-                    //                   ),
-                    //                 ),
-                    //                 const SizedBox(width: 12),
-                    //                 const Expanded(
-                    //                   flex: 1,
-                    //                   child: SkeletonAvatar(
-                    //                     style: SkeletonAvatarStyle(
-                    //                       width: 100,
-                    //                       height: 100,
-                    //                       // maxHeight:
-                    //                       //     MediaQuery.of(context).size.height / 3,
-                    //                     ),
-                    //                   ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //             const SizedBox(height: 14),
-                    //             Row(
-                    //               mainAxisAlignment:
-                    //                   MainAxisAlignment.spaceBetween,
-                    //               children: [
-                    //                 const SizedBox(width: 8),                                  SkeletonLine(
-                    //                   style: SkeletonLineStyle(
-                    //                     height: 10,
-                    //                     width: 100,
-                    //                     borderRadius: BorderRadius.circular(4),
-                    //                   ),
-                    //                 ),
-                    //                 const Spacer(),
-                    //                 SkeletonLine(
-                    //                   style: SkeletonLineStyle(
-                    //                     height: 10,
-                    //                     width: 65,
-                    //                     borderRadius: BorderRadius.circular(4),
-                    //                   ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     ),
-                    //   ),
-                    // );
                   } else if (snapshot.hasData) {
                     dynamic users = snapshot.data;
                     if (users["status"] == "error") {
@@ -575,7 +497,7 @@ class _HomeScreenState extends State<HomeScreen> {
       pageIndex += 1;
       var response = await https
           .get(
-            Uri.parse(url + "pageSize=10&page=$pageIndex&" + apiKey),
+            Uri.parse("$url&pageSize=10&page=$pageIndex&$apiKey"),
           )
           .catchError((e) {});
 

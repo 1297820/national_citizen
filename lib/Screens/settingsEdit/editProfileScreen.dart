@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:national_citizen/Screens/botNavBarScreen/bottomNavBar.dart';
 import 'package:national_citizen/Screens/settingsEdit/editScreen.dart';
 
 // ignore: must_be_immutable
@@ -7,12 +8,12 @@ class EditProfileScreen extends StatelessWidget {
 
   List<String> settings = [
     "Name",
+    "Status",
     "Address",
     "Phone number",
     "Email",
     "Date of birth",
     "Occupation",
-    "Address",
     "Gender",
     "Height",
     "Interest",
@@ -30,6 +31,13 @@ class EditProfileScreen extends StatelessWidget {
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => BottomNavBar(
+                  index: 0,
+                ),
+              ),
+            );
           },
           child: const Icon(
             Icons.keyboard_backspace_rounded,
