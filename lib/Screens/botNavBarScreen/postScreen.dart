@@ -123,7 +123,8 @@ class _PostScreenState extends State<PostScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                widget.content["urlToImage"].toString() == "null"
+                                widget.content["urlToImage"].toString() ==
+                                        "null"
                                     ? Container(
                                         width: double.infinity,
                                         height: 170,
@@ -191,7 +192,7 @@ class _PostScreenState extends State<PostScreen> {
                       ),
                       // const Spacer(),
                       Container(
-                        // height: 80,
+                        // height: 20,
                         decoration: const BoxDecoration(
                           color: Color.fromRGBO(219, 227, 255, 1),
                           borderRadius: BorderRadius.only(
@@ -200,68 +201,20 @@ class _PostScreenState extends State<PostScreen> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Row(
                             children: [
-                              Row(
-                                children: [
-                                  Row(
-                                    children: const [
-                                      Text(
-                                        "23K",
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(bottom: 3),
-                                        child: Icon(
-                                          Icons.thumb_up_outlined,
-                                          size: 18,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Row(
-                                    children: const [
-                                      Text(
-                                        "2d",
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Icon(
-                                        Icons.thumb_down_outlined,
-                                        size: 18,
-                                      )
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  GestureDetector(
-                                    onTap: () {
-                                      // Navigator.of(context).push(
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => PostScreen(),
-                                      //   ),
-                                      // );
-                                    },
-                                    child: const Icon(
-                                      Icons.share,
-                                      size: 20,
-                                    ),
-                                  ),
-                                ],
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigator.of(context).push(
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => PostScreen(),
+                                  //   ),
+                                  // );
+                                },
+                                child: const Icon(
+                                  Icons.share,
+                                  size: 20,
+                                ),
                               ),
                             ],
                           ),

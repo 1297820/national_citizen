@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/usersProfile.dart';
 import 'package:national_citizen/main.dart';
+import 'package:national_citizen/utils/apirequest.dart';
 import 'package:national_citizen/utils/constants.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -12,6 +13,20 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   String searchInput = '';
+  bool search = false;
+  Map<String, dynamic>? searchUser;
+  List<dynamic>? users;
+//   List <Map<String, dynamic>> student = [
+//   {
+//    "user_id": 1,
+//    "name": John
+//   }
+//   {
+//    “user_id”: 2,
+//    “name”: “Lisa”
+//   }
+//  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,12 +48,27 @@ class _SearchScreenState extends State<SearchScreen> {
               child: TextField(
                 // cursorColor: const Color.fromRGBO(154, 34, 240, 1),
                 cursorHeight: 25,
-                // controller: searchController,
-                onChanged: (value) {
-                  setState(() {
-                    searchInput = value;
-                  });
+                onChanged: (value) async {
+                  if (value.isEmpty) {
+                    setState(() {
+                      searchInput = value;
+                      search = false;
+                    });
+                  } else if (value.isNotEmpty) {
+                    searchUser = await searchUsers(value, 1);
+                    setState(() {
+                      users = searchUser!['users'];
+                      searchInput = value;
+                      search = true;
+                    });
+                  }
+                  print('######### ${users!.length}');
                 },
+                // onChanged: (value) {
+                //   setState(() {
+                //     searchInput = value;
+                //   });
+                // },
                 style: const TextStyle(fontSize: 14),
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
@@ -74,14 +104,19 @@ class _SearchScreenState extends State<SearchScreen> {
                 ? Expanded(
                     flex: 10,
                     child: ListView.builder(
-                      itemCount: 15,
+                      itemCount: searchUser!['msg'] == "success"
+                          ? users!.length
+                          : 0,
                       physics: const BouncingScrollPhysics(),
                       itemBuilder: (context, i) {
                         return GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => UsersProfileScreen(token: getX.read(Constants().GETX_TOKEN), userId: "6364515201a37cb91f29cae9",),
+                                builder: (context) => UsersProfileScreen(
+                                  token: getX.read(Constants().GETX_TOKEN),
+                                  userId: users![i]['_id'],
+                                ),
                               ),
                             );
                           },
@@ -131,18 +166,18 @@ class _SearchScreenState extends State<SearchScreen> {
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      children: const [
-                                        Text(
-                                          'Alex Johnson',
-                                          style: TextStyle(
+                                      children: [
+                                         Text(
+                                          users![i]['name'].toString().isEmpty ? 'Unkown': users![i]['name'],
+                                          style: const TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.black,
                                           ),
                                         ),
                                         Text(
-                                          'AlexJohnson@gmail.com',
-                                          style: TextStyle(
+                                          searchUser!['users'][i]['email'],
+                                          style: const TextStyle(
                                             fontSize: 11,
                                             fontWeight: FontWeight.w300,
                                             color: Colors.black54,

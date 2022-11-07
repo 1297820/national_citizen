@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/bottomNavBar.dart';
 import 'package:national_citizen/customwidgets.dart';
 import 'package:national_citizen/utils/apirequest.dart';
 import 'package:national_citizen/utils/constants.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../main.dart';
 import 'SignInScreen.dart';
 
@@ -20,6 +21,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController ninController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool value = false;
+  bool _obscureText = true;
+  int loadingState = 0;
+  bool errorText = false;
 
   // ignore: non_constant_identifier_names
   SignUpFunction() async {
@@ -32,12 +36,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
     if (response["status"] == "ok" &&
         response["msg"] == "Successfully created user") {
+      setState(() {
+        loadingState = 2;
+      });
       getX.write(Constants().GETX_TOKEN, response['token']);
       getX.write(Constants().GETX_ISLOGGEDIN, 'true');
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => BottomNavBar()),
-          (route) => false);
+        MaterialPageRoute(builder: (context) => BottomNavBar()),
+        (route) => false,
+      );
     } else {
+      showToast(response['msg']);
+      setState(() {
+        loadingState = 0;
+      });
       // showToast(response["msg"]);
     }
   }
@@ -83,23 +95,66 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(
                 height: 120,
               ),
-              CustomTextField(
-                text: 'Email',
-                controller: emailController,
+              SizedBox(
+                width: double.infinity,
+                height: 40,
+                child: TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  controller: emailController,
+                  cursorColor: const Color.fromRGBO(154, 34, 240, 1),
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w400),
+                  decoration: const InputDecoration(
+                    fillColor: Color.fromRGBO(243, 245, 250, 1),
+                    filled: true,
+                    contentPadding: EdgeInsets.fromLTRB(15, 0, 5, 0),
+                    border: OutlineInputBorder(borderSide: BorderSide.none),
+                    hintText: 'Email',
+                    hintStyle:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 18,
               ),
-              CustomTextField(
-                text: 'NIN',
-                controller: ninController,
+              SizedBox(
+                width: double.infinity,
+                height: 63,
+                child: TextField(
+                  maxLength: 11,
+                  keyboardType: TextInputType.number,
+                  controller: ninController,
+                  cursorColor: const Color.fromRGBO(154, 34, 240, 1),
+                  inputFormatters: [LengthLimitingTextInputFormatter(11)],
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w400),
+                  decoration: InputDecoration(
+                    fillColor: const Color.fromRGBO(243, 245, 250, 1),
+                    filled: true,
+                    contentPadding: const EdgeInsets.fromLTRB(15, 0, 5, 0),
+                    border:
+                        const OutlineInputBorder(borderSide: BorderSide.none),
+                    hintText: 'NIN',
+                    hintStyle: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w300),
+                    errorText: errorText ? 'NIN must be 11 digits long' : '',
+                    errorStyle: const TextStyle(fontSize: 11),
+                  ),
+                ),
               ),
               const SizedBox(
-                height: 18,
+                height: 10,
               ),
-              CustomTextField(
+              PasswordCustomTextField(
                 text: 'Password',
                 controller: passwordController,
+                obscureText: _obscureText,
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText; //change boolean value
+                  });
+                },
               ),
               const SizedBox(
                 height: 20,
@@ -171,13 +226,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 120,
               ),
               CustomButton(
+                loadingState: loadingState,
                 width: 230,
                 text: 'Sign Up',
                 onpressed: () {
-                  print(
-                      "${emailController.text.toString()} ${ninController.text.toString()} ${passwordController.text.toString()}");
-                  print("signUp");
-                  SignUpFunction();
+                  if (ninController.text.isEmpty ||
+                      emailController.text.isEmpty ||
+                      passwordController.text.isEmpty) {
+                    showToast('All field must field');
+                  } else if (ninController.text.length != 11) {
+                    setState(() {
+                      errorText = true;
+                    });
+                  } else if (!value) {
+                    showToast("Accept terms of usage");
+                  } else {
+                    setState(() {
+                      loadingState = 1;
+                    });
+                    print(
+                        "${emailController.text.toString()} ${ninController.text.toString()} ${passwordController.text.toString()}");
+                    print("signUp");
+                    SignUpFunction();
+                  }
                 },
               ),
               const SizedBox(
@@ -225,11 +296,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  // void showToast(msg) {
-  //   Fluttertoast.showToast(
-  //     msg: msg, // message
-  //     toastLength: Toast.LENGTH_SHORT, // length
-  //     gravity: ToastGravity.CENTER, // location
-  //   );
+  // String? _errorText() {
+  //   if (ninController.text.length != 11 && ninController.text.isNotEmpty) {
+  //     return 'NIN must be 11 digits long';
+  //   } else if (ninController.text.isEmpty) {
+  //     return null;
+  //   }
   // }
+
+  @override
+  void dispose() {
+    ninController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 }

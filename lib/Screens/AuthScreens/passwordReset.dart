@@ -13,6 +13,9 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool value = false;
+  bool _obscureText1 = true;
+  bool _obscureText2 = true;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,16 +53,28 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                   color: Colors.black),
             ),
             const Spacer(),
-            CustomTextField(
+            PasswordCustomTextField(
               text: 'Type password',
               controller: passwordController,
+              obscureText: _obscureText1,
+              onPressed: () {
+                setState(() {
+                  _obscureText1 = !_obscureText1; //change boolean value
+                });
+              },
             ),
             const SizedBox(
               height: 18,
             ),
-            CustomTextField(
+            PasswordCustomTextField(
               text: 'Re type password',
               controller: confirmPasswordController,
+              obscureText: _obscureText2,
+              onPressed: () {
+                setState(() {
+                  _obscureText2 = !_obscureText2; //change boolean value
+                });
+              },
             ),
             const Spacer(),
             CustomButton(

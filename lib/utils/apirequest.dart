@@ -87,6 +87,29 @@ Future<dynamic> profileRequest() async {
   }
 }
 
+Future<dynamic> searchUsers(search, pageCount) async {
+  try {
+    http.Client client = http.Client();
+    http.Response response = await client.post(
+      Uri.https(endpointUrl, "/search/search"),
+      body: json.encode({
+        "token": getX.read(Constants().GETX_TOKEN),
+        "search": search,
+        "pageCount": pageCount,
+        "resultPerPage": 10
+      }),
+      headers: {"Content-Type": "application/json"},
+    );
+    dynamic decodedResponse =
+        jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    print("###### $decodedResponse");
+    return decodedResponse;
+  } catch (e) {
+    print(e);
+    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
+  }
+}
+
 Future<dynamic> usersProfileRequest(token, userId) async {
   try {
     print("start signUp");
@@ -103,7 +126,6 @@ Future<dynamic> usersProfileRequest(token, userId) async {
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
     print("###### $decodedResponse");
-    print(decodedResponse.runtimeType);
     return decodedResponse;
   } catch (e) {
     print(e);

@@ -18,6 +18,7 @@ class _EditScreenState extends State<EditScreen> {
   int day = 11;
   int month = 12;
   int year = 1997;
+  int loadingState = 0;
   TextEditingController editController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -76,15 +77,22 @@ class _EditScreenState extends State<EditScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
+                          setState(() {
+                            loadingState = 1;
+                          });
                           print(widget.editValue);
                           if(widget.editValue == 'Name'){
                             dynamic response = await editName(editController.text.toString().trim());
                             print(response);
                             if(response["status"] == "ok"){
-                              // getX.write(Constants().GETX_NAME, response["user"]["name"]);
-                              // print(getX.read(Constants().GETX_NAME));
+                              setState(() {
+                                loadingState = 2;
+                              });
                               showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
                             } else {
+                              setState(() {
+                                loadingState = 0;
+                              });
                               showMyDialog(
                                 context: context,
                                 text: 'Error',
@@ -99,8 +107,14 @@ class _EditScreenState extends State<EditScreen> {
                             dynamic response = await editStatus();
                             print(response);
                             if(response["status"] == "ok"){
+                              setState(() {
+                                loadingState = 2;
+                              });
                               showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
                             } else {
+                              setState(() {
+                                loadingState = 0;
+                              });
                               showMyDialog(
                                 context: context,
                                 text: 'Error',
@@ -115,8 +129,14 @@ class _EditScreenState extends State<EditScreen> {
                             dynamic response = await editAddress(editController.text.toString().trim());
                             print(response);
                             if(response["status"] == "ok"){
+                              setState(() {
+                                loadingState = 2;
+                              });
                               showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
                             } else {
+                              setState(() {
+                                loadingState = 0;
+                              });
                               showMyDialog(
                                 context: context,
                                 text: 'Error',
@@ -131,15 +151,20 @@ class _EditScreenState extends State<EditScreen> {
                             dynamic response = await editPhoneNumber(editController.text.toString().trim());
                             print(response);
                             if(response["status"] == "ok"){
+                              setState(() {
+                                loadingState = 2;
+                              });
                               showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
                             } else {
+                              setState(() {
+                                loadingState = 0;
+                              });
                               showMyDialog(
                                 context: context,
                                 text: 'Error',
                                 titleSize: 22,
                                 contentTextSize: 12,
-                                content:
-                                    'Something went wrong, please check your internet connection and try again',
+                                content: response["msg"],
                                 buttonText: 'OK',
                               );
                             }
@@ -147,15 +172,20 @@ class _EditScreenState extends State<EditScreen> {
                             dynamic response = await editEmail(editController.text.toString().trim());
                             print(response);
                             if(response["status"] == "ok"){
+                              setState(() {
+                                loadingState = 2;
+                              });
                               showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
                             } else {
+                              setState(() {
+                                loadingState = 0;
+                              });
                               showMyDialog(
                                 context: context,
                                 text: 'Error',
                                 titleSize: 22,
                                 contentTextSize: 12,
-                                content:
-                                    'Something went wrong, please check your internet connection and try again',
+                                content: response["msg"],
                                 buttonText: 'OK',
                               );
                             }
@@ -164,8 +194,14 @@ class _EditScreenState extends State<EditScreen> {
                             dynamic response = await editDateOfBirth("$day/$month/$year");
                             print(response);
                             if(response["status"] == "ok"){
+                              setState(() {
+                                loadingState = 2;
+                              });
                               showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
                             } else {
+                              setState(() {
+                                loadingState = 0;
+                              });
                               showMyDialog(
                                 context: context,
                                 text: 'Error',
@@ -180,8 +216,14 @@ class _EditScreenState extends State<EditScreen> {
                             dynamic response = await editOccupation(editController.text.toString().trim());
                             print(response);
                             if(response["status"] == "ok"){
+                              setState(() {
+                                loadingState = 2;
+                              });
                               showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
                             } else {
+                              setState(() {
+                                loadingState = 0;
+                              });
                               showMyDialog(
                                 context: context,
                                 text: 'Error',
@@ -196,8 +238,14 @@ class _EditScreenState extends State<EditScreen> {
                             dynamic response = await editGender();
                             print(response);
                             if(response["status"] == "ok"){
+                              setState(() {
+                                loadingState = 2;
+                              });
                               showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
                             } else {
+                              setState(() {
+                                loadingState = 0;
+                              });
                               showMyDialog(
                                 context: context,
                                 text: 'Error',
@@ -212,8 +260,14 @@ class _EditScreenState extends State<EditScreen> {
                             dynamic response = await editHeight(editController.text.toString().trim());
                             print(response);
                             if(response["status"] == "ok"){
+                              setState(() {
+                                loadingState = 2;
+                              });
                               showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
                             } else {
+                              setState(() {
+                                loadingState = 0;
+                              });
                               showMyDialog(
                                 context: context,
                                 text: 'Error',
@@ -225,11 +279,17 @@ class _EditScreenState extends State<EditScreen> {
                               );
                             }
                           } else if(widget.editValue == "Interest"){
-                            dynamic response = await editHeight(editController.text.toString().trim());
+                            dynamic response = await editInterest(editController.text.toString().trim());
                             print(response);
                             if(response["status"] == "ok"){
+                              setState(() {
+                                loadingState = 2;
+                              });
                               showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
                             } else {
+                              setState(() {
+                                loadingState = 0;
+                              });
                               showMyDialog(
                                 context: context,
                                 text: 'Error',
@@ -244,28 +304,26 @@ class _EditScreenState extends State<EditScreen> {
                             dynamic response = await editBio(editController.text.toString().trim());
                             print(response);
                             if(response["status"] == "ok"){
+                              setState(() {
+                                loadingState = 2;
+                              });
                               showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
                             } else {
+                              setState(() {
+                                loadingState = 0;
+                              });
                               showMyDialog(
                                 context: context,
                                 text: 'Error',
                                 titleSize: 22,
                                 contentTextSize: 12,
-                                content:
-                                    'Something went wrong, please check your internet connection and try again',
+                                content: response["msg"],
                                 buttonText: 'OK',
                               );
                             }
                           }
                         },
-                        child: const Text(
-                          'Save',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromRGBO(0, 0, 0, 1),
-                          ),
-                        ),
+                        child: buildButtonChild()
                       ),
                     ],
                   )
@@ -277,6 +335,31 @@ class _EditScreenState extends State<EditScreen> {
       ),
     );
   }
+
+  Widget buildButtonChild() {
+  if (loadingState == 0) {
+    return const Text(
+      'save',
+      style: TextStyle(
+        fontSize: 12,
+        color: Color.fromRGBO(0, 0, 0, 1),
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  } else if (loadingState == 1) {
+    return const SizedBox(
+      height: 15,
+      width: 15,
+      child: CircularProgressIndicator(color: Color.fromRGBO(154, 34, 240, 1),),
+    );
+  } else {
+    return const SizedBox(
+      height: 20,
+      width: 20,
+      child: Icon(Icons.check_rounded, color: Color.fromRGBO(154, 34, 240, 1),),
+    );
+  }
+}
 
   DateTime currentDate = DateTime.now();
 
@@ -535,7 +618,7 @@ class _EditScreenState extends State<EditScreen> {
           cursorColor: const Color.fromRGBO(154, 34, 240, 1),
           autofocus: true,
           keyboardType: TextInputType.name,
-          textCapitalization: TextCapitalization.words,
+          textCapitalization: TextCapitalization.sentences,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
             focusedBorder: UnderlineInputBorder(
@@ -570,7 +653,7 @@ class _EditScreenState extends State<EditScreen> {
           controller: editController,
           cursorColor: const Color.fromRGBO(154, 34, 240, 1),
           autofocus: true,
-          keyboardType: TextInputType.name,
+          keyboardType: TextInputType.number,
           textCapitalization: TextCapitalization.words,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
@@ -643,7 +726,7 @@ class _EditScreenState extends State<EditScreen> {
           cursorColor: const Color.fromRGBO(154, 34, 240, 1),
           autofocus: true,
           keyboardType: TextInputType.name,
-          textCapitalization: TextCapitalization.words,
+          textCapitalization: TextCapitalization.sentences,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
             focusedBorder: UnderlineInputBorder(

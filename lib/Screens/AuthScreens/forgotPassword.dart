@@ -49,9 +49,25 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   color: Colors.black),
             ),
             const Spacer(),
-            CustomTextField(
-              text: 'Email',
-              controller: emailController,
+            SizedBox(
+              width: double.infinity,
+              height: 40,
+              child: TextField(
+                keyboardType: TextInputType.emailAddress,
+                controller: emailController,
+                cursorColor: const Color.fromRGBO(154, 34, 240, 1),
+                style:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                decoration: const InputDecoration(
+                  fillColor: Color.fromRGBO(243, 245, 250, 1),
+                  filled: true,
+                  contentPadding: EdgeInsets.fromLTRB(15, 0, 5, 0),
+                  border: OutlineInputBorder(borderSide: BorderSide.none),
+                  hintText: 'Email',
+                  hintStyle:
+                      TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
+                ),
+              ),
             ),
             const Spacer(),
             CustomButton(

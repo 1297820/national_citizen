@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:national_citizen/Screens/startScreen.dart';
+import 'package:national_citizen/main.dart';
+import 'package:national_citizen/utils/constants.dart';
+
+import '../../customwidgets.dart';
 
 // ignore: must_be_immutable
 class SettingsScreen extends StatelessWidget {
@@ -56,6 +61,7 @@ class SettingsScreen extends StatelessWidget {
                         // Navigator.of(context).push(
                         //     MaterialPageRoute(builder: (context) => Security()));
                       } else if (index == 3) {
+                        _showMyDialog(context);
                         // Navigator.of(context).push(
                         //     MaterialPageRoute(builder: (context) => AboutUs()));
                       }
@@ -105,6 +111,95 @@ class SettingsScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  _showMyDialog(context) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return Expanded(
+          child: AlertDialog(
+            insetPadding: const EdgeInsets.symmetric(
+              horizontal: 10,
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            actionsPadding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+            title: Row(
+              children: [
+                const Spacer(),
+                const Text(
+                  'Log Out',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(154, 34, 240, 1)),
+                ),
+                const Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Icon(
+                    Icons.cancel_outlined,
+                    color: Color.fromRGBO(124, 119, 142, 1),
+                  ),
+                ),
+              ],
+            ),
+            content: const Text(
+              'Are you sure you want to log\nout of this account?',
+              textAlign: TextAlign.center,
+            ),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomButton(
+                    width: 128,
+                    height: 35,
+                    text: 'No',
+                    onpressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  const SizedBox(width: 20,),
+                  SizedBox(
+                    height: 35,
+                    width: 135,
+                    child: OutlinedButton(
+                      style: ButtonStyle(
+                        side: MaterialStateProperty.all<BorderSide>(
+                          const BorderSide(
+                            color: Color.fromRGBO(154, 34, 240, 1),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        getX.write(Constants().GETX_ISLOGGEDIN, 'false');
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (context) => const StartScreen(),
+                            ),
+                            (route) => false);
+                      },
+                      child: const Text(
+                        'Yes',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Color.fromRGBO(154, 34, 240, 1)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

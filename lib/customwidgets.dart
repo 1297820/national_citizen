@@ -1,31 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:national_citizen/main.dart';
 import 'package:national_citizen/utils/constants.dart';
 
-class CustomTextField extends StatelessWidget {
-  const CustomTextField(
-      {Key? key, required this.text, required this.controller})
+class PasswordCustomTextField extends StatelessWidget {
+  PasswordCustomTextField(
+      {Key? key,
+      required this.text,
+      required this.controller,
+      required this.obscureText,
+      required this.onPressed})
       : super(key: key);
   final String text;
   final TextEditingController controller;
+  bool obscureText;
+  Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 40,
-      decoration: BoxDecoration(
-          color: const Color.fromRGBO(243, 245, 250, 1),
-          borderRadius: BorderRadius.circular(6)),
       child: TextField(
+        obscureText: obscureText,
+        keyboardType: TextInputType.visiblePassword,
         cursorColor: const Color.fromRGBO(154, 34, 240, 1),
         controller: controller,
         decoration: InputDecoration(
-            contentPadding: const EdgeInsets.fromLTRB(15, 10, 5, 15),
-            border: const OutlineInputBorder(borderSide: BorderSide.none),
-            hintText: text,
-            hintStyle:
-                const TextStyle(fontSize: 14, fontWeight: FontWeight.w300)),
+          fillColor: const Color.fromRGBO(243, 245, 250, 1),
+          filled: true,
+          contentPadding: const EdgeInsets.fromLTRB(15, 10, 5, 15),
+          border: const OutlineInputBorder(borderSide: BorderSide.none),
+          hintText: text,
+          hintStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
+          suffixIcon: IconButton(
+            splashColor: Colors.transparent,
+            icon: Icon(
+              obscureText
+                  ? Icons.visibility_off
+                  : Icons.visibility, //change icon based on boolean value
+              color: const Color.fromRGBO(154, 34, 240, 1),
+            ),
+            onPressed: onPressed,
+          ),
+        ),
       ),
     );
   }
@@ -38,12 +57,14 @@ class CustomButton extends StatelessWidget {
       required this.text,
       required this.onpressed,
       required this.width,
-      this.height = 45})
+      this.height = 45,
+      this.loadingState = 0})
       : super(key: key);
   final String text;
   final Function() onpressed;
   double width;
   double height;
+  int loadingState;
 
   @override
   Widget build(BuildContext context) {
@@ -52,21 +73,41 @@ class CustomButton extends StatelessWidget {
         width: width,
         height: height,
         child: ElevatedButton(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(
-                const Color.fromRGBO(154, 34, 240, 1),
-              ),
-              elevation: MaterialStateProperty.all<double>(0)),
-          onPressed: onpressed,
-          child: Text(
-            text,
-            style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Color.fromRGBO(255, 255, 255, 1)),
-          ),
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  const Color.fromRGBO(154, 34, 240, 1),
+                ),
+                elevation: MaterialStateProperty.all<double>(0)),
+            onPressed: onpressed,
+            child: buildButtonChild(loadingState, text)),
+      ),
+    );
+  }
+}
+
+Widget buildButtonChild(loadingState, text) {
+  if (loadingState == 0) {
+    return Center(
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Color.fromRGBO(255, 255, 255, 1),
+          fontWeight: FontWeight.w400,
         ),
       ),
+    );
+  } else if (loadingState == 1) {
+    return const SizedBox(
+      height: 20,
+      width: 20,
+      child: CircularProgressIndicator(color: Colors.white),
+    );
+  } else {
+    return const SizedBox(
+      height: 20,
+      width: 20,
+      child: Icon(Icons.check_rounded, color: Colors.white),
     );
   }
 }
@@ -279,4 +320,13 @@ class _GenderState extends State<Gender> {
       ),
     );
   }
+}
+
+void showToast(msg) {
+  Fluttertoast.showToast(
+    msg: msg, // message
+    toastLength: Toast.LENGTH_LONG, // length
+    gravity: ToastGravity.TOP,
+    backgroundColor: Colors.red[700] // location
+  );
 }

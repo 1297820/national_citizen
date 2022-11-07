@@ -26,7 +26,13 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
     super.initState();
     print(" name  ${getX.read(Constants().GETX_NAME)}");
     profile = usersProfileRequest(widget.token, widget.userId);
+    // usersFunction();
   }
+
+  // usersFunction() async {
+  //   // Map<String, dynamic> response;
+  //   return profile = await usersProfileRequest(widget.token, widget.userId);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -341,7 +347,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                                   0)),
                                       onPressed: () {},
                                       child: Text(
-                                        users['user']['interest'][0],
+                                        'interest 1',
                                         style: const TextStyle(
                                           fontSize: 11.75,
                                           fontWeight: FontWeight.w300,
@@ -517,7 +523,11 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
             }
           }
           //What displays when device is connected to the internet before data is been fetched
-          return const Center(child: CircularProgressIndicator(color: Color.fromRGBO(154, 34, 240, 1),),);
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Color.fromRGBO(154, 34, 240, 1),
+            ),
+          );
         },
       ),
     );

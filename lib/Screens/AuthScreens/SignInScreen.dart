@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:national_citizen/Screens/AuthScreens/forgotPassword.dart';
 import 'package:national_citizen/Screens/AuthScreens/signUpScreen.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/bottomNavBar.dart';
@@ -18,6 +19,8 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController ninController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool value = false;
+  bool _obscureText = true;
+  int loadingState = 0;
 
   logInFunction() async {
     print('******** rannnnnn');
@@ -28,12 +31,19 @@ class _SignInScreenState extends State<SignInScreen> {
     );
     if (response["status"] == "ok" &&
         response["msg"] == "Successfully logged in") {
+      setState(() {
+        loadingState = 2;
+      });
       getX.write(Constants().GETX_TOKEN, response['token']);
       getX.write(Constants().GETX_ISLOGGEDIN, 'true');
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => BottomNavBar()),
           (route) => false);
     } else {
+      showToast(response['msg']);
+      setState(() {
+        loadingState = 0;
+      });
       // showToast(response["msg"]);
     }
   }
@@ -79,16 +89,44 @@ class _SignInScreenState extends State<SignInScreen> {
               const SizedBox(
                 height: 120,
               ),
-              CustomTextField(
-                text: 'NIN',
-                controller: ninController,
+              SizedBox(
+                width: double.infinity,
+                height: 63,
+                child: TextField(
+                  maxLength: 11,
+                  keyboardType: TextInputType.number,
+                  controller: ninController,
+                  cursorColor: const Color.fromRGBO(154, 34, 240, 1),
+                  inputFormatters: [LengthLimitingTextInputFormatter(11)],
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w400),
+                  decoration: InputDecoration(
+                    fillColor: const Color.fromRGBO(243, 245, 250, 1),
+                    filled: true,
+                    contentPadding: const EdgeInsets.fromLTRB(15, 0, 5, 0),
+                    border: const OutlineInputBorder(borderSide: BorderSide.none),
+                    hintText: 'NIN',
+                    hintStyle:
+                        const TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
+                    errorText: ninController.text.length != 11 && ninController.text.isNotEmpty
+                        ? 'NIN must be 11 digits long'
+                        : '',
+                    errorStyle: const TextStyle(fontSize: 11),
+                  ),
+                ),
               ),
               const SizedBox(
-                height: 18,
+                height: 10,
               ),
-              CustomTextField(
+              PasswordCustomTextField(
                 text: 'Password',
                 controller: passwordController,
+                obscureText: _obscureText,
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText; //change boolean value
+                  });
+                },
               ),
               const SizedBox(
                 height: 120,
@@ -96,8 +134,19 @@ class _SignInScreenState extends State<SignInScreen> {
               CustomButton(
                 width: 230,
                 text: 'Sign In',
+                loadingState: loadingState,
                 onpressed: () {
+                 if (ninController.text.isEmpty || passwordController.text.isEmpty){
+                   showToast('All field must field');
+                 }
+                //   else if (ninController.text.length != 11) {
+                // }
+                 else {
+                  setState(() {
+                    loadingState = 1;
+                  });
                   logInFunction();
+                  }
                   // _showMyDialog();
                   // showMyDialog(
                   //   context: context,
