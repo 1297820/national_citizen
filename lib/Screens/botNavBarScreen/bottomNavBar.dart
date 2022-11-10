@@ -36,14 +36,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    List screens = [
+    List<Widget> screens = [
       const HomeScreen(),
       const SearchScreen(),
       const ProfileScreen()
     ];
 
     return Scaffold(
-      body: screens[current_index],
+      body: IndexedStack(children: screens, index: current_index,),
       bottomNavigationBar: BottomNavigationBar(
         enableFeedback: false,
         backgroundColor: Colors.grey.shade200,

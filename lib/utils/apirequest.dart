@@ -1,12 +1,12 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-
 import 'package:national_citizen/main.dart';
 import 'package:national_citizen/utils/constants.dart';
 
 String url = "https://newsapi.org/v2/everything?q=tech";
 String apiKey = "apiKey=31d7878c1a9641bfb9c2adb9c3f54473";
+Constants user_details = Constants();
 
 Future<dynamic>? getNewsData(pageCount) async {
   try {
@@ -67,12 +67,12 @@ Future<dynamic> logInRequest(String nin, String password) async {
 Future<dynamic> profileRequest() async {
   try {
     print("start signUp");
-    print('!!!!! ${getX.read(Constants().GETX_TOKEN)} ');
+    print('!!!!! ${getX.read(user_details.GETX_TOKEN)} ');
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/view_profile"),
       body: json.encode({
-        "token": getX.read(Constants().GETX_TOKEN),
+        "token": getX.read(user_details.GETX_TOKEN),
       }),
       headers: {"Content-Type": "application/json"},
     );
@@ -93,7 +93,7 @@ Future<dynamic> searchUsers(search, pageCount) async {
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/search/search"),
       body: json.encode({
-        "token": getX.read(Constants().GETX_TOKEN),
+        "token": getX.read(user_details.GETX_TOKEN),
         "search": search,
         "pageCount": pageCount,
         "resultPerPage": 10
@@ -113,14 +113,11 @@ Future<dynamic> searchUsers(search, pageCount) async {
 Future<dynamic> usersProfileRequest(token, userId) async {
   try {
     print("start signUp");
-    print('!!!!! ${getX.read(Constants().GETX_TOKEN)} ');
+    print('!!!!! ${getX.read(user_details.GETX_TOKEN)} ');
     http.Client client = http.Client();
     http.Response response = await client.post(
-      Uri.https(endpointUrl, "/profile/view_profile"),
-      body: json.encode({
-        "token": token,
-        "userId": userId
-      }),
+      Uri.https(endpointUrl, "/user/view_user"),
+      body: json.encode({"token": token, "userId": userId}),
       headers: {"Content-Type": "application/json"},
     );
     dynamic decodedResponse =
@@ -138,18 +135,16 @@ Future<dynamic> editName(name) async {
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/edit_profile"),
-      body: json.encode({
-        "token": getX.read(Constants().GETX_TOKEN),
-        "name": name
-      }),
+      body: json
+          .encode({"token": getX.read(user_details.GETX_TOKEN), "name": name}),
       headers: {"Content-Type": "application/json"},
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
     print("###### $decodedResponse");
-    if(decodedResponse["status"] == "ok"){
-      getX.write(Constants().GETX_NAME, decodedResponse["user"]["name"]);
-      print(getX.read(Constants().GETX_NAME));
+    if (decodedResponse["status"] == "ok") {
+      getX.write(user_details.GETX_NAME, decodedResponse["user"]["name"]);
+      print(getX.read(user_details.GETX_NAME));
     }
     return decodedResponse;
   } catch (e) {
@@ -164,8 +159,8 @@ Future<dynamic> editStatus() async {
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/edit_profile"),
       body: json.encode({
-        "token": getX.read(Constants().GETX_TOKEN),
-        "status": getX.read(Constants().GETX_STATUS)
+        "token": getX.read(user_details.GETX_TOKEN),
+        "status": getX.read(user_details.GETX_STATUS)
       }),
       headers: {"Content-Type": "application/json"},
     );
@@ -184,10 +179,8 @@ Future<dynamic> editAddress(address) async {
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/edit_profile"),
-      body: json.encode({
-        "token": getX.read(Constants().GETX_TOKEN),
-        "address": address
-      }),
+      body: json.encode(
+          {"token": getX.read(user_details.GETX_TOKEN), "address": address}),
       headers: {"Content-Type": "application/json"},
     );
     dynamic decodedResponse =
@@ -205,10 +198,8 @@ Future<dynamic> editPhoneNumber(phoneNumber) async {
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/edit_profile"),
-      body: json.encode({
-        "token": getX.read(Constants().GETX_TOKEN),
-        "phone": phoneNumber
-      }),
+      body: json.encode(
+          {"token": getX.read(user_details.GETX_TOKEN), "phone": phoneNumber}),
       headers: {"Content-Type": "application/json"},
     );
     dynamic decodedResponse =
@@ -226,10 +217,8 @@ Future<dynamic> editEmail(email) async {
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/edit_profile"),
-      body: json.encode({
-        "token": getX.read(Constants().GETX_TOKEN),
-        "email": email
-      }),
+      body: json
+          .encode({"token": getX.read(user_details.GETX_TOKEN), "email": email}),
       headers: {"Content-Type": "application/json"},
     );
     dynamic decodedResponse =
@@ -248,14 +237,18 @@ Future<dynamic> editDateOfBirth(dateOfBirth) async {
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/edit_profile"),
       body: json.encode({
-        "token": getX.read(Constants().GETX_TOKEN),
-        "date_of_birth": dateOfBirth
+        "token": getX.read(user_details.GETX_TOKEN),
+        "dateOfBirth": dateOfBirth
       }),
       headers: {"Content-Type": "application/json"},
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
     print("###### $decodedResponse");
+    if (decodedResponse["status"] == "ok") {
+      getX.write(user_details.GETX_DOB, decodedResponse["user"]["dateOfBirth"]);
+      print(getX.read(user_details.GETX_DOB));
+    }
     return decodedResponse;
   } catch (e) {
     print(e);
@@ -269,7 +262,7 @@ Future<dynamic> editOccupation(occupation) async {
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/edit_profile"),
       body: json.encode({
-        "token": getX.read(Constants().GETX_TOKEN),
+        "token": getX.read(user_details.GETX_TOKEN),
         "occupation": occupation
       }),
       headers: {"Content-Type": "application/json"},
@@ -290,8 +283,8 @@ Future<dynamic> editGender() async {
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/edit_profile"),
       body: json.encode({
-        "token": getX.read(Constants().GETX_TOKEN),
-        "gender": getX.read(Constants().GETX_GENDER)
+        "token": getX.read(user_details.GETX_TOKEN),
+        "gender": getX.read(user_details.GETX_GENDER)
       }),
       headers: {"Content-Type": "application/json"},
     );
@@ -310,10 +303,8 @@ Future<dynamic> editHeight(height) async {
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/edit_profile"),
-      body: json.encode({
-        "token": getX.read(Constants().GETX_TOKEN),
-        "height": height
-      }),
+      body: json.encode(
+          {"token": getX.read(user_details.GETX_TOKEN), "height": height}),
       headers: {"Content-Type": "application/json"},
     );
     dynamic decodedResponse =
@@ -331,10 +322,8 @@ Future<dynamic> editInterest(interest) async {
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/edit_profile"),
-      body: json.encode({
-        "token": getX.read(Constants().GETX_TOKEN),
-        "interest": interest
-      }),
+      body: json.encode(
+          {"token": getX.read(user_details.GETX_TOKEN), "interest": interest}),
       headers: {"Content-Type": "application/json"},
     );
     dynamic decodedResponse =
@@ -352,10 +341,8 @@ Future<dynamic> editBio(bio) async {
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/edit_profile"),
-      body: json.encode({
-        "token": getX.read(Constants().GETX_TOKEN),
-        "bio": bio
-      }),
+      body:
+          json.encode({"token": getX.read(user_details.GETX_TOKEN), "bio": bio}),
       headers: {"Content-Type": "application/json"},
     );
     dynamic decodedResponse =

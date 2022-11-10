@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -202,14 +203,11 @@ class _PostScreenState extends State<PostScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(8),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  // Navigator.of(context).push(
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) => PostScreen(),
-                                  //   ),
-                                  // );
+                                  Share.share(widget.content["url"]);
                                 },
                                 child: const Icon(
                                   Icons.share,

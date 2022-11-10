@@ -12,4 +12,5 @@ class Constants {
   String GETX_HEIGHT = "height";
   String GETX_INTEREST = "interest";
   String GETX_BIO = "bio";
+  String GETX_IMAGE = "image";
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/bottomNavBar.dart';
-import 'package:national_citizen/Screens/settingsEdit/editProfileScreen.dart';
 import 'package:national_citizen/Screens/startScreen.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:national_citizen/utils/apirequest.dart';
 import 'package:national_citizen/utils/constants.dart';
 
 final getX = GetStorage();
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "Poppins"
       ),
-      home: getX.read(Constants().GETX_ISLOGGEDIN) == 'true'?BottomNavBar(): const StartScreen() ,
+      home: getX.read(user_details.GETX_ISLOGGEDIN) == 'true'?BottomNavBar(): const StartScreen() ,
     );
   }
 }

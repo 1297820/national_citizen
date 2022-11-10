@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/usersProfile.dart';
 import 'package:national_citizen/main.dart';
 import 'package:national_citizen/utils/apirequest.dart';
 import 'package:national_citizen/utils/constants.dart';
+import 'package:skeletons/skeletons.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -104,9 +106,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 ? Expanded(
                     flex: 10,
                     child: ListView.builder(
-                      itemCount: searchUser!['msg'] == "success"
-                          ? users!.length
-                          : 0,
+                      itemCount:
+                          searchUser!['msg'] == "success" ? users!.length : 0,
                       physics: const BouncingScrollPhysics(),
                       itemBuilder: (context, i) {
                         return GestureDetector(
@@ -114,7 +115,8 @@ class _SearchScreenState extends State<SearchScreen> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => UsersProfileScreen(
-                                  token: getX.read(Constants().GETX_TOKEN),
+                                  token: getX.read(user_details.GETX_TOKEN),
+                                  // userId: "6363b9421839a2fff6a1be98",
                                   userId: users![i]['_id'],
                                 ),
                               ),
@@ -143,23 +145,53 @@ class _SearchScreenState extends State<SearchScreen> {
                                     const EdgeInsets.fromLTRB(10, 10, 8, 10),
                                 child: Row(
                                   children: [
-                                    Container(
-                                      height: 50,
-                                      width: 50,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color.fromRGBO(217, 217, 217, 1),
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            'assets/images/profileImage.png',
+                                    users![i]["img"].toString().isEmpty
+                                        ? Container(
+                                            width: 50,
+                                            height: 50,
+                                            decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color.fromRGBO(
+                                                  218, 218, 218, 0.4),
+                                            ),
+                                            child: const Icon(
+                                              Icons.person,
+                                              size: 20,
+                                              color: Colors.black54,
+                                            ),
+                                          )
+                                        : Container(
+                                            width: 50,
+                                            height: 50,
+                                            decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color.fromRGBO(
+                                                  218, 218, 218, 0.4),
+                                            ),
+                                            child: CachedNetworkImage(
+                                              imageUrl: users![i]["img"],
+                                              fit: BoxFit.cover,
+                                              placeholder: (context, url) =>
+                                                  const SkeletonItem(
+                                                child: SkeletonAvatar(
+                                                  style: SkeletonAvatarStyle(
+                                                    width: double.maxFinite,
+                                                    height: 120,
+                                                  ),
+                                                ),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Container(
+                                                color: Colors.white,
+                                                child: const Icon(
+                                                  Icons.person,
+                                                  color: Colors.grey,
+                                                  size: 30,
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      // child: Image.asset(
-                                      //   'assets/images/profileImage.png',
-                                      //   fit: BoxFit.cover,
-                                      // ),
-                                    ),
                                     const SizedBox(
                                       width: 15,
                                     ),
@@ -167,8 +199,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                         Text(
-                                          users![i]['name'].toString().isEmpty ? 'Unkown': users![i]['name'],
+                                        Text(
+                                          users![i]['name'].toString().isEmpty
+                                              ? 'Unkown'
+                                              : users![i]['name'],
                                           style: const TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
@@ -176,7 +210,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         Text(
-                                          searchUser!['users'][i]['email'],
+                                          users![i]['email'].toString().isEmpty
+                                              ? 'Unkown@gmail.com'
+                                              : users![i]['email'],
                                           style: const TextStyle(
                                             fontSize: 11,
                                             fontWeight: FontWeight.w300,

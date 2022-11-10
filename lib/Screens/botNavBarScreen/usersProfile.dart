@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/settingsEdit/editProfileScreen.dart';
@@ -24,7 +25,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(" name  ${getX.read(Constants().GETX_NAME)}");
+    print(widget.userId);
     profile = usersProfileRequest(widget.token, widget.userId);
     // usersFunction();
   }
@@ -69,6 +70,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
             if (snapshot.hasError) {
             } else if (snapshot.hasData) {
               dynamic users = snapshot.data;
+              print('Users >>>>>>> $users');
               if (users["status"] == "error") {
                 return const CircularProgressIndicator();
               } else if (users["status"] == "ok") {
@@ -82,49 +84,43 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                           height: 20,
                         ),
                         Center(
-                          child: Stack(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.fromLTRB(4, 8, 4, 0),
-                                width: 120,
-                                height: 120,
-                                decoration: const BoxDecoration(),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Container(
-                                      color: const Color.fromRGBO(
-                                          240, 240, 240, 1),
-                                      height: 90,
-                                      width: 90,
-                                      child: Image.asset(
-                                          'assets/images/profileImage.png')
-                                      // CachedNetworkImage(
-                                      //   imageUrl: 'assets/images/profileImage.png',
-                                      //   fit: BoxFit.cover,
-                                      //   placeholder: (context, url) => const SkeletonItem(
-                                      //     child: SkeletonAvatar(
-                                      //       style: SkeletonAvatarStyle(
-                                      //         width: double.maxFinite,
-                                      //         height: 120,
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      //   errorWidget: (context, url, error) => Container(
-                                      //     color: Colors.white,
-                                      //     child: const Icon(Icons.person, color: Colors.grey, size: 30)
-                                      //   ),
-                                      // ),
+                          child: users!['user']["img"].toString().isEmpty
+                              ? Container(
+                                  width: 120,
+                                  height: 120,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color.fromRGBO(218, 218, 218, 0.4),
+                                  ),
+                                  child: const Icon(
+                                    Icons.person,
+                                    size: 60,
+                                    color: Colors.black54,
+                                  ),
+                                )
+                              : Container(
+                                  width: 120,
+                                  height: 120,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: const Color.fromRGBO(
+                                        218, 218, 218, 0.4),
+                                    image: DecorationImage(
+                                      image: CachedNetworkImageProvider(
+                                        users!['user']["img"],
                                       ),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
                         ),
                         const SizedBox(
                           height: 15,
                         ),
                         Text(
-                          users['user']['name'],
+                          users['user']['name'].toString().isEmpty
+                              ? 'Unknown'
+                              : users['user']['name'],
                           style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w400,
@@ -182,8 +178,9 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                   height: 5,
                                 ),
                                 Text(
-                                  getX.read(Constants().GETX_STATUS) ??
-                                      "Status",
+                                  users['user']['status'].toString().isEmpty
+                                      ? "Status"
+                                      : users['user']['status'],
                                   style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
@@ -230,8 +227,9 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                       ),
                                     ),
                                     Text(
-                                      getX.read(Constants().GETX_HEIGHT) ??
-                                          "In cm",
+                                      users['user']['height'].toString().isEmpty
+                                          ? "In cm"
+                                          : users['user']['height'],
                                       style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w400,
@@ -251,8 +249,9 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                               Color.fromRGBO(34, 34, 34, 0.5)),
                                     ),
                                     Text(
-                                      getX.read(Constants().GETX_GENDER) ??
-                                          "gender",
+                                      users['user']['gender'].toString().isEmpty
+                                          ? "gender"
+                                          : users['user']['gender'],
                                       style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w400,
@@ -264,7 +263,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Text(
-                                      'Born',
+                                      'D.O.B',
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
@@ -272,8 +271,11 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                       ),
                                     ),
                                     Text(
-                                      getX.read(Constants().GETX_DOB) ??
-                                          "D.O.B",
+                                      users['user']['date_of_birth']
+                                              .toString()
+                                              .isEmpty
+                                          ? "DD/MM/YY"
+                                          : users['user']['date_of_birth'],
                                       style: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
@@ -306,8 +308,9 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                 height: 30,
                               ),
                               Text(
-                                getX.read(Constants().GETX_BIO) ??
-                                    "Tell us something about yourself",
+                                users['user']['bio'].toString().isEmpty
+                                    ? ""
+                                    : users['user']['bio'],
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
@@ -421,8 +424,9 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                 height: 8,
                               ),
                               Text(
-                                getX.read(Constants().GETX_OCCUPATION) ??
-                                    "Update your occupation",
+                                users['user']['occupation'].toString().isEmpty
+                                    ? ""
+                                    : users['user']['occupation'],
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
@@ -454,8 +458,9 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                     width: 5,
                                   ),
                                   Text(
-                                    getX.read(Constants().GETX_ADDRESS) ??
-                                        "Update your contact address",
+                                    users['user']['address'].toString().isEmpty
+                                        ? ""
+                                        : users['user']['address'],
                                     style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
@@ -478,8 +483,9 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                     width: 5,
                                   ),
                                   Text(
-                                    getX.read(Constants().GETX_PHONE_NUMBER) ??
-                                        "Update your phone number",
+                                    users['user']['phone'].toString().isEmpty
+                                        ? ""
+                                        : users['user']['phone'],
                                     style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
@@ -502,8 +508,9 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                     width: 5,
                                   ),
                                   Text(
-                                    getX.read(Constants().GETX_EMAIL) ??
-                                        "Update your email address",
+                                    users['user']['email'].toString().isEmpty
+                                        ? ""
+                                        : users['user']['email'],
                                     style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,

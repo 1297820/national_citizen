@@ -31,13 +31,6 @@ class EditProfileScreen extends StatelessWidget {
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => BottomNavBar(
-                  index: 0,
-                ),
-              ),
-            );
           },
           child: const Icon(
             Icons.keyboard_backspace_rounded,
@@ -54,6 +47,7 @@ class EditProfileScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14),
           child: Column(

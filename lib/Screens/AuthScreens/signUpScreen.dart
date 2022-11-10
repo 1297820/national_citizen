@@ -39,8 +39,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         loadingState = 2;
       });
-      getX.write(Constants().GETX_TOKEN, response['token']);
-      getX.write(Constants().GETX_ISLOGGEDIN, 'true');
+      getX.write(user_details.GETX_NAME, response['user']["name"]);
+      print(" name updated  ${getX.read(user_details.GETX_NAME)}");
+      getX.write(user_details.GETX_STATUS, response['user']["status"]);
+      getX.write(user_details.GETX_ADDRESS, response['user']["address"]);
+      getX.write(user_details.GETX_PHONE_NUMBER, response['user']["phone"]);
+      getX.write(user_details.GETX_EMAIL, response['user']["email"]);
+      getX.write(user_details.GETX_DOB, response['user']["date_of_birth"]);
+      getX.write(user_details.GETX_OCCUPATION, response['user']["occupation"]);
+      getX.write(user_details.GETX_GENDER, response['user']["gender"]);
+      getX.write(user_details.GETX_HEIGHT, response['user']["height"]);
+      getX.write(user_details.GETX_INTEREST, response['user']["interest"]);
+      getX.write(user_details.GETX_BIO, response['user']["bio"]);
+      getX.write(user_details.GETX_TOKEN, response['token']);
+      getX.write(user_details.GETX_ISLOGGEDIN, 'true');
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => BottomNavBar()),
         (route) => false,

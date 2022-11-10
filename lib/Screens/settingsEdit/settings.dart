@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:national_citizen/Screens/startScreen.dart';
 import 'package:national_citizen/main.dart';
+import 'package:national_citizen/utils/apirequest.dart';
 import 'package:national_citizen/utils/constants.dart';
 
 import '../../customwidgets.dart';
@@ -98,16 +99,14 @@ class SettingsScreen extends StatelessWidget {
                 );
               },
             ),
-            const Spacer(),
+            const Spacer(flex: 6,),
             Center(
               child: SvgPicture.asset(
                 'assets/images/settings.svg',
                 height: 80,
               ),
             ),
-            const SizedBox(
-              height: 40,
-            )
+            const Spacer(flex: 1,)
           ],
         ),
       ),
@@ -178,7 +177,7 @@ class SettingsScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        getX.write(Constants().GETX_ISLOGGEDIN, 'false');
+                        getX.write(user_details.GETX_ISLOGGEDIN, 'false');
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
                               builder: (context) => const StartScreen(),

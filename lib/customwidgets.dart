@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:national_citizen/main.dart';
+import 'package:national_citizen/utils/apirequest.dart';
 import 'package:national_citizen/utils/constants.dart';
 
 class PasswordCustomTextField extends StatelessWidget {
@@ -221,7 +222,7 @@ class _DropDownButtonState extends State<RelationshipStatus> {
         onChanged: (value) {
           setState(() {
             values = value;
-            getX.write(Constants().GETX_STATUS, values);
+            getX.write(user_details.GETX_STATUS, values);
             // getX.write('state', values);
           });
         },
@@ -292,7 +293,7 @@ class _GenderState extends State<Gender> {
         onChanged: (value) {
           setState(() {
             values = value;
-            getX.write(Constants().GETX_GENDER, values);
+            getX.write(user_details.GETX_GENDER, values);
             // getX.write('gender', values);
           });
         },

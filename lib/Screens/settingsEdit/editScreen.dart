@@ -330,7 +330,7 @@ class _EditScreenState extends State<EditScreen> {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -339,10 +339,10 @@ class _EditScreenState extends State<EditScreen> {
   Widget buildButtonChild() {
   if (loadingState == 0) {
     return const Text(
-      'save',
+      'Save',
       style: TextStyle(
         fontSize: 12,
-        color: Color.fromRGBO(0, 0, 0, 1),
+        color: Color.fromRGBO(154, 34, 240, 1),
         fontWeight: FontWeight.w400,
       ),
     );

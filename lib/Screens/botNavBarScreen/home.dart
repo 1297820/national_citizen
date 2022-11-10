@@ -4,7 +4,9 @@ import 'package:http/http.dart' as https;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/postScreen.dart';
+import 'package:national_citizen/main.dart';
 import 'package:national_citizen/utils/apirequest.dart';
+import 'package:national_citizen/utils/constants.dart';
 import 'package:skeletons/skeletons.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,7 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoadingIndicator = false;
   bool _hasNextPage = true;
   int pageIndex = 1;
-  double value = 0.5;
+  double value = 0.0;
+  int valueI = 0;
   Future<dynamic>? feeds;
   List<dynamic> news = <dynamic>[];
   final ScrollController _scrollController = ScrollController();
@@ -27,7 +30,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    feeds = getNewsData(1);
+    print("###### $value");
+    profilePercentage();
+    print("###### $value");
+    // feeds = getNewsData(1);
     // print('feeds >>>>>> $feeds');
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
@@ -43,6 +49,78 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       }
     });
+  }
+
+  profilePercentage() {
+    int email =
+        getX.read(user_details.GETX_EMAIL).toString().isNotEmpty ? 10 : 0;
+    print("###### $email");
+    int name = getX.read(user_details.GETX_NAME).toString().isNotEmpty ? 10 : 0;
+    print("###### $name");
+    int status =
+        getX.read(user_details.GETX_STATUS).toString().isNotEmpty ? 5 : 0;
+    print("###### $status");
+    int address =
+        getX.read(user_details.GETX_ADDRESS).toString().isNotEmpty ? 10 : 0;
+    print("###### $address");
+    int phoneNumber =
+        getX.read(user_details.GETX_PHONE_NUMBER).toString().isNotEmpty ? 10 : 0;
+    print("###### $phoneNumber");
+    int dateOfBirth =
+        getX.read(user_details.GETX_DOB).toString().isNotEmpty ? 10 : 0;
+    print("###### $dateOfBirth");
+    int occupation =
+        getX.read(user_details.GETX_OCCUPATION).toString().isNotEmpty ? 10 : 0;
+    print("###### $occupation");
+    int gender =
+        getX.read(user_details.GETX_GENDER).toString().isNotEmpty ? 10 : 0;
+    print("###### $gender");
+    int height =
+        getX.read(user_details.GETX_HEIGHT).toString().isNotEmpty ? 5 : 0;
+    print("###### $height");
+    print(getX.read(user_details.GETX_INTEREST));
+    int interest =
+        getX.read(user_details.GETX_INTEREST).toString().isEmpty ? 5 : 0;
+    print("###### $value");
+    int bio = getX.read(user_details.GETX_BIO).toString().isNotEmpty ? 5 : 0;
+    print("###### $bio");
+    int image =
+        getX.read(user_details.GETX_IMAGE).toString().isNotEmpty ? 10 : 0;
+    setState(() {
+      value = (email +
+              name +
+              status +
+              address +
+              phoneNumber +
+              dateOfBirth +
+              occupation +
+              gender +
+              height +
+              interest +
+              bio +
+              image) /
+          100;
+      valueI = email +
+          name +
+          status +
+          address +
+          phoneNumber +
+          dateOfBirth +
+          occupation +
+          gender +
+          height +
+          interest +
+          bio +
+          image;
+      // phoneNumber +
+      // dateOfBirth +
+      // occupation +
+      // gender +
+      // height +
+      // interest +
+      // bio);
+    });
+    print("###### $value");
   }
 
   @override
@@ -64,22 +142,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontWeight: FontWeight.w500,
                   color: Colors.black),
             ),
-            const Text(
-              'Your profile is 50% complete',
-              style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black),
-            ),
-            LinearProgressIndicator(
-              minHeight: 7,
-              value: value,
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                Color.fromRGBO(156, 34, 237, 1),
-              ),
-              // color: const Color.fromRGBO(153, 34, 240, 1),
-              backgroundColor: const Color.fromRGBO(211, 211, 211, 1),
-            ),
+            value == 1.0
+                ? const SizedBox()
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Your profile is $valueI% complete',
+                        style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                      ),
+                      LinearProgressIndicator(
+                        minHeight: 7,
+                        value: value,
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          Color.fromRGBO(156, 34, 237, 1),
+                        ),
+                        // color: const Color.fromRGBO(153, 34, 240, 1),
+                        backgroundColor: const Color.fromRGBO(211, 211, 211, 1),
+                      ),
+                    ],
+                  ),
             const SizedBox(
               height: 18,
             ),
@@ -87,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
               future: feeds,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.none) {
-                  return const FlutterLogo();
+                  return const SizedBox();
                 } else if (snapshot.connectionState ==
                     ConnectionState.waiting) {
                   Expanded(
@@ -296,7 +381,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             ),
                                                           ),
                                                   ],
-                                                )
+                                                ),
                                               ],
                                             ),
                                           ),
