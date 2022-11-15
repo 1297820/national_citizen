@@ -52,7 +52,7 @@ class _SignInScreenState extends State<SignInScreen> {
           MaterialPageRoute(builder: (context) => BottomNavBar()),
           (route) => false);
     } else {
-      showToast(response['msg']);
+      showToast(response['msg'], Colors.red[700]);
       setState(() {
         loadingState = 0;
       });
@@ -149,7 +149,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 loadingState: loadingState,
                 onpressed: () {
                  if (ninController.text.isEmpty || passwordController.text.isEmpty){
-                   showToast('All field must field');
+                   showToast('All field must field', Colors.red[700]);
                  }
                 //   else if (ninController.text.length != 11) {
                 // }

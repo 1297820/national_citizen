@@ -189,20 +189,14 @@ class _DropDownButtonState extends State<RelationshipStatus> {
   String? values;
 
   @override
-  void initState() {
-    super.initState();
-    values = "Married";
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 39,
       width: MediaQuery.of(context).size.width,
       child: DropdownButton<String>(
-        hint: Text(
-          values.toString(),
-          style: const TextStyle(
+        hint: const Text(
+          'status',
+          style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w300,
             color: Color.fromRGBO(0, 0, 0, 0.7),
@@ -263,7 +257,7 @@ class _GenderState extends State<Gender> {
   final gender = ['Male', 'Female'];
 
   final years = DateTime.now().year;
-  String? values = "Female";
+  String? values;
 
   @override
   Widget build(BuildContext context) {
@@ -271,12 +265,12 @@ class _GenderState extends State<Gender> {
       height: 39,
       width: MediaQuery.of(context).size.width,
       child: DropdownButton<String>(
-        hint: Text(
-          values.toString(),
-          style: const TextStyle(
-            fontSize: 14,
+        hint: const Text(
+          'F/M',
+          style: TextStyle(
+            fontSize: 13,
             fontWeight: FontWeight.w300,
-            color: Color.fromRGBO(0, 0, 0, 0.7),
+            color: Color.fromRGBO(0, 0, 0, 0.6),
           ),
         ),
         value: values,
@@ -323,11 +317,11 @@ class _GenderState extends State<Gender> {
   }
 }
 
-void showToast(msg) {
+void showToast(msg, backgroundColor) {
   Fluttertoast.showToast(
-    msg: msg, // message
-    toastLength: Toast.LENGTH_LONG, // length
-    gravity: ToastGravity.TOP,
-    backgroundColor: Colors.red[700] // location
-  );
+      msg: msg, // message
+      toastLength: Toast.LENGTH_LONG, // length
+      gravity: ToastGravity.TOP,
+      backgroundColor: backgroundColor // location
+      );
 }

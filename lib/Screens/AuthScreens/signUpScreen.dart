@@ -58,7 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         (route) => false,
       );
     } else {
-      showToast(response['msg']);
+      showToast(response['msg'], Colors.red[700]);
       setState(() {
         loadingState = 0;
       });
@@ -245,13 +245,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   if (ninController.text.isEmpty ||
                       emailController.text.isEmpty ||
                       passwordController.text.isEmpty) {
-                    showToast('All field must field');
+                    showToast('All field must field', Colors.red[700]);
                   } else if (ninController.text.length != 11) {
                     setState(() {
                       errorText = true;
                     });
                   } else if (!value) {
-                    showToast("Accept terms of usage");
+                    showToast("Accept terms of usage", Colors.red[700]);
                   } else {
                     setState(() {
                       loadingState = 1;

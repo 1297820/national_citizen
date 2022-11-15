@@ -130,6 +130,36 @@ Future<dynamic> usersProfileRequest(token, userId) async {
   }
 }
 
+// Future<dynamic> editImage(filepath) async {
+//   try {
+//     http.Client client = http.Client();
+//     var postUri = Uri.parse("/profile/edit_profile");
+//     var response = http.MultipartRequest("POST", postUri);
+//     response.fields['token'] = getX.read(user_details.GETX_TOKEN);
+//
+//     response
+//       .files.add(
+//         await http.MultipartFile.fromPath('img', filepath),
+//       );
+//     response.send().then((response) {
+
+//       print("^^^^^^^^^^ ${response.statusCode}");
+//     });
+
+//     // dynamic decodedResponse =
+//     //     jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+//     // print("###### $decodedResponse");
+//     // if (decodedResponse["status"] == "ok") {
+//     //   getX.write(user_details.GETX_NAME, decodedResponse["user"]["name"]);
+//     //   print(getX.read(user_details.GETX_NAME));
+//     // }
+//     // return decodedResponse;
+//   } catch (e) {
+//     print(e);
+//     // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
+//   }
+// }
+
 Future<dynamic> editName(name) async {
   try {
     http.Client client = http.Client();
@@ -185,6 +215,10 @@ Future<dynamic> editAddress(address) async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    if (decodedResponse["status"] == "ok") {
+      getX.write(user_details.GETX_ADDRESS, decodedResponse["user"]["address"]);
+      print(getX.read(user_details.GETX_NAME));
+    }
     print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
@@ -204,6 +238,9 @@ Future<dynamic> editPhoneNumber(phoneNumber) async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    if (decodedResponse["status"] == "ok") {
+      getX.write(user_details.GETX_PHONE_NUMBER, decodedResponse["user"]["phone"]);
+    }
     print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
@@ -217,12 +254,15 @@ Future<dynamic> editEmail(email) async {
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/edit_profile"),
-      body: json
-          .encode({"token": getX.read(user_details.GETX_TOKEN), "email": email}),
+      body: json.encode(
+          {"token": getX.read(user_details.GETX_TOKEN), "email": email}),
       headers: {"Content-Type": "application/json"},
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    if (decodedResponse["status"] == "ok") {
+      getX.write(user_details.GETX_EMAIL, decodedResponse["user"]["email"]);
+    }
     print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
@@ -244,11 +284,10 @@ Future<dynamic> editDateOfBirth(dateOfBirth) async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-    print("###### $decodedResponse");
     if (decodedResponse["status"] == "ok") {
-      getX.write(user_details.GETX_DOB, decodedResponse["user"]["dateOfBirth"]);
-      print(getX.read(user_details.GETX_DOB));
+      getX.write(user_details.GETX_DOB, decodedResponse["user"]["date_of_birth"]);
     }
+    print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
     print(e);
@@ -269,6 +308,9 @@ Future<dynamic> editOccupation(occupation) async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    if (decodedResponse["status"] == "ok") {
+      getX.write(user_details.GETX_OCCUPATION, decodedResponse["user"]["occupation"]);
+    }
     print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
@@ -290,6 +332,9 @@ Future<dynamic> editGender() async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    if (decodedResponse["status"] == "ok") {
+      getX.write(user_details.GETX_GENDER, decodedResponse["user"]["gender"]);
+    }
     print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
@@ -309,6 +354,9 @@ Future<dynamic> editHeight(height) async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    if (decodedResponse["status"] == "ok") {
+      getX.write(user_details.GETX_HEIGHT, decodedResponse["user"]["height"]);
+    }
     print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
@@ -328,6 +376,9 @@ Future<dynamic> editInterest(interest) async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    if (decodedResponse["status"] == "ok") {
+      getX.write(user_details.GETX_INTEREST, decodedResponse["user"]["interest"]);
+    }
     print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
@@ -341,12 +392,15 @@ Future<dynamic> editBio(bio) async {
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/edit_profile"),
-      body:
-          json.encode({"token": getX.read(user_details.GETX_TOKEN), "bio": bio}),
+      body: json
+          .encode({"token": getX.read(user_details.GETX_TOKEN), "bio": bio}),
       headers: {"Content-Type": "application/json"},
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    if (decodedResponse["status"] == "ok") {
+      getX.write(user_details.GETX_BIO, decodedResponse["user"]["bio"]);
+    }
     print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {

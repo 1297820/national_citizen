@@ -4,10 +4,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/settingsEdit/editProfileScreen.dart';
 import 'package:national_citizen/Screens/settingsEdit/settings.dart';
+import 'package:national_citizen/customwidgets.dart';
 import 'package:national_citizen/utils/apirequest.dart';
-import 'package:national_citizen/utils/constants.dart';
 import 'package:skeletons/skeletons.dart';
+import 'package:dio/dio.dart';
 import '../../main.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:http_parser/http_parser.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -19,17 +22,21 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   Future<dynamic>? profile;
   File? image;
+  dynamic imageTemporary;
 
   Future pickImage(ImageSource imageSource) async {
     try {
       final image = await ImagePicker().pickImage(source: imageSource);
       if (image == null) return;
 
-      final imageTemporary = File(image.path);
+      imageTemporary = File(image.path);
+      print('!! Rannn');
+      editImage(imageTemporary);
       setState(() {
         this.image = imageTemporary;
-        getX.write(user_details.GETX_IMAGE, this.image);
+        // getX.write(user_details.GETX_IMAGE, this.image);
       });
+      return setState(() {});
     } catch (e) {
       return print(e);
     }
@@ -71,7 +78,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
-                      pickImage(ImageSource.camera);
+                      pickImage(ImageSource.camera)
+                          .then((value) => setState(() {}));
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -98,7 +106,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
-                      pickImage(ImageSource.gallery);
+                      pickImage(ImageSource.gallery)
+                          .then((value) => setState(() {}));
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -130,43 +139,107 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
-  
+
+  Future editImage(File profilepic) async {
+    try {
+      setState(() {
+        loadingState = true;
+      });
+      String fileName = profilepic.path.split("/").last;
+      String image_ext = fileName.split(".").last;
+
+      var formData = dio.FormData.fromMap({
+        'token': getX.read(user_details.GETX_TOKEN),
+      });
+
+      var file = await dio.MultipartFile.fromFile(
+        profilepic.path,
+        filename: fileName,
+        contentType: MediaType("image", image_ext),
+      );
+
+      formData.files.add(MapEntry('img', file));
+
+      dio.Dio()
+          .post(
+        "https://$endpointUrl/profile/edit_profile",
+        data: formData,
+        options: dio.Options(
+            method: "POST",
+            responseType: ResponseType.json,
+            headers: {
+              "Authorization": getX.read(user_details.GETX_TOKEN),
+              "Content-Type": "multipart/form-data",
+            }),
+      )
+          .then((response) {
+        var res = response.data;
+        print('^^^^^^^^ $res');
+
+        if (res["status"] == "ok") {
+          getX.write(user_details.GETX_IMAGE, res["user"]["img"]);
+          setState(() {
+            loadingState = false;
+          });
+          showToast('Profile image successfully updated', const Color.fromRGBO(154, 34, 240, 1));
+        } else {
+          setState(() {
+            loadingState = false;
+          });
+          showToast('Some Error occured', Colors.red[700]);
+          // myWidgets.showSnackbar(
+          // message: "An error occured", color: Colors.red);
+        }
+      });
+      // return res;
+    } catch (e) {
+      print(e);
+      setState(() {
+        loadingState = false;
+      });
+      showToast('Some Error occured', Colors.red[700]);
+    }
+  }
+
   Future<dynamic>? profileDetails;
+  bool loadingState = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     print(" name  ${getX.read(user_details.GETX_NAME)}");
-    profileFunction();
+    // profileFunction();
     profileDetails = profileRequest();
   }
 
-  profileFunction() async {
-    print('******** rannnnnn');
-    Map<String, dynamic> response;
-    response = await profileRequest();
-    if (response["status"] == "ok") {
-      getX.write(user_details.GETX_NAME, response['user']["name"]);
-      print(" name updated  ${getX.read(user_details.GETX_NAME)}");
-      getX.write(user_details.GETX_STATUS, response['user']["status"]);
-      getX.write(user_details.GETX_ADDRESS, response['user']["address"]);
-      getX.write(user_details.GETX_PHONE_NUMBER, response['user']["phone"]);
-      getX.write(user_details.GETX_EMAIL, response['user']["email"]);
-      getX.write(user_details.GETX_DOB, response['user']["date_of_birth"]);
-      getX.write(user_details.GETX_OCCUPATION, response['user']["occupation"]);
-      getX.write(user_details.GETX_GENDER, response['user']["gender"]);
-      getX.write(user_details.GETX_HEIGHT, response['user']["height"]);
-      getX.write(user_details.GETX_INTEREST, response['user']["interest"]);
-      getX.write(user_details.GETX_BIO, response['user']["bio"]);
-    } else {
-      // showToast(response["msg"]);
-    }
-  }
+  // profileFunction() async {
+  //   print('******** rannnnnn');
+  //   Map<String, dynamic> response;
+  //   response = await profileRequest();
+  //   if (response["status"] == "ok") {
+  //     getX.write(user_details.GETX_IMAGE, response['user']["img"]);
+  //     getX.write(user_details.GETX_NAME, response['user']["name"]);
+  //     print(" name updated  ${getX.read(user_details.GETX_NAME)}");
+  //     getX.write(user_details.GETX_STATUS, response['user']["status"]);
+  //     getX.write(user_details.GETX_ADDRESS, response['user']["address"]);
+  //     getX.write(user_details.GETX_PHONE_NUMBER, response['user']["phone"]);
+  //     getX.write(user_details.GETX_EMAIL, response['user']["email"]);
+  //     getX.write(user_details.GETX_DOB, response['user']["date_of_birth"]);
+  //     getX.write(user_details.GETX_OCCUPATION, response['user']["occupation"]);
+  //     getX.write(user_details.GETX_GENDER, response['user']["gender"]);
+  //     getX.write(user_details.GETX_HEIGHT, response['user']["height"]);
+  //     getX.write(user_details.GETX_INTEREST, response['user']["interest"]);
+  //     getX.write(user_details.GETX_BIO, response['user']["bio"]);
+  //   } else {
+  //     // showToast(response["msg"]);
+  //   }
+  // }
+
 
   @override
   Widget build(BuildContext context) {
-    profileFunction();
+    // profileFunction();
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
@@ -232,7 +305,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               } else if (details["status"] == "ok") {
                 print('@@@@@@ $details');
                 return profileBody(
-                  details['user']["img"],
+                  getX.read(user_details.GETX_IMAGE).toString().isEmpty
+                      ? ''
+                      : getX.read(user_details.GETX_IMAGE),
+                  // details['user']["img"],
                   getX.read(user_details.GETX_NAME).toString().isEmpty
                       ? 'Name'
                       : getX.read(user_details.GETX_NAME),
@@ -298,7 +374,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
               }
             }
           }
-          return SizedBox();
+          return profileBody(
+            getX.read(user_details.GETX_IMAGE).toString().isEmpty
+                ? ''
+                : getX.read(user_details.GETX_IMAGE),
+            getX.read(user_details.GETX_NAME).toString().isEmpty
+                ? 'Name'
+                : getX.read(user_details.GETX_NAME),
+            getX.read(user_details.GETX_STATUS).toString().isEmpty
+                ? 'status'
+                : getX.read(user_details.GETX_STATUS),
+            getX.read(user_details.GETX_HEIGHT).toString().isEmpty
+                ? 'in cm'
+                : getX.read(user_details.GETX_HEIGHT),
+            getX.read(user_details.GETX_GENDER).toString().isEmpty
+                ? 'F/M'
+                : getX.read(user_details.GETX_GENDER),
+            getX.read(user_details.GETX_DOB).toString().isEmpty
+                ? 'DD/MM/YY'
+                : getX.read(user_details.GETX_DOB),
+            getX.read(user_details.GETX_BIO).toString().isEmpty
+                ? 'Tell us something about yourself'
+                : getX.read(user_details.GETX_BIO),
+            'Cooking',
+            'Dancing',
+            'Singing',
+            getX.read(user_details.GETX_OCCUPATION).toString().isEmpty
+                ? 'What do you do'
+                : getX.read(user_details.GETX_OCCUPATION),
+            getX.read(user_details.GETX_ADDRESS).toString().isEmpty
+                ? 'Where do you live'
+                : getX.read(user_details.GETX_ADDRESS),
+            getX.read(user_details.GETX_PHONE_NUMBER).toString().isEmpty
+                ? 'Your phone number'
+                : getX.read(user_details.GETX_PHONE_NUMBER),
+            getX.read(user_details.GETX_EMAIL).toString().isEmpty
+                ? 'Your email address'
+                : getX.read(user_details.GETX_EMAIL),
+          );
         },
       ),
     );
@@ -364,14 +477,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onTap: () async {
                         setProfilePicture(context);
                       },
-                      child: const CircleAvatar(
-                        minRadius: 17,
-                        backgroundColor: Color.fromRGBO(153, 34, 240, 1),
-                        child: Icon(
-                          Icons.camera_alt_outlined,
-                          color: Colors.white,
-                        ),
-                      ),
+                      child: loadingState == true
+                          ? const SizedBox(
+                            width: 25,
+                            height: 25,
+                            child:
+                             CircularProgressIndicator(color: Color.fromRGBO(154, 34, 240, 1), ),)
+                          : const CircleAvatar(
+                              minRadius: 17,
+                              backgroundColor: Color.fromRGBO(153, 34, 240, 1),
+                              child: Icon(
+                                Icons.camera_alt_outlined,
+                                color: Colors.white,
+                              ),
+                            ),
                     ),
                   ),
                 ],

@@ -30,9 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    print("###### $value");
     profilePercentage();
-    print("###### $value");
     // feeds = getNewsData(1);
     // print('feeds >>>>>> $feeds');
     _scrollController.addListener(() {
@@ -64,7 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
         getX.read(user_details.GETX_ADDRESS).toString().isNotEmpty ? 10 : 0;
     print("###### $address");
     int phoneNumber =
-        getX.read(user_details.GETX_PHONE_NUMBER).toString().isNotEmpty ? 10 : 0;
+        getX.read(user_details.GETX_PHONE_NUMBER).toString().isNotEmpty
+            ? 10
+            : 0;
     print("###### $phoneNumber");
     int dateOfBirth =
         getX.read(user_details.GETX_DOB).toString().isNotEmpty ? 10 : 0;
@@ -112,13 +112,6 @@ class _HomeScreenState extends State<HomeScreen> {
           interest +
           bio +
           image;
-      // phoneNumber +
-      // dateOfBirth +
-      // occupation +
-      // gender +
-      // height +
-      // interest +
-      // bio);
     });
     print("###### $value");
   }
