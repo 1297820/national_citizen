@@ -109,7 +109,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                       image: CachedNetworkImageProvider(
                                         users!['user']["img"],
                                       ),
-                                      fit: BoxFit.fill,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
@@ -250,7 +250,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                     ),
                                     Text(
                                       users['user']['gender'].toString().isEmpty
-                                          ? "gender"
+                                          ? "F/M"
                                           : users['user']['gender'],
                                       style: const TextStyle(
                                           fontSize: 12,
@@ -305,7 +305,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                 ),
                               ),
                               const SizedBox(
-                                height: 30,
+                                height: 10,
                               ),
                               Text(
                                 users['user']['bio'].toString().isEmpty

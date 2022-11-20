@@ -343,9 +343,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   getX.read(user_details.GETX_BIO).toString().isEmpty
                       ? 'Tell us something about yourself'
                       : getX.read(user_details.GETX_BIO),
-                  'Cooking',
-                  'Dancing',
-                  'Singing',
+                  getX.read(user_details.GETX_INTEREST).toString().isEmpty
+                ? ''
+                : getX.read(user_details.GETX_INTEREST),
                   // details['user']['occupation'].toString().isEmpty
                   //     ? 'What do you do'
                   //     : details['user']['occupation'],
@@ -396,9 +396,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             getX.read(user_details.GETX_BIO).toString().isEmpty
                 ? 'Tell us something about yourself'
                 : getX.read(user_details.GETX_BIO),
-            'Cooking',
-            'Dancing',
-            'Singing',
+            getX.read(user_details.GETX_INTEREST).toString().isEmpty
+                ? ''
+                : getX.read(user_details.GETX_INTEREST),
             getX.read(user_details.GETX_OCCUPATION).toString().isEmpty
                 ? 'What do you do'
                 : getX.read(user_details.GETX_OCCUPATION),
@@ -417,8 +417,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  profileBody(image, name, status, height, gender, dateOfBirth, bio, interest1,
-      interest2, interest3, occupation, address, number, email) {
+  profileBody(image, name, status, height, gender, dateOfBirth, bio, interest, occupation, address, number, email) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Padding(
@@ -676,7 +675,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 10,
                   ),
                   Text(
                     bio,
@@ -700,6 +699,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(
                     height: 15,
                   ),
+                  interest == ''?
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -714,7 +714,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               elevation: MaterialStateProperty.all<double>(0)),
                           onPressed: () {},
                           child: Text(
-                            interest1,
+                            getX.read(user_details.GETX_INTEREST)[0],
                             style: const TextStyle(
                               fontSize: 11.75,
                               fontWeight: FontWeight.w300,
@@ -734,7 +734,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               elevation: MaterialStateProperty.all<double>(0)),
                           onPressed: () {},
                           child: Text(
-                            interest2,
+                            getX.read(user_details.GETX_INTEREST)[1],
                             style: const TextStyle(
                                 fontSize: 11.75,
                                 fontWeight: FontWeight.w300,
@@ -753,7 +753,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               elevation: MaterialStateProperty.all<double>(0)),
                           onPressed: () {},
                           child: Text(
-                            interest3,
+                            getX.read(user_details.GETX_INTEREST)[2],
                             style: const TextStyle(
                               fontSize: 11.75,
                               fontWeight: FontWeight.w300,
@@ -763,7 +763,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ],
-                  ),
+                  ):
+                  const SizedBox(),
                   const SizedBox(
                     height: 20,
                   ),

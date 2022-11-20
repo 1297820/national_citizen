@@ -87,7 +87,7 @@ Future<dynamic> profileRequest() async {
   }
 }
 
-Future<dynamic> searchUsers(search, pageCount) async {
+Future<dynamic> searchUsers(search, pageCount, week, month, year) async {
   try {
     http.Client client = http.Client();
     http.Response response = await client.post(
@@ -96,7 +96,10 @@ Future<dynamic> searchUsers(search, pageCount) async {
         "token": getX.read(user_details.GETX_TOKEN),
         "search": search,
         "pageCount": pageCount,
-        "resultPerPage": 10
+        "resultPerPage": 10,
+        "week": week ?? "",
+        "month": month ?? "",
+        "year": year ?? "",
       }),
       headers: {"Content-Type": "application/json"},
     );

@@ -21,6 +21,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   // ignore: non_constant_identifier_names
   void update_index(int value) {
+    
     setState(() {
       current_index = value;
     });

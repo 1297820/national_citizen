@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/usersProfile.dart';
@@ -18,16 +20,178 @@ class _SearchScreenState extends State<SearchScreen> {
   bool search = false;
   Map<String, dynamic>? searchUser;
   List<dynamic>? users;
-//   List <Map<String, dynamic>> student = [
-//   {
-//    "user_id": 1,
-//    "name": John
-//   }
-//   {
-//    “user_id”: 2,
-//    “name”: “Lisa”
-//   }
-//  ];
+  int? week;
+  int? month;
+  int? year;
+  int? week_N;
+  int date = DateTime.now().day;
+
+  @override
+  void initState() {
+    super.initState();
+    print('date    $date');
+
+    if (date <= 7) {
+      week_N = 1;
+    } else if (date > 7 && date <= 14) {
+      week_N = 2;
+    } else if (date > 14 && date <= 21) {
+      week_N = 3;
+    } else if (date > 21 && date <= 28) {
+      week_N = 4;
+    } else {
+      week_N = 5;
+    }
+    print('week_N>>>>>>>> $week_N');
+  }
+
+  sortOption() {
+    return PopupMenuButton(
+      icon: const Icon(
+        Icons.tune_rounded,
+        color: Colors.black45,
+      ),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          enabled: false,
+          // row has two child icon and text.
+          child: Row(
+            children: const [
+              Text(
+                'Search filter',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          enabled: false,
+          child: Column(
+            children: [
+              Row(
+                children: const [
+                  Text(
+                    'Sort by',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  Spacer(),
+                  Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.black,
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Divider(
+                height: 0.5,
+                color: Color.fromRGBO(211, 211, 211, 1),
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          onTap: () {
+            setState(() {
+              week = week_N;
+              month = DateTime.now().month;
+              year = DateTime.now().year;
+            });
+          },
+          child: Column(
+            children: [
+              Row(
+                children: const [
+                  Text(
+                    'This week',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Divider(
+                height: 0.5,
+                color: Color.fromRGBO(211, 211, 211, 1),
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          onTap: () {
+            setState(() {
+              week = null;
+              month = DateTime.now().month;
+              year = DateTime.now().year;
+            });
+          },
+          child: Column(
+            children: [
+              Row(
+                children: const [
+                  Text(
+                    'This month',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Divider(
+                height: 0.5,
+                color: Color.fromRGBO(211, 211, 211, 1),
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          onTap: () {
+            setState(() {
+              week = null;
+              month = null;
+              year = DateTime.now().year;
+            });
+          },
+          child: Column(
+            children: [
+              Row(
+                children: const [
+                  Text(
+                    'This year',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +212,12 @@ class _SearchScreenState extends State<SearchScreen> {
                   color: const Color.fromRGBO(243, 245, 250, 1),
                   borderRadius: BorderRadius.circular(6)),
               child: TextField(
+                // onTap: () {
+                //   if (isDropDownOpen) {
+                //     floatingDropDown.remove();
+                //     isDropDownOpen = false;
+                //   }
+                // },
                 // cursorColor: const Color.fromRGBO(154, 34, 240, 1),
                 cursorHeight: 25,
                 onChanged: (value) async {
@@ -57,7 +227,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       search = false;
                     });
                   } else if (value.isNotEmpty) {
-                    searchUser = await searchUsers(value, 1);
+                    print("week ****** $week");
+                    print("year ****** $year");
+                    print("month ***** $month");
+                    searchUser = await searchUsers(value, 1, week, month, year);
                     setState(() {
                       users = searchUser!['users'];
                       searchInput = value;
@@ -66,24 +239,19 @@ class _SearchScreenState extends State<SearchScreen> {
                   }
                   print('######### ${users!.length}');
                 },
-                // onChanged: (value) {
-                //   setState(() {
-                //     searchInput = value;
-                //   });
-                // },
                 style: const TextStyle(fontSize: 14),
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
+                  prefixIcon: const Icon(
+                    Icons.search,
+                    color: Colors.black45,
+                  ),
                   prefixIconColor: const Color.fromRGBO(45, 38, 75, 1),
                   contentPadding: const EdgeInsets.fromLTRB(15, 0, 5, 5),
                   border: const OutlineInputBorder(borderSide: BorderSide.none),
                   hintText: 'Search',
                   hintStyle: const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w300),
-                  suffixIcon: GestureDetector(
-                    onTap: () {},
-                    child: const Icon(Icons.tune_rounded),
-                  ),
+                  suffixIcon: sortOption(),
                   suffixIconColor: const Color.fromRGBO(45, 38, 75, 1),
                 ),
               ),
@@ -164,30 +332,32 @@ class _SearchScreenState extends State<SearchScreen> {
                                             width: 50,
                                             height: 50,
                                             decoration: const BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Color.fromRGBO(
-                                                  218, 218, 218, 0.4),
+                                              color: Colors.transparent,
                                             ),
-                                            child: CachedNetworkImage(
-                                              imageUrl: users![i]["img"],
-                                              fit: BoxFit.cover,
-                                              placeholder: (context, url) =>
-                                                  const SkeletonItem(
-                                                child: SkeletonAvatar(
-                                                  style: SkeletonAvatarStyle(
-                                                    width: double.maxFinite,
-                                                    height: 120,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              child: CachedNetworkImage(
+                                                imageUrl: users![i]["img"],
+                                                fit: BoxFit.cover,
+                                                placeholder: (context, url) =>
+                                                    const SkeletonItem(
+                                                  child: SkeletonAvatar(
+                                                    style: SkeletonAvatarStyle(
+                                                      width: double.maxFinite,
+                                                      height: 120,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Container(
-                                                color: Colors.white,
-                                                child: const Icon(
-                                                  Icons.person,
-                                                  color: Colors.grey,
-                                                  size: 30,
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Container(
+                                                  color: Colors.white,
+                                                  child: const Icon(
+                                                    Icons.person,
+                                                    color: Colors.grey,
+                                                    size: 30,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -239,7 +409,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Center(
                       child: Image.asset(
                         'assets/images/Searching.png',
-                        scale: 3.5,
+                        scale: 6,
                       ),
                     ),
                   ),
