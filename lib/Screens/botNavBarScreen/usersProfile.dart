@@ -336,7 +336,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: 94,
+                                    width: 98,
                                     height: 28,
                                     child: ElevatedButton(
                                       style: ButtonStyle(
@@ -350,7 +350,9 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                                   0)),
                                       onPressed: () {},
                                       child: Text(
-                                        'interest 1',
+                                        users['user']['interest'].toString() == '[]'
+                                          ? "interest 1"
+                                          : users['user']['interest'][0],
                                         style: const TextStyle(
                                           fontSize: 11.75,
                                           fontWeight: FontWeight.w300,
@@ -360,7 +362,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 94,
+                                    width: 98,
                                     height: 28,
                                     child: ElevatedButton(
                                       style: ButtonStyle(
@@ -374,7 +376,9 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                                   0)),
                                       onPressed: () {},
                                       child: Text(
-                                        "interest 2",
+                                        users['user']['interest'].toString() == '[]'
+                                          ? "interest 2"
+                                          : users['user']['interest'][1],
                                         style: const TextStyle(
                                             fontSize: 11.75,
                                             fontWeight: FontWeight.w300,
@@ -384,7 +388,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 94,
+                                    width: 98,
                                     height: 28,
                                     child: ElevatedButton(
                                       style: ButtonStyle(
@@ -398,7 +402,9 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                                   0)),
                                       onPressed: () {},
                                       child: Text(
-                                        "interest 3",
+                                        users['user']['interest'].toString() == '[]'
+                                          ? "interest 3"
+                                          : users['user']['interest'][2],
                                         style: const TextStyle(
                                           fontSize: 11.75,
                                           fontWeight: FontWeight.w300,

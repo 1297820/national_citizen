@@ -270,8 +270,17 @@ class _SearchScreenState extends State<SearchScreen> {
                   )
                 : const SizedBox(),
             // const Spacer(),
-            searchInput.isNotEmpty
-                ? Expanded(
+            searchInput.isNotEmpty ? 
+            searchUser!['msg'] != "success" ?
+                      Expanded(
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/noSearch.png',
+                          scale: 1.5,
+                        ),
+                      ),
+                    ):
+                Expanded(
                     flex: 10,
                     child: ListView.builder(
                       itemCount:

@@ -46,6 +46,8 @@ class _SignInScreenState extends State<SignInScreen> {
       getX.write(user_details.GETX_HEIGHT, response['user']["height"]);
       getX.write(user_details.GETX_INTEREST, response['user']["interest"]);
       getX.write(user_details.GETX_BIO, response['user']["bio"]);
+      getX.write(user_details.GETX_IMAGE, response['user']["img"]);
+      print(" image updated  ${getX.read(user_details.GETX_IMAGE)}");
       getX.write(user_details.GETX_TOKEN, response['token']);
       getX.write(user_details.GETX_ISLOGGEDIN, 'true');
       Navigator.of(context).pushAndRemoveUntil(

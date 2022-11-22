@@ -24,6 +24,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   File? image;
   dynamic imageTemporary;
 
+  Future<dynamic>? profileDetails;
+  bool loadingState = false;
+
+  @override
+  void initState() {
+    super.initState();
+    profileDetails = profileRequest();
+    print(" name  ${getX.read(user_details.GETX_NAME)}");
+    print(" interest  ${getX.read(user_details.GETX_INTEREST)}");
+    // profileFunction();
+    
+  }
+
   Future pickImage(ImageSource imageSource) async {
     try {
       final image = await ImagePicker().pickImage(source: imageSource);
@@ -86,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: const [
                         CircleAvatar(
                           radius: 25,
-                          backgroundColor: Color.fromRGBO(153, 34, 240, 1),
+                          backgroundColor: Color.fromRGBO(153, 34, 240, 0.8),
                           child: Icon(
                             Icons.camera,
                             color: Colors.white,
@@ -114,7 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: const [
                         CircleAvatar(
                           radius: 25,
-                          backgroundColor: Color.fromRGBO(153, 34, 240, 1),
+                          backgroundColor: Color.fromRGBO(153, 34, 240, 0.8),
                           child: Icon(
                             Icons.image,
                             color: Colors.white,
@@ -181,7 +194,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           setState(() {
             loadingState = false;
           });
-          showToast('Profile image successfully updated', const Color.fromRGBO(154, 34, 240, 1));
+          showToast('Profile image successfully updated',
+              const Color.fromRGBO(154, 34, 240, 1));
         } else {
           setState(() {
             loadingState = false;
@@ -201,41 +215,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  Future<dynamic>? profileDetails;
-  bool loadingState = false;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print(" name  ${getX.read(user_details.GETX_NAME)}");
-    // profileFunction();
-    profileDetails = profileRequest();
+  profileFunction() async {
+    print('******** rannnnnn');
+    // profileDetails = await profileRequest();
+    // print(profileDetails.runtimeType);
+    // Map<String, dynamic> response;
+    // response = await profileRequest();
+    // if (response["status"] == "ok") {
+    //   getX.write(user_details.GETX_IMAGE, response['user']["img"]);
+    //   getX.write(user_details.GETX_NAME, response['user']["name"]);
+    //   print(" name updated  ${getX.read(user_details.GETX_NAME)}");
+    //   getX.write(user_details.GETX_STATUS, response['user']["status"]);
+    //   getX.write(user_details.GETX_ADDRESS, response['user']["address"]);
+    //   getX.write(user_details.GETX_PHONE_NUMBER, response['user']["phone"]);
+    //   getX.write(user_details.GETX_EMAIL, response['user']["email"]);
+    //   getX.write(user_details.GETX_DOB, response['user']["date_of_birth"]);
+    //   getX.write(user_details.GETX_OCCUPATION, response['user']["occupation"]);
+    //   getX.write(user_details.GETX_GENDER, response['user']["gender"]);
+    //   getX.write(user_details.GETX_HEIGHT, response['user']["height"]);
+    //   getX.write(user_details.GETX_INTEREST, response['user']["interest"]);
+    //   getX.write(user_details.GETX_BIO, response['user']["bio"]);
+    // } else {
+    //   // showToast(response["msg"]);
+    // }
   }
-
-  // profileFunction() async {
-  //   print('******** rannnnnn');
-  //   Map<String, dynamic> response;
-  //   response = await profileRequest();
-  //   if (response["status"] == "ok") {
-  //     getX.write(user_details.GETX_IMAGE, response['user']["img"]);
-  //     getX.write(user_details.GETX_NAME, response['user']["name"]);
-  //     print(" name updated  ${getX.read(user_details.GETX_NAME)}");
-  //     getX.write(user_details.GETX_STATUS, response['user']["status"]);
-  //     getX.write(user_details.GETX_ADDRESS, response['user']["address"]);
-  //     getX.write(user_details.GETX_PHONE_NUMBER, response['user']["phone"]);
-  //     getX.write(user_details.GETX_EMAIL, response['user']["email"]);
-  //     getX.write(user_details.GETX_DOB, response['user']["date_of_birth"]);
-  //     getX.write(user_details.GETX_OCCUPATION, response['user']["occupation"]);
-  //     getX.write(user_details.GETX_GENDER, response['user']["gender"]);
-  //     getX.write(user_details.GETX_HEIGHT, response['user']["height"]);
-  //     getX.write(user_details.GETX_INTEREST, response['user']["interest"]);
-  //     getX.write(user_details.GETX_BIO, response['user']["bio"]);
-  //   } else {
-  //     // showToast(response["msg"]);
-  //   }
-  // }
-
 
   @override
   Widget build(BuildContext context) {
@@ -290,7 +294,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<dynamic>(
         future: profileDetails,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none) {
@@ -307,7 +311,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 return profileBody(
                   getX.read(user_details.GETX_IMAGE).toString().isEmpty
                       ? ''
-                      : getX.read(user_details.GETX_IMAGE),
+                      : 
+                      getX.read(user_details.GETX_IMAGE),
                   // details['user']["img"],
                   getX.read(user_details.GETX_NAME).toString().isEmpty
                       ? 'Name'
@@ -343,9 +348,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   getX.read(user_details.GETX_BIO).toString().isEmpty
                       ? 'Tell us something about yourself'
                       : getX.read(user_details.GETX_BIO),
-                  getX.read(user_details.GETX_INTEREST).toString().isEmpty
-                ? ''
-                : getX.read(user_details.GETX_INTEREST),
+                  // getX.read(user_details.GETX_INTEREST).toString().isEmpty
+                  //     ? ''
+                  //     :
+                       getX.read(user_details.GETX_INTEREST),
                   // details['user']['occupation'].toString().isEmpty
                   //     ? 'What do you do'
                   //     : details['user']['occupation'],
@@ -377,7 +383,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return profileBody(
             getX.read(user_details.GETX_IMAGE).toString().isEmpty
                 ? ''
-                : getX.read(user_details.GETX_IMAGE),
+                : 
+                getX.read(user_details.GETX_IMAGE),
             getX.read(user_details.GETX_NAME).toString().isEmpty
                 ? 'Name'
                 : getX.read(user_details.GETX_NAME),
@@ -396,9 +403,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             getX.read(user_details.GETX_BIO).toString().isEmpty
                 ? 'Tell us something about yourself'
                 : getX.read(user_details.GETX_BIO),
-            getX.read(user_details.GETX_INTEREST).toString().isEmpty
-                ? ''
-                : getX.read(user_details.GETX_INTEREST),
+            // getX.read(user_details.GETX_INTEREST).toString().isEmpty
+            //     ? ''
+            //     : 
+                getX.read(user_details.GETX_INTEREST),
             getX.read(user_details.GETX_OCCUPATION).toString().isEmpty
                 ? 'What do you do'
                 : getX.read(user_details.GETX_OCCUPATION),
@@ -417,7 +425,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  profileBody(image, name, status, height, gender, dateOfBirth, bio, interest, occupation, address, number, email) {
+  profileBody(image, name, status, height, gender, dateOfBirth, bio, interest,
+      occupation, address, number, email) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Padding(
@@ -478,10 +487,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                       child: loadingState == true
                           ? const SizedBox(
-                            width: 25,
-                            height: 25,
-                            child:
-                             CircularProgressIndicator(color: Color.fromRGBO(154, 34, 240, 1), ),)
+                              width: 25,
+                              height: 25,
+                              child: CircularProgressIndicator(
+                                color: Color.fromRGBO(154, 34, 240, 1),
+                              ),
+                            )
                           : const CircleAvatar(
                               minRadius: 17,
                               backgroundColor: Color.fromRGBO(153, 34, 240, 1),
@@ -699,72 +710,81 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  interest == ''?
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 94,
-                        height: 28,
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                const Color.fromRGBO(233, 34, 178, 0.5),
+                  interest.toString() =='[]'
+                      ? const SizedBox()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 98,
+                              height: 28,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                      const Color.fromRGBO(233, 34, 178, 0.5),
+                                    ),
+                                    elevation:
+                                        MaterialStateProperty.all<double>(0)),
+                                onPressed: () {},
+                                child: Text(
+                                  getX.read(user_details.GETX_INTEREST)[0],
+                                  // '',
+                                  style: const TextStyle(
+                                    fontSize: 11.75,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color.fromRGBO(0, 0, 0, 0.4),
+                                  ),
+                                ),
                               ),
-                              elevation: MaterialStateProperty.all<double>(0)),
-                          onPressed: () {},
-                          child: Text(
-                            getX.read(user_details.GETX_INTEREST)[0],
-                            style: const TextStyle(
-                              fontSize: 11.75,
-                              fontWeight: FontWeight.w300,
-                              color: Color.fromRGBO(0, 0, 0, 0.4),
                             ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 94,
-                        height: 28,
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                const Color.fromRGBO(161, 34, 206, 0.5),
+                            SizedBox(
+                              width: 98,
+                              height: 28,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                      const Color.fromRGBO(161, 34, 206, 0.5),
+                                    ),
+                                    elevation:
+                                        MaterialStateProperty.all<double>(0)),
+                                onPressed: () {},
+                                child: Text(
+                                  getX.read(user_details.GETX_INTEREST)[1],
+                                  // '',
+                                  style: const TextStyle(
+                                      fontSize: 11.75,
+                                      fontWeight: FontWeight.w300,
+                                      color: Color.fromRGBO(0, 0, 0, 0.4)),
+                                ),
                               ),
-                              elevation: MaterialStateProperty.all<double>(0)),
-                          onPressed: () {},
-                          child: Text(
-                            getX.read(user_details.GETX_INTEREST)[1],
-                            style: const TextStyle(
-                                fontSize: 11.75,
-                                fontWeight: FontWeight.w300,
-                                color: Color.fromRGBO(0, 0, 0, 0.4)),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 94,
-                        height: 28,
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                const Color.fromRGBO(38, 34, 233, 0.6),
-                              ),
-                              elevation: MaterialStateProperty.all<double>(0)),
-                          onPressed: () {},
-                          child: Text(
-                            getX.read(user_details.GETX_INTEREST)[2],
-                            style: const TextStyle(
-                              fontSize: 11.75,
-                              fontWeight: FontWeight.w300,
-                              color: Color.fromRGBO(0, 0, 0, 0.4),
                             ),
-                          ),
+                            SizedBox(
+                              width: 98,
+                              height: 28,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                      const Color.fromRGBO(38, 34, 233, 0.6),
+                                    ),
+                                    elevation:
+                                        MaterialStateProperty.all<double>(0)),
+                                onPressed: () {},
+                                child: Text(
+                                  getX.read(user_details.GETX_INTEREST)[2],
+                                  // '',
+                                  style: const TextStyle(
+                                    fontSize: 11.75,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color.fromRGBO(0, 0, 0, 0.4),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ):
-                  const SizedBox(),
                   const SizedBox(
                     height: 20,
                   ),

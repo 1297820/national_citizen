@@ -84,6 +84,7 @@ flutter:
     - assets/images/Searching.svg
     - assets/images/Searching.png
     - assets/images/settings.svg
+    - assets/images/noSearch.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

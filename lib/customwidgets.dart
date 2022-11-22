@@ -317,86 +317,86 @@ class _GenderState extends State<Gender> {
   }
 }
 
-class Interests extends StatefulWidget {
-  const Interests({Key? key}) : super(key: key);
+// class Interests extends StatefulWidget {
+//   const Interests({Key? key}) : super(key: key);
 
-  @override
-  State<Interests> createState() => _Interests();
-}
+//   @override
+//   State<Interests> createState() => _Interests();
+// }
 
-class _Interests extends State<Interests> {
-  final interest = [
-    "Animation",
-    "Art",
-    "Baking",
-    "Blogging",
-    "Cooking",
-    "Dancing",
-    "Drama",
-    "Editing",
-    "Fashion",
-    "Hacking"
-  ];
+// class _Interests extends State<Interests> {
+//   final interest = [
+//     "Animation",
+//     "Art",
+//     "Baking",
+//     "Blogging",
+//     "Cooking",
+//     "Dancing",
+//     "Drama",
+//     "Editing",
+//     "Fashion",
+//     "Hacking"
+//   ];
 
-  String? values;
+//   String? values;
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 39,
-      width: MediaQuery.of(context).size.width,
-      child: DropdownButton<String>(
-        hint: const Text(
-          '',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w300,
-            color: Color.fromRGBO(0, 0, 0, 0.7),
-          ),
-        ),
-        value: values,
-        items: interest.map(buildItem).toList(),
-        icon: Padding(
-          padding:
-              EdgeInsets.only(left: MediaQuery.of(context).size.width / 1.55),
-          child: const Icon(
-            Icons.keyboard_arrow_down_outlined,
-            color: Color.fromRGBO(0, 0, 0, 0.7),
-            size: 22,
-          ),
-        ),
-        onChanged: (value) {
-          setState(() {
-            values = value;
-            getX.write(user_details.GETX_STATUS, values);
-            // getX.write('state', values);
-          });
-        },
-      ),
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       height: 39,
+//       width: MediaQuery.of(context).size.width,
+//       child: DropdownButton<String>(
+//         hint: const Text(
+//           '',
+//           style: TextStyle(
+//             fontSize: 14,
+//             fontWeight: FontWeight.w300,
+//             color: Color.fromRGBO(0, 0, 0, 0.7),
+//           ),
+//         ),
+//         value: values,
+//         items: interest.map(buildItem).toList(),
+//         icon: Padding(
+//           padding:
+//               EdgeInsets.only(left: MediaQuery.of(context).size.width / 1.55),
+//           child: const Icon(
+//             Icons.keyboard_arrow_down_outlined,
+//             color: Color.fromRGBO(0, 0, 0, 0.7),
+//             size: 22,
+//           ),
+//         ),
+//         onChanged: (value) {
+//           setState(() {
+//             values = value;
+//             getX.write(user_details.GETX_STATUS, values);
+//             // getX.write('state', values);
+//           });
+//         },
+//       ),
+//     );
+//   }
 
-  DropdownMenuItem<String> buildItem(String item) {
-    return DropdownMenuItem(
-      value: item,
-      child: Row(
-        children: [
-          const SizedBox(
-            width: 9.17,
-          ),
-          Text(
-            item,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Color.fromRGBO(0, 0, 0, 0.7),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+  // DropdownMenuItem<String> buildItem(String item) {
+  //   return DropdownMenuItem(
+  //     value: item,
+  //     child: Row(
+  //       children: [
+  //         const SizedBox(
+  //           width: 9.17,
+  //         ),
+  //         Text(
+  //           item,
+  //           style: const TextStyle(
+  //             fontSize: 14,
+  //             fontWeight: FontWeight.w400,
+  //             color: Color.fromRGBO(0, 0, 0, 0.7),
+  //           ),
+  //         ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 void showToast(msg, backgroundColor) {
   Fluttertoast.showToast(
@@ -407,140 +407,3 @@ void showToast(msg, backgroundColor) {
       );
 }
 
-// class SearchDropDown extends StatelessWidget {
-//   const SearchDropDown({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.fromLTRB(17, 22, 10, 22),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               const Text(
-//                 'Search filter',
-//                 style: TextStyle(
-//                   fontSize: 16,
-//                   fontWeight: FontWeight.w400,
-//                 ),
-//               ),
-//               const SizedBox(
-//                 height: 20,
-//               ),
-//               Row(
-//                 children: const [
-//                   Text(
-//                     'Sort by',
-//                     style: TextStyle(
-//                       fontSize: 12,
-//                       fontWeight: FontWeight.w300,
-//                     ),
-//                   ),
-//                   Spacer(),
-//                   Icon(Icons.arrow_drop_down)
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//         const Divider(
-//           height: 0.5,
-//           color: Color.fromRGBO(211, 211, 211, 1),
-//         ),
-//         ListTile(
-//           onTap: () {
-//             print(selectedweek);
-//             setState(() {
-//               selected = !selectedweek;
-//             });
-//           },
-//           leading: const Text(
-//             'This week',
-//             style: TextStyle(
-//               fontSize: 12,
-//               fontWeight: FontWeight.w300,
-//             ),
-//           ),
-//           trailing: selected == true
-//               ? Icon(Icons.circle,
-//                   size: 10, color: Color.fromRGBO(159, 29, 204, 1))
-//               : SizedBox(),
-//         ),
-//         const Divider(
-//           height: 0.5,
-//           color: Color.fromRGBO(211, 211, 211, 1),
-//         ),
-//         ListTile(
-//           onTap: () {},
-//           leading: const Text(
-//             'This month',
-//             style: TextStyle(
-//               fontSize: 12,
-//               fontWeight: FontWeight.w300,
-//             ),
-//           ),
-//         ),
-//         const Divider(
-//           height: 0.5,
-//           color: Color.fromRGBO(211, 211, 211, 1),
-//         ),
-//         ListTile(
-//           onTap: () {},
-//           leading: const Text(
-//             'This year',
-//             style: TextStyle(
-//               fontSize: 12,
-//               fontWeight: FontWeight.w300,
-//             ),
-//           ),
-//         ),
-//         const Divider(
-//           height: 0.5,
-//           color: Color.fromRGBO(211, 211, 211, 1),
-//         ),
-//         Padding(
-//           padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.end,
-//             children: [
-//               GestureDetector(
-//                 onTap: () {
-//                   floatingDropDown.remove();
-//                   isDropDownOpen = !isDropDownOpen;
-//                 },
-//                 child: const Text(
-//                   'Cancel',
-//                   style: TextStyle(
-//                     fontSize: 12,
-//                     fontWeight: FontWeight.w400,
-//                     color: Color.fromRGBO(0, 0, 0, 1),
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(
-//                 width: 20,
-//               ),
-//               GestureDetector(
-//                 onTap: () {
-//                   floatingDropDown.remove();
-//                   isDropDownOpen = !isDropDownOpen;
-//                 },
-//                 child: const Text(
-//                   'Apply',
-//                   style: TextStyle(
-//                     fontSize: 12,
-//                     fontWeight: FontWeight.w400,
-//                     color: Color.fromRGBO(159, 29, 204, 1),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         )
-//       ],
-//     );
-//   }
-// }

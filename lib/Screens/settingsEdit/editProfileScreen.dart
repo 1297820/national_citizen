@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/bottomNavBar.dart';
 import 'package:national_citizen/Screens/settingsEdit/editScreen.dart';
+import 'package:national_citizen/main.dart';
+import 'package:national_citizen/utils/apirequest.dart';
 
 // ignore: must_be_immutable
 class EditProfileScreen extends StatelessWidget {
@@ -18,6 +20,20 @@ class EditProfileScreen extends StatelessWidget {
     "Height",
     "Interest",
     "Bio",
+  ];
+
+  List userDetails = [
+    getX.read(user_details.GETX_NAME),
+    getX.read(user_details.GETX_STATUS),
+    getX.read(user_details.GETX_ADDRESS),
+    getX.read(user_details.GETX_PHONE_NUMBER),
+    getX.read(user_details.GETX_EMAIL),
+    getX.read(user_details.GETX_DOB),
+    getX.read(user_details.GETX_OCCUPATION),
+    getX.read(user_details.GETX_GENDER),
+    getX.read(user_details.GETX_HEIGHT),
+    getX.read(user_details.GETX_INTEREST),
+    getX.read(user_details.GETX_BIO)
   ];
 
   @override
@@ -88,19 +104,46 @@ class EditProfileScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                settings[index],
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromRGBO(45, 38, 75, 1),
+                              Flexible(
+                                flex: 3,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      settings[index],
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color.fromRGBO(0, 0, 0, 0.7),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 3,
+                                    ),
+                                    Text(
+                                      "${userDetails[index]}",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const Spacer(),
-                              const Icon(
-                                Icons.edit_outlined,
-                                color: Color.fromRGBO(45, 38, 75, 0.6),
+                              // const Spacer(),
+                              const Flexible(
+                                flex: 1,
+                                child: Icon(
+                                  Icons.edit_outlined,
+                                  color: Color.fromRGBO(164, 34, 205, 1),
+                                ),
                               ),
                             ],
                           ),

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -63,6 +64,26 @@ Future<dynamic> logInRequest(String nin, String password) async {
     // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
+
+// Future<dynamic> profileRequest() async {
+//   try {
+//     Response response;
+//     Dio dio = Dio();
+
+//     response = await dio.post(
+//         "$endpointUrl/profile/view_profile",
+//         data: json.encode({
+//           "token": getX.read(user_details.GETX_TOKEN),
+//         }),
+//         options: Options(headers: {"Content-Type": "application/json"}));
+
+//     print(response.data);
+
+//     return response.data;
+//   } catch (e) {
+//     // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
+//   }
+// }
 
 Future<dynamic> profileRequest() async {
   try {

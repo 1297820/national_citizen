@@ -14,12 +14,37 @@ class EditScreen extends StatefulWidget {
 }
 
 class _EditScreenState extends State<EditScreen> {
-  
+  List<bool> isChecked = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
   int day = 11;
   int month = 12;
   int year = 1997;
   int loadingState = 0;
   TextEditingController editController = TextEditingController();
+  final interest = [
+    "Animation",
+    "Art",
+    "Baking",
+    "Blogging",
+    "Cooking",
+    "Dancing",
+    "Drama",
+    "Editing",
+    "Fashion",
+    "Hacking"
+  ];
+  List interests = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +62,165 @@ class _EditScreenState extends State<EditScreen> {
           ),
         ),
       ),
-      body: Column(
+      body: widget.editValue == "Interest"?
+      Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Center(
+            child: Container(
+              padding: const EdgeInsets.all(24.0),
+              width: MediaQuery.of(context).size.width/1.5,
+              height: MediaQuery.of(context).size.height/1.3,
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(241, 241, 241, 1)
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: interest.length,
+                      itemBuilder: (context, index){
+                        return Column(
+                          children: [
+                            const SizedBox(
+                                    height: 20,
+                                  ),
+                            GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        isChecked[index] = !isChecked[index];
+                                      });
+                                      if(isChecked[index] == true){
+                                        if(interests.length < 3){
+                                          interests.add(interest[index]);
+                                        } else {
+                                          setState(() {
+                                            isChecked[index] = false;
+                                          });
+                                          showToast('Max of 3 interests has been selected already', const Color.fromRGBO(153, 34, 240, 0.8));
+                                        }
+                                        
+                                      } else {
+                                        if (interest.contains(interest[index])){
+                                          interests.remove(interest[index]);
+                                        }
+                                      }
+                                      print(interests.join(','));
+                                    },
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          interest[index],
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: Color.fromRGBO(62, 66, 69, 1),),
+                                        ),
+                                        const Spacer(),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(24, 0, 12, 0),
+                                          child: Container(
+                                            height: 20,
+                                            width: 20,
+                                            decoration: BoxDecoration(
+                                              // shape: BoxShape.circle,
+                                              border: Border.all(color: const Color.fromRGBO(155, 34, 238, 1)),
+                                              color: const Color.fromRGBO(246, 232, 251, 1),
+                                              borderRadius: BorderRadius.circular(10)
+                                            ),
+                                            child: Checkbox(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10)
+                                              ) ,
+                                              side: BorderSide.none,
+                                              checkColor: const Color.fromRGBO(155, 34, 238, 1),
+                                                value: isChecked[index],
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    isChecked[index] = !isChecked[index];
+                                                  });
+                                                  if(isChecked[index] == true){
+                                                    if(interests.length < 3){
+                                                      interests.add(interest[index]);
+                                                    } else {
+                                                      setState(() {
+                                                        isChecked[index] = false;
+                                                      });
+                                                      showToast('Max of 3 interests has been selected already', const Color.fromRGBO(153, 34, 240, 0.8));
+                                                    }
+                                                    
+                                                  } else {
+                                                    if (interest.contains(interest[index])){
+                                                      interests.remove(interest[index]);
+                                                    }
+                                                  }
+                                                  print(interests.join(','));
+                                                },
+                                                fillColor: MaterialStateProperty.all<Color>(
+                                                  const Color.fromRGBO(246, 232, 251, 1),
+                                                ),),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                              const Divider(
+                                height: 1,
+                                color: Color.fromRGBO(211, 211, 211, 1),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          CustomButton(
+            text: "Confirm",
+            loadingState: loadingState, 
+            onpressed: () async {
+              if(interests.length != 3){
+                showToast('Please select a max of 3 interesrs', const Color.fromRGBO(153, 34, 240, 0.8));
+              } else{
+                setState(() {
+                    loadingState = 1;
+                });
+                dynamic response = await editInterest(interests.join(','));
+                print(response);
+                if(response["status"] == "ok"){
+                  setState(() {
+                    loadingState = 2;
+                  });
+                  showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
+                } else {
+                  setState(() {
+                    loadingState = 0;
+                  });
+                  showMyDialog(
+                    context: context,
+                    text: 'Error',
+                    titleSize: 22,
+                    contentTextSize: 12,
+                    content:
+                        'Something went wrong, please check your internet connection and try again',
+                    buttonText: 'OK',
+                  );
+                }
+                
+              }
+            }, 
+            width: 120,
+          ),
+        ],
+      ):
+      Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Container(
@@ -50,9 +233,9 @@ class _EditScreenState extends State<EditScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  widget.editValue == "Date of birth"?
-                  dateOfBirth():
-                  textFields(),
+                  // widget.editValue == "Date of birth"?
+                  // dateOfBirth():
+                  editBox(),
                   const SizedBox(
                     height: 35,
                   ),
@@ -148,26 +331,35 @@ class _EditScreenState extends State<EditScreen> {
                               );
                             }
                           } else if(widget.editValue == "Phone number"){
-                            dynamic response = await editPhoneNumber(editController.text.toString().trim());
-                            print(response);
-                            if(response["status"] == "ok"){
+                            if(editController.text.toString().length > 11){
                               setState(() {
-                                loadingState = 2;
-                              });
-                              showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
+                                  loadingState = 0;
+                                });
+                              showToast('Phone number too long', Colors.red[700]);
+
                             } else {
-                              setState(() {
-                                loadingState = 0;
-                              });
-                              showMyDialog(
-                                context: context,
-                                text: 'Error',
-                                titleSize: 22,
-                                contentTextSize: 12,
-                                content: response["msg"],
-                                buttonText: 'OK',
-                              );
+                              dynamic response = await editPhoneNumber(editController.text.toString().trim());
+                              print(response);
+                              if(response["status"] == "ok"){
+                                setState(() {
+                                  loadingState = 2;
+                                });
+                                showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
+                              } else {
+                                setState(() {
+                                  loadingState = 0;
+                                });
+                                showMyDialog(
+                                  context: context,
+                                  text: 'Error',
+                                  titleSize: 22,
+                                  contentTextSize: 12,
+                                  content: response["msg"],
+                                  buttonText: 'OK',
+                                );
+                              }
                             }
+                            
                           } else if(widget.editValue == "Email"){
                             dynamic response = await editEmail(editController.text.toString().trim());
                             print(response);
@@ -278,29 +470,31 @@ class _EditScreenState extends State<EditScreen> {
                                 buttonText: 'OK',
                               );
                             }
-                          } else if(widget.editValue == "Interest"){
-                            dynamic response = await editInterest(editController.text.toString().trim());
-                            print(response);
-                            if(response["status"] == "ok"){
-                              setState(() {
-                                loadingState = 2;
-                              });
-                              showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
-                            } else {
-                              setState(() {
-                                loadingState = 0;
-                              });
-                              showMyDialog(
-                                context: context,
-                                text: 'Error',
-                                titleSize: 22,
-                                contentTextSize: 12,
-                                content:
-                                    'Something went wrong, please check your internet connection and try again',
-                                buttonText: 'OK',
-                              );
-                            }
-                          } else if(widget.editValue == "Bio"){
+                          } 
+                          // else if(widget.editValue == "Interest"){
+                            // dynamic response = await editInterest(editController.text.toString().trim());
+                            // print(response);
+                            // if(response["status"] == "ok"){
+                            //   setState(() {
+                            //     loadingState = 2;
+                            //   });
+                            //   showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
+                            // } else {
+                            //   setState(() {
+                            //     loadingState = 0;
+                            //   });
+                            //   showMyDialog(
+                            //     context: context,
+                            //     text: 'Error',
+                            //     titleSize: 22,
+                            //     contentTextSize: 12,
+                            //     content:
+                            //         'Something went wrong, please check your internet connection and try again',
+                            //     buttonText: 'OK',
+                            //   );
+                            // }
+                          // }
+                           else if(widget.editValue == "Bio"){
                             dynamic response = await editBio(editController.text.toString().trim());
                             print(response);
                             if(response["status"] == "ok"){
@@ -544,7 +738,7 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 
-  Widget textFields(){
+  Widget editBox(){
     if(widget.editValue == "Name"){
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -558,6 +752,10 @@ class _EditScreenState extends State<EditScreen> {
           ),
         ),
         TextField(
+          style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+            ),
           controller: editController,
           cursorColor: const Color.fromRGBO(154, 34, 240, 1),
           autofocus: true,
@@ -570,8 +768,8 @@ class _EditScreenState extends State<EditScreen> {
                 color: Color.fromRGBO(154, 34, 240, 1),
               ),
             ),
-            contentPadding: EdgeInsets.fromLTRB(0, 10, 10, 0),
-            hintText: 'Eric Walt',
+            contentPadding: EdgeInsets.fromLTRB(0, 25, 10, 0),
+            // hintText: 'Eric Walt',
             hintStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w300,
@@ -614,6 +812,10 @@ class _EditScreenState extends State<EditScreen> {
           ),
         ),
         TextField(
+          style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+            ),
           controller: editController,
           cursorColor: const Color.fromRGBO(154, 34, 240, 1),
           autofocus: true,
@@ -626,8 +828,8 @@ class _EditScreenState extends State<EditScreen> {
                 color: Color.fromRGBO(154, 34, 240, 1),
               ),
             ),
-            contentPadding: EdgeInsets.fromLTRB(0, 10, 10, 0),
-            hintText: 'Plot 1121, block 44, unity road, biden, ikeja, Lagos.',
+            contentPadding: EdgeInsets.fromLTRB(0, 25, 10, 0),
+            // hintText: 'Plot 1121, block 44, unity road, biden, ikeja, Lagos.',
             hintStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w300,
@@ -650,6 +852,10 @@ class _EditScreenState extends State<EditScreen> {
           ),
         ),
         TextField(
+          style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+            ),
           controller: editController,
           cursorColor: const Color.fromRGBO(154, 34, 240, 1),
           autofocus: true,
@@ -662,8 +868,8 @@ class _EditScreenState extends State<EditScreen> {
                 color: Color.fromRGBO(154, 34, 240, 1),
               ),
             ),
-            contentPadding: EdgeInsets.fromLTRB(0, 10, 10, 0),
-            hintText: '07044332211',
+            contentPadding: EdgeInsets.fromLTRB(0, 25, 10, 0),
+            // hintText: '07044332211',
             hintStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w300,
@@ -686,6 +892,10 @@ class _EditScreenState extends State<EditScreen> {
           ),
         ),
         TextField(
+          style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+            ),
           controller: editController,
           cursorColor: const Color.fromRGBO(154, 34, 240, 1),
           autofocus: true,
@@ -698,8 +908,8 @@ class _EditScreenState extends State<EditScreen> {
                 color: Color.fromRGBO(154, 34, 240, 1),
               ),
             ),
-            contentPadding: EdgeInsets.fromLTRB(0, 10, 10, 0),
-            hintText: 'ericWalt@gmail.com',
+            contentPadding: EdgeInsets.fromLTRB(0, 25, 10, 0),
+            // hintText: 'ericWalt@gmail.com',
             hintStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w300,
@@ -722,6 +932,10 @@ class _EditScreenState extends State<EditScreen> {
           ),
         ),
         TextField(
+          style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+            ),
           controller: editController,
           cursorColor: const Color.fromRGBO(154, 34, 240, 1),
           autofocus: true,
@@ -734,8 +948,8 @@ class _EditScreenState extends State<EditScreen> {
                 color: Color.fromRGBO(154, 34, 240, 1),
               ),
             ),
-            contentPadding: EdgeInsets.fromLTRB(0, 10, 10, 0),
-            hintText: 'Software Developer',
+            contentPadding: EdgeInsets.fromLTRB(0, 25, 10, 0),
+            // hintText: 'Software Developer',
             hintStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w300,
@@ -777,42 +991,10 @@ class _EditScreenState extends State<EditScreen> {
           ),
         ),
         TextField(
-          controller: editController,
-          cursorColor: const Color.fromRGBO(154, 34, 240, 1),
-          autofocus: true,
-          keyboardType: TextInputType.name,
-          textCapitalization: TextCapitalization.words,
-          textInputAction: TextInputAction.next,
-          decoration: const InputDecoration(
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: Color.fromRGBO(154, 34, 240, 1),
-              ),
-            ),
-            contentPadding: EdgeInsets.fromLTRB(0, 10, 10, 0),
-            hintText: '120cm',
-            hintStyle: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w300,
-              color: Color.fromRGBO(62, 66, 69, 0.7),
-            ),
-          ),
-        ),
-      ],
-    );
-    } else if(widget.editValue == "Interest"){
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-           'Input your ${widget.editValue}',
           style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w300,
-            color: Color.fromRGBO(45, 38, 75, 1),
-          ),
-        ),
-        TextField(
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+            ),
           controller: editController,
           cursorColor: const Color.fromRGBO(154, 34, 240, 1),
           autofocus: true,
@@ -825,8 +1007,8 @@ class _EditScreenState extends State<EditScreen> {
                 color: Color.fromRGBO(154, 34, 240, 1),
               ),
             ),
-            contentPadding: EdgeInsets.fromLTRB(0, 10, 10, 0),
-            hintText: 'I love creating softwares and also love...',
+            contentPadding: EdgeInsets.fromLTRB(0, 25, 10, 0),
+            // hintText: '120cm',
             hintStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w300,
@@ -836,6 +1018,8 @@ class _EditScreenState extends State<EditScreen> {
         ),
       ],
     );
+    } else if(widget.editValue == "Date of birth"){
+      return dateOfBirth();
     } else if(widget.editValue == "Bio"){
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -849,6 +1033,10 @@ class _EditScreenState extends State<EditScreen> {
           ),
         ),
         TextField(
+          style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+            ),
           controller: editController,
           cursorColor: const Color.fromRGBO(154, 34, 240, 1),
           autofocus: true,
@@ -861,8 +1049,8 @@ class _EditScreenState extends State<EditScreen> {
                 color: Color.fromRGBO(154, 34, 240, 1),
               ),
             ),
-            contentPadding: EdgeInsets.fromLTRB(0, 10, 10, 0),
-            hintText: 'The man who does not read has no advantage over the man who can not read',
+            contentPadding: EdgeInsets.fromLTRB(0, 25, 10, 0),
+            // hintText: 'The man who does not read has no advantage over the man who can not read',
             hintStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w300,
