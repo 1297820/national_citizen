@@ -65,26 +65,6 @@ Future<dynamic> logInRequest(String nin, String password) async {
   }
 }
 
-// Future<dynamic> profileRequest() async {
-//   try {
-//     Response response;
-//     Dio dio = Dio();
-
-//     response = await dio.post(
-//         "$endpointUrl/profile/view_profile",
-//         data: json.encode({
-//           "token": getX.read(user_details.GETX_TOKEN),
-//         }),
-//         options: Options(headers: {"Content-Type": "application/json"}));
-
-//     print(response.data);
-
-//     return response.data;
-//   } catch (e) {
-//     // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
-//   }
-// }
-
 Future<dynamic> profileRequest() async {
   try {
     print("start signUp");
@@ -154,35 +134,6 @@ Future<dynamic> usersProfileRequest(token, userId) async {
   }
 }
 
-// Future<dynamic> editImage(filepath) async {
-//   try {
-//     http.Client client = http.Client();
-//     var postUri = Uri.parse("/profile/edit_profile");
-//     var response = http.MultipartRequest("POST", postUri);
-//     response.fields['token'] = getX.read(user_details.GETX_TOKEN);
-//
-//     response
-//       .files.add(
-//         await http.MultipartFile.fromPath('img', filepath),
-//       );
-//     response.send().then((response) {
-
-//       print("^^^^^^^^^^ ${response.statusCode}");
-//     });
-
-//     // dynamic decodedResponse =
-//     //     jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-//     // print("###### $decodedResponse");
-//     // if (decodedResponse["status"] == "ok") {
-//     //   getX.write(user_details.GETX_NAME, decodedResponse["user"]["name"]);
-//     //   print(getX.read(user_details.GETX_NAME));
-//     // }
-//     // return decodedResponse;
-//   } catch (e) {
-//     print(e);
-//     // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
-//   }
-// }
 
 Future<dynamic> editName(name) async {
   try {

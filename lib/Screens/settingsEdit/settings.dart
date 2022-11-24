@@ -3,8 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:national_citizen/Screens/startScreen.dart';
 import 'package:national_citizen/main.dart';
 import 'package:national_citizen/utils/apirequest.dart';
-import 'package:national_citizen/utils/constants.dart';
-
+import 'package:share_plus/share_plus.dart';
 import '../../customwidgets.dart';
 
 // ignore: must_be_immutable
@@ -53,23 +52,17 @@ class SettingsScreen extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       if (index == 0) {
-                        // Navigator.of(context).push(
-                        //     MaterialPageRoute(builder: (context) => MyAccount()));
+                        Share.share("invite a friend");
                       } else if (index == 1) {
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //     builder: (context) => Notifications()));
+                        Share.share("We help you connect with people");
                       } else if (index == 2) {
-                        // Navigator.of(context).push(
-                        //     MaterialPageRoute(builder: (context) => Security()));
+                        Share.share("Get help here");
                       } else if (index == 3) {
                         _showMyDialog(context);
-                        // Navigator.of(context).push(
-                        //     MaterialPageRoute(builder: (context) => AboutUs()));
                       }
                     },
                     child: Container(
                       width: double.infinity,
-                      // height: 54,
                       decoration: BoxDecoration(
                         boxShadow: const [
                           BoxShadow(
@@ -80,7 +73,6 @@ class SettingsScreen extends StatelessWidget {
                           ),
                         ],
                         borderRadius: BorderRadius.circular(4),
-                        // shape: BoxShape.circle,
                         color: const Color.fromRGBO(255, 255, 255, 1),
                       ),
                       child: Padding(

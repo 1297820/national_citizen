@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:national_citizen/customwidgets.dart';
-import 'package:national_citizen/main.dart';
 import 'package:national_citizen/utils/apirequest.dart';
-import 'package:national_citizen/utils/constants.dart';
 
 // ignore: must_be_immutable
 class EditScreen extends StatefulWidget {

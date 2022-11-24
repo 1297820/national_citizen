@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:national_citizen/Screens/botNavBarScreen/bottomNavBar.dart';
 import 'package:national_citizen/Screens/settingsEdit/editScreen.dart';
 import 'package:national_citizen/main.dart';
 import 'package:national_citizen/utils/apirequest.dart';
@@ -98,7 +97,6 @@ class EditProfileScreen extends StatelessWidget {
                             ),
                           ],
                           borderRadius: BorderRadius.circular(4),
-                          // shape: BoxShape.circle,
                           color: const Color.fromRGBO(255, 255, 255, 1),
                         ),
                         child: Padding(
@@ -137,7 +135,6 @@ class EditProfileScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              // const Spacer(),
                               const Flexible(
                                 flex: 1,
                                 child: Icon(

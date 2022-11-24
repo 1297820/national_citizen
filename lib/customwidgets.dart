@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:national_citizen/main.dart';
 import 'package:national_citizen/utils/apirequest.dart';
-import 'package:national_citizen/utils/constants.dart';
 
 class PasswordCustomTextField extends StatelessWidget {
   PasswordCustomTextField(
@@ -317,86 +315,6 @@ class _GenderState extends State<Gender> {
   }
 }
 
-// class Interests extends StatefulWidget {
-//   const Interests({Key? key}) : super(key: key);
-
-//   @override
-//   State<Interests> createState() => _Interests();
-// }
-
-// class _Interests extends State<Interests> {
-//   final interest = [
-//     "Animation",
-//     "Art",
-//     "Baking",
-//     "Blogging",
-//     "Cooking",
-//     "Dancing",
-//     "Drama",
-//     "Editing",
-//     "Fashion",
-//     "Hacking"
-//   ];
-
-//   String? values;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       height: 39,
-//       width: MediaQuery.of(context).size.width,
-//       child: DropdownButton<String>(
-//         hint: const Text(
-//           '',
-//           style: TextStyle(
-//             fontSize: 14,
-//             fontWeight: FontWeight.w300,
-//             color: Color.fromRGBO(0, 0, 0, 0.7),
-//           ),
-//         ),
-//         value: values,
-//         items: interest.map(buildItem).toList(),
-//         icon: Padding(
-//           padding:
-//               EdgeInsets.only(left: MediaQuery.of(context).size.width / 1.55),
-//           child: const Icon(
-//             Icons.keyboard_arrow_down_outlined,
-//             color: Color.fromRGBO(0, 0, 0, 0.7),
-//             size: 22,
-//           ),
-//         ),
-//         onChanged: (value) {
-//           setState(() {
-//             values = value;
-//             getX.write(user_details.GETX_STATUS, values);
-//             // getX.write('state', values);
-//           });
-//         },
-//       ),
-//     );
-//   }
-
-  // DropdownMenuItem<String> buildItem(String item) {
-  //   return DropdownMenuItem(
-  //     value: item,
-  //     child: Row(
-  //       children: [
-  //         const SizedBox(
-  //           width: 9.17,
-  //         ),
-  //         Text(
-  //           item,
-  //           style: const TextStyle(
-  //             fontSize: 14,
-  //             fontWeight: FontWeight.w400,
-  //             color: Color.fromRGBO(0, 0, 0, 0.7),
-  //           ),
-  //         ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 void showToast(msg, backgroundColor) {
   Fluttertoast.showToast(

@@ -20,8 +20,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
   int current_index = 0;
 
   // ignore: non_constant_identifier_names
+  // THe 'update_index' function updates and rerender the "current_index" variable with the current "value" 
   void update_index(int value) {
-    
     setState(() {
       current_index = value;
     });
@@ -37,6 +37,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    //The list "screens" containers the widget of all screens to be accessed from the bottomNavBar
     List<Widget> screens = [
       const HomeScreen(),
       const SearchScreen(),

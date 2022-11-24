@@ -3,21 +3,9 @@ import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class PostScreen extends StatefulWidget {
+class PostScreen extends StatelessWidget {
   PostScreen({Key? key, required this.content}) : super(key: key);
   dynamic content;
-
-  @override
-  State<PostScreen> createState() => _PostScreenState();
-}
-
-class _PostScreenState extends State<PostScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print('!!!!!!!!!!!! ${widget.content}');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +56,7 @@ class _PostScreenState extends State<PostScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.content["source"]["name"],
+                        content["source"]["name"],
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
@@ -78,7 +66,7 @@ class _PostScreenState extends State<PostScreen> {
                       Row(
                         children: [
                           Text(
-                            widget.content["publishedAt"]
+                            content["publishedAt"]
                                 .toString()
                                 .substring(0, 10),
                             style: const TextStyle(
@@ -91,7 +79,7 @@ class _PostScreenState extends State<PostScreen> {
                             width: 10,
                           ),
                           Text(
-                            "${widget.content["publishedAt"].toString().substring(11, 16)} ${int.parse(widget.content["publishedAt"].toString().substring(11, 13)) > 11.99 ? 'PM' : 'AM'}",
+                            "${content["publishedAt"].toString().substring(11, 16)} ${int.parse(content["publishedAt"].toString().substring(11, 13)) > 11.99 ? 'PM' : 'AM'}",
                             style: const TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w300,
@@ -124,7 +112,7 @@ class _PostScreenState extends State<PostScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                widget.content["urlToImage"].toString() ==
+                                content["urlToImage"].toString() ==
                                         "null"
                                     ? Container(
                                         width: double.infinity,
@@ -150,7 +138,7 @@ class _PostScreenState extends State<PostScreen> {
                                               218, 218, 218, 0.4),
                                           image: DecorationImage(
                                             image: CachedNetworkImageProvider(
-                                              widget.content["urlToImage"],
+                                              content["urlToImage"],
                                             ),
                                             fit: BoxFit.fill,
                                           ),
@@ -160,7 +148,7 @@ class _PostScreenState extends State<PostScreen> {
                                   height: 10,
                                 ),
                                 Text(
-                                  widget.content["title"],
+                                  content["title"],
                                   textAlign: TextAlign.start,
                                   style: const TextStyle(
                                     fontSize: 14,
@@ -171,7 +159,7 @@ class _PostScreenState extends State<PostScreen> {
                                   height: 20,
                                 ),
                                 Text(
-                                  widget.content["description"],
+                                  content["description"],
                                   textAlign: TextAlign.start,
                                   style: const TextStyle(
                                     fontSize: 11,
@@ -179,7 +167,7 @@ class _PostScreenState extends State<PostScreen> {
                                   ),
                                 ),
                                 Text(
-                                  widget.content["content"],
+                                  content["content"],
                                   textAlign: TextAlign.start,
                                   style: const TextStyle(
                                     fontSize: 11,
@@ -191,9 +179,7 @@ class _PostScreenState extends State<PostScreen> {
                           ],
                         ),
                       ),
-                      // const Spacer(),
                       Container(
-                        // height: 20,
                         decoration: const BoxDecoration(
                           color: Color.fromRGBO(219, 227, 255, 1),
                           borderRadius: BorderRadius.only(
@@ -207,7 +193,8 @@ class _PostScreenState extends State<PostScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Share.share(widget.content["url"]);
+                                  //This was gotten from the Share plugIn which helps us share files across apps
+                                  Share.share(content["url"]);
                                 },
                                 child: const Icon(
                                   Icons.share,

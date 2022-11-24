@@ -16,12 +16,15 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  TextEditingController ninController = TextEditingController();
+  TextEditingController ninController = TextEditingController(); 
   TextEditingController passwordController = TextEditingController();
+  // THe ninController and passwordController contains the nin and password inputs
   bool value = false;
   bool _obscureText = true;
   int loadingState = 0;
 
+  //This function acts as the waiter in a resturant and sends the users request to logIn into his already created account
+  //then returns a feedback, either the request was succeccful or not.
   logInFunction() async {
     print('******** rannnnnn');
     Map<String, dynamic> response;
@@ -29,8 +32,10 @@ class _SignInScreenState extends State<SignInScreen> {
       ninController.text.toString().trim(),
       passwordController.text.toString().trim(),
     );
+    //The variable 'response' contains the feedback from the back end 
     if (response["status"] == "ok" &&
         response["msg"] == "Successfully logged in") {
+      //If the request was successful, everthing within this block of code should be executed
       setState(() {
         loadingState = 2;
       });
@@ -54,6 +59,7 @@ class _SignInScreenState extends State<SignInScreen> {
           MaterialPageRoute(builder: (context) => BottomNavBar()),
           (route) => false);
     } else {
+      //If not, this should be executed instead
       showToast(response['msg'], Colors.red[700]);
       setState(() {
         loadingState = 0;
@@ -80,7 +86,7 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
@@ -153,21 +159,12 @@ class _SignInScreenState extends State<SignInScreen> {
                  if (ninController.text.isEmpty || passwordController.text.isEmpty){
                    showToast('All field must field', Colors.red[700]);
                  }
-                //   else if (ninController.text.length != 11) {
-                // }
                  else {
                   setState(() {
                     loadingState = 1;
                   });
                   logInFunction();
                   }
-                  // _showMyDialog();
-                  // showMyDialog(
-                  //   context: context,
-                  //   text: 'Network Error',
-                  //   content:
-                  //       "Couldn't connect to database, Connect to the internet",
-                  //   buttonText: 'Try again');
                 },
               ),
               const SizedBox(
@@ -203,7 +200,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ],
               ),
-              // const Spacer()
             ],
           ),
         ),
@@ -211,6 +207,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  //This function displays an alert dialog on our screen but it's currently not in use
   _showMyDialog() {
     return showDialog<void>(
       context: context,

@@ -1,12 +1,6 @@
-import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:national_citizen/Screens/settingsEdit/editProfileScreen.dart';
-import 'package:national_citizen/Screens/settingsEdit/settings.dart';
 import 'package:national_citizen/utils/apirequest.dart';
-import 'package:national_citizen/utils/constants.dart';
-import '../../main.dart';
 
 class UsersProfileScreen extends StatefulWidget {
   UsersProfileScreen({Key? key, required this.token, required this.userId})
@@ -23,17 +17,10 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print(widget.userId);
     profile = usersProfileRequest(widget.token, widget.userId);
-    // usersFunction();
   }
-
-  // usersFunction() async {
-  //   // Map<String, dynamic> response;
-  //   return profile = await usersProfileRequest(widget.token, widget.userId);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +193,6 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                               ),
                             ],
                             borderRadius: BorderRadius.circular(8),
-                            // shape: BoxShape.circle,
                             color: const Color.fromRGBO(255, 255, 255, 1),
                           ),
                           child: Padding(
@@ -335,81 +321,60 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SizedBox(
+                                  Container(
                                     width: 98,
                                     height: 28,
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                            const Color.fromRGBO(
-                                                233, 34, 178, 0.5),
-                                          ),
-                                          elevation:
-                                              MaterialStateProperty.all<double>(
-                                                  0)),
-                                      onPressed: () {},
-                                      child: Text(
-                                        users['user']['interest'].toString() == '[]'
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(233, 34, 178, 0.5),
+                                      borderRadius: BorderRadius.circular(3)
+                                    ),
+                                    child: Text(
+                                      users['user']['interest'].toString() ==
+                                              '[]'
                                           ? "interest 1"
                                           : users['user']['interest'][0],
-                                        style: const TextStyle(
-                                          fontSize: 11.75,
-                                          fontWeight: FontWeight.w300,
-                                          color: Color.fromRGBO(0, 0, 0, 0.4),
-                                        ),
+                                      style: const TextStyle(
+                                        fontSize: 11.75,
+                                        fontWeight: FontWeight.w300,
+                                        color: Color.fromRGBO(0, 0, 0, 0.4),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  Container(
                                     width: 98,
                                     height: 28,
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                            const Color.fromRGBO(
-                                                161, 34, 206, 0.5),
-                                          ),
-                                          elevation:
-                                              MaterialStateProperty.all<double>(
-                                                  0)),
-                                      onPressed: () {},
-                                      child: Text(
-                                        users['user']['interest'].toString() == '[]'
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(161, 34, 206, 0.5),
+                                      borderRadius: BorderRadius.circular(3)
+                                    ),
+                                    child: Text(
+                                      users['user']['interest'].toString() ==
+                                              '[]'
                                           ? "interest 2"
                                           : users['user']['interest'][1],
-                                        style: const TextStyle(
-                                            fontSize: 11.75,
-                                            fontWeight: FontWeight.w300,
-                                            color:
-                                                Color.fromRGBO(0, 0, 0, 0.4)),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 98,
-                                    height: 28,
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                            const Color.fromRGBO(
-                                                38, 34, 233, 0.6),
-                                          ),
-                                          elevation:
-                                              MaterialStateProperty.all<double>(
-                                                  0)),
-                                      onPressed: () {},
-                                      child: Text(
-                                        users['user']['interest'].toString() == '[]'
-                                          ? "interest 3"
-                                          : users['user']['interest'][2],
-                                        style: const TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 11.75,
                                           fontWeight: FontWeight.w300,
-                                          color: Color.fromRGBO(0, 0, 0, 0.4),
-                                        ),
+                                          color:
+                                              Color.fromRGBO(0, 0, 0, 0.4)),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 98,
+                                    height: 28,
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(38, 34, 233, 0.6),
+                                      borderRadius: BorderRadius.circular(3)
+                                    ),
+                                    child: Text(
+                                      users['user']['interest'].toString() ==
+                                              '[]'
+                                          ? "interest 3"
+                                          : users['user']['interest'][2],
+                                      style: const TextStyle(
+                                        fontSize: 11.75,
+                                        fontWeight: FontWeight.w300,
+                                        color: Color.fromRGBO(0, 0, 0, 0.4),
                                       ),
                                     ),
                                   ),
@@ -547,6 +512,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
   }
 }
 
+//Help builds a gradient color to be applied on an icon
 class RadiantGradientMask extends StatelessWidget {
   // ignore: use_key_in_widget_constructors
   const RadiantGradientMask({required this.child});

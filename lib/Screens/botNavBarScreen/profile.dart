@@ -31,23 +31,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     profileDetails = profileRequest();
-    print(" name  ${getX.read(user_details.GETX_NAME)}");
-    print(" interest  ${getX.read(user_details.GETX_INTEREST)}");
-    // profileFunction();
-    
   }
-
+  
+  //Wiith the help of the "ImagePicker" plugIn, we can select images either from our gallery or camera roll
   Future pickImage(ImageSource imageSource) async {
     try {
       final image = await ImagePicker().pickImage(source: imageSource);
       if (image == null) return;
 
       imageTemporary = File(image.path);
-      print('!! Rannn');
-      editImage(imageTemporary);
+      setProfileImage(imageTemporary);
       setState(() {
         this.image = imageTemporary;
-        // getX.write(user_details.GETX_IMAGE, this.image);
       });
       return setState(() {});
     } catch (e) {
@@ -55,6 +50,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+
+  //This function helps build the bottomSheet which contains the option to either select image from
+  //from camera roll or gallery.
   setProfilePicture(BuildContext context) {
     return showModalBottomSheet(
       context: context,
@@ -153,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Future editImage(File profilepic) async {
+  Future setProfileImage(File profilepic) async {
     try {
       setState(() {
         loadingState = true;
@@ -201,11 +199,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             loadingState = false;
           });
           showToast('Some Error occured', Colors.red[700]);
-          // myWidgets.showSnackbar(
-          // message: "An error occured", color: Colors.red);
         }
       });
-      // return res;
     } catch (e) {
       print(e);
       setState(() {
@@ -215,35 +210,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-
-  profileFunction() async {
-    print('******** rannnnnn');
-    // profileDetails = await profileRequest();
-    // print(profileDetails.runtimeType);
-    // Map<String, dynamic> response;
-    // response = await profileRequest();
-    // if (response["status"] == "ok") {
-    //   getX.write(user_details.GETX_IMAGE, response['user']["img"]);
-    //   getX.write(user_details.GETX_NAME, response['user']["name"]);
-    //   print(" name updated  ${getX.read(user_details.GETX_NAME)}");
-    //   getX.write(user_details.GETX_STATUS, response['user']["status"]);
-    //   getX.write(user_details.GETX_ADDRESS, response['user']["address"]);
-    //   getX.write(user_details.GETX_PHONE_NUMBER, response['user']["phone"]);
-    //   getX.write(user_details.GETX_EMAIL, response['user']["email"]);
-    //   getX.write(user_details.GETX_DOB, response['user']["date_of_birth"]);
-    //   getX.write(user_details.GETX_OCCUPATION, response['user']["occupation"]);
-    //   getX.write(user_details.GETX_GENDER, response['user']["gender"]);
-    //   getX.write(user_details.GETX_HEIGHT, response['user']["height"]);
-    //   getX.write(user_details.GETX_INTEREST, response['user']["interest"]);
-    //   getX.write(user_details.GETX_BIO, response['user']["bio"]);
-    // } else {
-    //   // showToast(response["msg"]);
-    // }
-  }
-
   @override
   Widget build(BuildContext context) {
-    // profileFunction();
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
@@ -298,7 +266,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         future: profileDetails,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.none) {
-            return const FlutterLogo();
+            return const SizedBox();
           } else if (snapshot.connectionState == ConnectionState.waiting) {
           } else if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {
@@ -313,66 +281,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ? ''
                       : 
                       getX.read(user_details.GETX_IMAGE),
-                  // details['user']["img"],
                   getX.read(user_details.GETX_NAME).toString().isEmpty
                       ? 'Name'
                       : getX.read(user_details.GETX_NAME),
-                  // details['user']["name"].toString().isEmpty ? 'Name': details['user']["name"],
-                  // details['user']["status"].toString().isEmpty
-                  //     ? 'status'
-                  //     : details['user']["status"],
                   getX.read(user_details.GETX_STATUS).toString().isEmpty
                       ? 'status'
                       : getX.read(user_details.GETX_STATUS),
-                  // details['user']["height"].toString().isEmpty
-                  // ? 'in cm'
-                  // : details['user']["height"],
                   getX.read(user_details.GETX_HEIGHT).toString().isEmpty
                       ? 'in cm'
                       : getX.read(user_details.GETX_HEIGHT),
-                  // details['user']["gender"].toString().isEmpty
-                  //     ? 'F/M'
-                  //     : details['user']["gender"],
                   getX.read(user_details.GETX_GENDER).toString().isEmpty
                       ? 'F/M'
                       : getX.read(user_details.GETX_GENDER),
-                  // details['user']["date_of_birth"].toString().isEmpty
-                  //     ? 'DD/MM/YY'
-                  //     : details['user']["date_of_birth"],
                   getX.read(user_details.GETX_DOB).toString().isEmpty
                       ? 'DD/MM/YY'
                       : getX.read(user_details.GETX_DOB),
-                  // details['user']['bio'].toString().isEmpty
-                  //     ? 'Tell us something about yourself'
-                  //     : details['user']['bio'],
                   getX.read(user_details.GETX_BIO).toString().isEmpty
                       ? 'Tell us something about yourself'
                       : getX.read(user_details.GETX_BIO),
-                  // getX.read(user_details.GETX_INTEREST).toString().isEmpty
-                  //     ? ''
-                  //     :
-                       getX.read(user_details.GETX_INTEREST),
-                  // details['user']['occupation'].toString().isEmpty
-                  //     ? 'What do you do'
-                  //     : details['user']['occupation'],
+                  getX.read(user_details.GETX_INTEREST),
                   getX.read(user_details.GETX_OCCUPATION).toString().isEmpty
                       ? 'What do you do'
                       : getX.read(user_details.GETX_OCCUPATION),
-                  // details['user']['address'].toString().isEmpty
-                  //     ? 'Where do you live'
-                  //     : details['user']['address'],
                   getX.read(user_details.GETX_ADDRESS).toString().isEmpty
                       ? 'Where do you live'
                       : getX.read(user_details.GETX_ADDRESS),
-                  // details['user']['phone'].toString().isEmpty
-                  //     ? 'Your phone number'
-                  //     : details['user']['phone'],
                   getX.read(user_details.GETX_PHONE_NUMBER).toString().isEmpty
                       ? 'Your phone number'
                       : getX.read(user_details.GETX_PHONE_NUMBER),
-                  // details['user']['email'].toString().isEmpty
-                  //     ? 'Your email address'
-                  //     : details['user']['email'],
                   getX.read(user_details.GETX_EMAIL).toString().isEmpty
                       ? 'Your email address'
                       : getX.read(user_details.GETX_EMAIL),
@@ -380,6 +316,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               }
             }
           }
+          //What displays when device is connected to the internet and before data is been fetched
           return profileBody(
             getX.read(user_details.GETX_IMAGE).toString().isEmpty
                 ? ''
@@ -403,10 +340,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             getX.read(user_details.GETX_BIO).toString().isEmpty
                 ? 'Tell us something about yourself'
                 : getX.read(user_details.GETX_BIO),
-            // getX.read(user_details.GETX_INTEREST).toString().isEmpty
-            //     ? ''
-            //     : 
-                getX.read(user_details.GETX_INTEREST),
+            getX.read(user_details.GETX_INTEREST),
             getX.read(user_details.GETX_OCCUPATION).toString().isEmpty
                 ? 'What do you do'
                 : getX.read(user_details.GETX_OCCUPATION),
@@ -425,6 +359,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  //This function contains the widget that builds the contents/structure of the user profile page body
   profileBody(image, name, status, height, gender, dateOfBirth, bio, interest,
       occupation, address, number, email) {
     return SingleChildScrollView(
@@ -729,7 +664,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 onPressed: () {},
                                 child: Text(
                                   getX.read(user_details.GETX_INTEREST)[0],
-                                  // '',
                                   style: const TextStyle(
                                     fontSize: 11.75,
                                     fontWeight: FontWeight.w300,
@@ -752,7 +686,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 onPressed: () {},
                                 child: Text(
                                   getX.read(user_details.GETX_INTEREST)[1],
-                                  // '',
                                   style: const TextStyle(
                                       fontSize: 11.75,
                                       fontWeight: FontWeight.w300,
@@ -774,7 +707,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 onPressed: () {},
                                 child: Text(
                                   getX.read(user_details.GETX_INTEREST)[2],
-                                  // '',
                                   style: const TextStyle(
                                     fontSize: 11.75,
                                     fontWeight: FontWeight.w300,
@@ -897,6 +829,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
+//Help builds a gradient color to be applied on an icon
 class RadiantGradientMask extends StatelessWidget {
   // ignore: use_key_in_widget_constructors
   const RadiantGradientMask({required this.child});

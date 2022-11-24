@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/postScreen.dart';
 import 'package:national_citizen/main.dart';
 import 'package:national_citizen/utils/apirequest.dart';
-import 'package:national_citizen/utils/constants.dart';
 import 'package:skeletons/skeletons.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,63 +30,55 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     profilePercentage();
+    //the "feeds" varaible contains the response from the "getNewsData" function
     feeds = getNewsData(1);
-    // print('feeds >>>>>> $feeds');-
+
+    //This function helps us handle pagination
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent / 1.25) {
-        // print(">>>>>>>>>>> getMoreData");
+        //If the user scrolls down to 80% of available screen, the "_getMoreData" function should be executed
         _getMoreData();
       }
       if (_scrollController.offset >=
               _scrollController.position.minScrollExtent &&
           !_scrollController.position.outOfRange) {
+        //If user has scrolled down to the available screen data and there are no feeds to display, "setState" should be executed
         setState(() {
-          isLoadingIndicator = true;
+          isLoadingIndicator = true; // Helps render a loading widget on the buttom of the screen
         });
       }
     });
   }
 
+  //This function calculates the percentage of user profile completion 
   profilePercentage() {
     int email =
         getX.read(user_details.GETX_EMAIL).toString().isNotEmpty ? 10 : 0;
-    print("###### $email");
-    int name = getX.read(user_details.GETX_NAME).toString().isNotEmpty ? 10 : 0;
-    print("###### $name");
+    int name = 
+        getX.read(user_details.GETX_NAME).toString().isNotEmpty ? 10 : 0;
     int status =
         getX.read(user_details.GETX_STATUS).toString().isNotEmpty ? 5 : 0;
-    print("###### $status");
     int address =
         getX.read(user_details.GETX_ADDRESS).toString().isNotEmpty ? 10 : 0;
-    print("###### $address");
     int phoneNumber =
-        getX.read(user_details.GETX_PHONE_NUMBER).toString().isNotEmpty
-            ? 10
-            : 0;
-    print("###### $phoneNumber");
+        getX.read(user_details.GETX_PHONE_NUMBER).toString().isNotEmpty ? 10 : 0;
     int dateOfBirth =
         getX.read(user_details.GETX_DOB).toString().isNotEmpty ? 10 : 0;
-    print("###### $dateOfBirth");
     int occupation =
         getX.read(user_details.GETX_OCCUPATION).toString().isNotEmpty ? 10 : 0;
-    print("###### $occupation");
     int gender =
         getX.read(user_details.GETX_GENDER).toString().isNotEmpty ? 10 : 0;
-    print("###### $gender");
     int height =
         getX.read(user_details.GETX_HEIGHT).toString().isNotEmpty ? 5 : 0;
-    print("###### $height");
-
     int interest =
         getX.read(user_details.GETX_INTEREST).toString() == '[]' ? 0 : 5;
-    print("###### $interest");
-    int bio = getX.read(user_details.GETX_BIO).toString().isNotEmpty ? 5 : 0;
-    print("###### $bio");
+    int bio = 
+        getX.read(user_details.GETX_BIO).toString().isNotEmpty ? 5 : 0;
     int image =
         getX.read(user_details.GETX_IMAGE).toString().isNotEmpty ? 10 : 0;
-    print("###### $image");
     setState(() {
+
       value = (email +
               name +
               status +
@@ -154,7 +145,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           Color.fromRGBO(156, 34, 237, 1),
                         ),
-                        // color: const Color.fromRGBO(153, 34, 240, 1),
                         backgroundColor: const Color.fromRGBO(211, 211, 211, 1),
                       ),
                     ],
@@ -260,7 +250,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           physics: const BouncingScrollPhysics(),
                           itemCount: news.length,
                           itemBuilder: (context, int i) {
-                            // print('Image URI ******** ${news[i]["urlToImage"]}');
                             return Column(
                               children: [
                                 GestureDetector(
@@ -379,9 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ],
                                             ),
                                           ),
-                                          // const Spacer(),
                                           Container(
-                                            // height: 80,
                                             decoration: const BoxDecoration(
                                               color: Color.fromRGBO(
                                                   219, 227, 255, 1),
@@ -466,7 +453,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   }
                 }
-                //What displays when device is connected to the internet before data is been fetched
+                //What displays when device is connected to the internet and before data is been fetched
                 return Expanded(
                   child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
@@ -509,8 +496,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: SkeletonAvatarStyle(
                                         width: 100,
                                         height: 100,
-                                        // maxHeight:
-                                        //     MediaQuery.of(context).size.height / 3,
                                       ),
                                     ),
                                   ),
@@ -554,6 +539,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // This widget builds a loading Indicator
   Widget _buildProgressIndicator() {
     return isLoadingIndicator
         ? const Padding(
@@ -565,13 +551,12 @@ class _HomeScreenState extends State<HomeScreen> {
         : const SizedBox();
   }
 
+  //This function gets more news content from the server
   void _getMoreData() async {
     if (!isLoading && _hasNextPage) {
       setState(() {
         isLoading = true;
       });
-
-      // print("######### Is getting more data");
 
       pageIndex += 1;
       var response = await https
@@ -582,7 +567,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
       dynamic decodedResponse =
           jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      // print("######### Has gotten more data");
 
       if (decodedResponse['status'] == 'ok') {
         List<dynamic> tempList = <dynamic>[];
@@ -592,9 +576,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
 
         if (tempList.isNotEmpty) {
-          // print('>>>>>>>>LENGTH OF LIST>>>>>>>>>>>>>>> ${tempList.length} ');
           if (tempList.length == 10) {
-            // print('>>>>>>>>>>>>>>>>>>>>>>>  ADDING ${tempList.length} ');
             setState(() {
               isLoading = false;
               news.addAll(tempList);

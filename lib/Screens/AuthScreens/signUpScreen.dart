@@ -20,12 +20,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController ninController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  // THe ninController, passwordController and emailController contains the nin, password and email inputs
   bool value = false;
   bool _obscureText = true;
   int loadingState = 0;
   bool errorText = false;
 
   // ignore: non_constant_identifier_names
+  //This function acts as the waiter in a resturant and sends the users request to signUp thereby creating an account
+  //then returns a feedback, either the request was succeccful or not.
   SignUpFunction() async {
     print('******** rannnnnn');
     Map<String, dynamic> response;
@@ -34,8 +37,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ninController.text.toString().trim(),
       passwordController.text.toString().trim(),
     );
+     //The variable 'response' contains the feedback from the back end 
     if (response["status"] == "ok" &&
         response["msg"] == "Successfully created user") {
+      //If the request was successful, everthing within this block of code should be executed
       setState(() {
         loadingState = 2;
       });
@@ -59,6 +64,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         (route) => false,
       );
     } else {
+      //If not, this should be executed instead
       showToast(response['msg'], Colors.red[700]);
       setState(() {
         loadingState = 0;
@@ -85,7 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
@@ -238,11 +244,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(
                 height: 120,
               ),
+              //The 'CustomButton' is a Widget manually created by us
               CustomButton(
                 loadingState: loadingState,
                 width: 230,
                 text: 'Sign Up',
                 onpressed: () {
+                  //Everthing with in this function should run at the point this button is been tapped
                   if (ninController.text.isEmpty ||
                       emailController.text.isEmpty ||
                       passwordController.text.isEmpty) {
@@ -254,6 +262,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   } else if (!value) {
                     showToast("Accept terms of usage", Colors.red[700]);
                   } else {
+                    // If all conditions required to successfully signUp has been met, then execute everthing 
+                    // in this block of code
                     setState(() {
                       loadingState = 1;
                     });
@@ -308,14 +318,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-
-  // String? _errorText() {
-  //   if (ninController.text.length != 11 && ninController.text.isNotEmpty) {
-  //     return 'NIN must be 11 digits long';
-  //   } else if (ninController.text.isEmpty) {
-  //     return null;
-  //   }
-  // }
 
   @override
   void dispose() {

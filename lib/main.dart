@@ -3,7 +3,6 @@ import 'package:national_citizen/Screens/botNavBarScreen/bottomNavBar.dart';
 import 'package:national_citizen/Screens/startScreen.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:national_citizen/utils/apirequest.dart';
-import 'package:national_citizen/utils/constants.dart';
 
 final getX = GetStorage();
 
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'National Citizen',
+      title: 'Connect U',
       theme: ThemeData(
         fontFamily: "Poppins"
       ),
