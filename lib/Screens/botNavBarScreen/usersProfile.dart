@@ -18,7 +18,6 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
   @override
   void initState() {
     super.initState();
-    print(widget.userId);
     profile = usersProfileRequest(widget.token, widget.userId);
   }
 
@@ -57,7 +56,6 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
             if (snapshot.hasError) {
             } else if (snapshot.hasData) {
               dynamic users = snapshot.data;
-              print('Users >>>>>>> $users');
               if (users["status"] == "error") {
                 return const CircularProgressIndicator();
               } else if (users["status"] == "ok") {

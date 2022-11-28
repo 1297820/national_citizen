@@ -29,7 +29,6 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    print('date    $date');
 
     if (date <= 7) {
       week_N = 1;
@@ -42,7 +41,6 @@ class _SearchScreenState extends State<SearchScreen> {
     } else {
       week_N = 5;
     }
-    print('week_N>>>>>>>> $week_N');
   }
 
   //Creates a popup menu for our sort search options

@@ -105,7 +105,6 @@ class _EditScreenState extends State<EditScreen> {
                                           interests.remove(interest[index]);
                                         }
                                       }
-                                      print(interests.join(','));
                                     },
                                     child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,7 +154,6 @@ class _EditScreenState extends State<EditScreen> {
                                                       interests.remove(interest[index]);
                                                     }
                                                   }
-                                                  print(interests.join(','));
                                                 },
                                                 fillColor: MaterialStateProperty.all<Color>(
                                                   const Color.fromRGBO(246, 232, 251, 1),
@@ -192,7 +190,6 @@ class _EditScreenState extends State<EditScreen> {
                     loadingState = 1;
                 });
                 dynamic response = await editInterest(interests.join(','));
-                print(response);
                 if(response["status"] == "ok"){
                   setState(() {
                     loadingState = 2;
@@ -262,10 +259,8 @@ class _EditScreenState extends State<EditScreen> {
                           setState(() {
                             loadingState = 1;
                           });
-                          print(widget.editValue);
                           if(widget.editValue == 'Name'){
                             dynamic response = await editName(editController.text.toString().trim());
-                            print(response);
                             if(response["status"] == "ok"){
                               setState(() {
                                 loadingState = 2;
@@ -287,7 +282,6 @@ class _EditScreenState extends State<EditScreen> {
                             }
                           } else if(widget.editValue == 'Status'){
                             dynamic response = await editStatus();
-                            print(response);
                             if(response["status"] == "ok"){
                               setState(() {
                                 loadingState = 2;
@@ -309,7 +303,6 @@ class _EditScreenState extends State<EditScreen> {
                             }
                           } else if(widget.editValue == "Address"){
                             dynamic response = await editAddress(editController.text.toString().trim());
-                            print(response);
                             if(response["status"] == "ok"){
                               setState(() {
                                 loadingState = 2;
@@ -338,7 +331,6 @@ class _EditScreenState extends State<EditScreen> {
 
                             } else {
                               dynamic response = await editPhoneNumber(editController.text.toString().trim());
-                              print(response);
                               if(response["status"] == "ok"){
                                 setState(() {
                                   loadingState = 2;
@@ -361,7 +353,6 @@ class _EditScreenState extends State<EditScreen> {
                             
                           } else if(widget.editValue == "Email"){
                             dynamic response = await editEmail(editController.text.toString().trim());
-                            print(response);
                             if(response["status"] == "ok"){
                               setState(() {
                                 loadingState = 2;
@@ -383,7 +374,6 @@ class _EditScreenState extends State<EditScreen> {
                           } else if(widget.editValue == "Date of birth"){
                             //Check this guy out
                             dynamic response = await editDateOfBirth("$day/$month/$year");
-                            print(response);
                             if(response["status"] == "ok"){
                               setState(() {
                                 loadingState = 2;
@@ -405,7 +395,6 @@ class _EditScreenState extends State<EditScreen> {
                             }
                           } else if(widget.editValue == "Occupation"){
                             dynamic response = await editOccupation(editController.text.toString().trim());
-                            print(response);
                             if(response["status"] == "ok"){
                               setState(() {
                                 loadingState = 2;
@@ -427,7 +416,6 @@ class _EditScreenState extends State<EditScreen> {
                             }
                           } else if(widget.editValue == "Gender"){
                             dynamic response = await editGender();
-                            print(response);
                             if(response["status"] == "ok"){
                               setState(() {
                                 loadingState = 2;
@@ -449,7 +437,6 @@ class _EditScreenState extends State<EditScreen> {
                             }
                           } else if(widget.editValue == "Height"){
                             dynamic response = await editHeight(editController.text.toString().trim());
-                            print(response);
                             if(response["status"] == "ok"){
                               setState(() {
                                 loadingState = 2;
@@ -470,32 +457,9 @@ class _EditScreenState extends State<EditScreen> {
                               );
                             }
                           } 
-                          // else if(widget.editValue == "Interest"){
-                            // dynamic response = await editInterest(editController.text.toString().trim());
-                            // print(response);
-                            // if(response["status"] == "ok"){
-                            //   setState(() {
-                            //     loadingState = 2;
-                            //   });
-                            //   showMyDialog(context: context, text: 'Done', titleSize: 22, content: 'Successfully updated your profile', buttonText: 'OK', contentTextSize: 12,);
-                            // } else {
-                            //   setState(() {
-                            //     loadingState = 0;
-                            //   });
-                            //   showMyDialog(
-                            //     context: context,
-                            //     text: 'Error',
-                            //     titleSize: 22,
-                            //     contentTextSize: 12,
-                            //     content:
-                            //         'Something went wrong, please check your internet connection and try again',
-                            //     buttonText: 'OK',
-                            //   );
-                            // }
-                          // }
+                         
                            else if(widget.editValue == "Bio"){
                             dynamic response = await editBio(editController.text.toString().trim());
-                            print(response);
                             if(response["status"] == "ok"){
                               setState(() {
                                 loadingState = 2;
@@ -591,7 +555,6 @@ class _EditScreenState extends State<EditScreen> {
         day = dateOfBirth.day;
         year = dateOfBirth.year;
         month = dateOfBirth.month;
-        print(day);
       });
     }
   }

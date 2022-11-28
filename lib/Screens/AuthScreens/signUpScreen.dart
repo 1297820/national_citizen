@@ -265,9 +265,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     setState(() {
                       loadingState = 1;
                     });
-                    // print(
-                    //     "${emailController.text.toString()} ${ninController.text.toString()} ${passwordController.text.toString()}");
-                    // print("signUp");
                     signUpFunction();
                   }
                 },
