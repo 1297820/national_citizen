@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/bottomNavBar.dart';
-import 'package:national_citizen/customwidgets.dart';
+import 'package:national_citizen/custom_widgets.dart';
 
 class PasswordResetScreen extends StatefulWidget {
   const PasswordResetScreen({Key? key}) : super(key: key);
@@ -67,7 +67,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
               height: 18,
             ),
             PasswordCustomTextField(
-              text: 'Re type password',
+              text: 'Re-type password',
               controller: confirmPasswordController,
               obscureText: _obscureText2,
               onPressed: () {

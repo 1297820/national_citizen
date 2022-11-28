@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:national_citizen/utils/apirequest.dart';
+import 'package:national_citizen/utils/api_request.dart';
 
 class UsersProfileScreen extends StatefulWidget {
   UsersProfileScreen({Key? key, required this.token, required this.userId})
@@ -166,7 +166,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                 ),
                                 Text(
                                   users['user']['status'].toString().isEmpty
-                                      ? "Status"
+                                      ? "N/A"
                                       : users['user']['status'],
                                   style: const TextStyle(
                                       fontSize: 12,
@@ -214,7 +214,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                     ),
                                     Text(
                                       users['user']['height'].toString().isEmpty
-                                          ? "In cm"
+                                          ? "N/A"
                                           : users['user']['height'],
                                       style: const TextStyle(
                                           fontSize: 12,
@@ -236,7 +236,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                     ),
                                     Text(
                                       users['user']['gender'].toString().isEmpty
-                                          ? "F/M"
+                                          ? "N/A"
                                           : users['user']['gender'],
                                       style: const TextStyle(
                                           fontSize: 12,
@@ -260,7 +260,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                       users['user']['date_of_birth']
                                               .toString()
                                               .isEmpty
-                                          ? "DD/MM/YY"
+                                          ? "N/A"
                                           : users['user']['date_of_birth'],
                                       style: const TextStyle(
                                         fontSize: 12,
@@ -295,7 +295,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                               ),
                               Text(
                                 users['user']['bio'].toString().isEmpty
-                                    ? ""
+                                    ? "No biological data available"
                                     : users['user']['bio'],
                                 style: const TextStyle(
                                   fontSize: 12,
@@ -328,15 +328,17 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                       color: const Color.fromRGBO(233, 34, 178, 0.5),
                                       borderRadius: BorderRadius.circular(3)
                                     ),
-                                    child: Text(
-                                      users['user']['interest'].toString() ==
-                                              '[]'
-                                          ? "interest 1"
-                                          : users['user']['interest'][0],
-                                      style: const TextStyle(
-                                        fontSize: 11.75,
-                                        fontWeight: FontWeight.w300,
-                                        color: Color.fromRGBO(0, 0, 0, 0.4),
+                                    child: Center(
+                                      child: Text(
+                                        users['user']['interest'].toString() ==
+                                                '[]'
+                                            ? "interest 1"
+                                            : users['user']['interest'][0],
+                                        style: const TextStyle(
+                                          fontSize: 11.75,
+                                          fontWeight: FontWeight.w300,
+                                          color: Color.fromRGBO(0, 0, 0, 0.4),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -347,16 +349,18 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                       color: const Color.fromRGBO(161, 34, 206, 0.5),
                                       borderRadius: BorderRadius.circular(3)
                                     ),
-                                    child: Text(
-                                      users['user']['interest'].toString() ==
-                                              '[]'
-                                          ? "interest 2"
-                                          : users['user']['interest'][1],
-                                      style: const TextStyle(
-                                          fontSize: 11.75,
-                                          fontWeight: FontWeight.w300,
-                                          color:
-                                              Color.fromRGBO(0, 0, 0, 0.4)),
+                                    child: Center(
+                                      child: Text(
+                                        users['user']['interest'].toString() ==
+                                                '[]'
+                                            ? "interest 2"
+                                            : users['user']['interest'][1],
+                                        style: const TextStyle(
+                                            fontSize: 11.75,
+                                            fontWeight: FontWeight.w300,
+                                            color:
+                                                Color.fromRGBO(0, 0, 0, 0.4)),
+                                      ),
                                     ),
                                   ),
                                   Container(
@@ -366,15 +370,17 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                       color: const Color.fromRGBO(38, 34, 233, 0.6),
                                       borderRadius: BorderRadius.circular(3)
                                     ),
-                                    child: Text(
-                                      users['user']['interest'].toString() ==
-                                              '[]'
-                                          ? "interest 3"
-                                          : users['user']['interest'][2],
-                                      style: const TextStyle(
-                                        fontSize: 11.75,
-                                        fontWeight: FontWeight.w300,
-                                        color: Color.fromRGBO(0, 0, 0, 0.4),
+                                    child: Center(
+                                      child: Text(
+                                        users['user']['interest'].toString() ==
+                                                '[]'
+                                            ? "interest 3"
+                                            : users['user']['interest'][2],
+                                        style: const TextStyle(
+                                          fontSize: 11.75,
+                                          fontWeight: FontWeight.w300,
+                                          color: Color.fromRGBO(0, 0, 0, 0.4),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -396,7 +402,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                               ),
                               Text(
                                 users['user']['occupation'].toString().isEmpty
-                                    ? ""
+                                    ? "Unavailable"
                                     : users['user']['occupation'],
                                 style: const TextStyle(
                                   fontSize: 12,
@@ -430,7 +436,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                   ),
                                   Text(
                                     users['user']['address'].toString().isEmpty
-                                        ? ""
+                                        ? "Unavailable"
                                         : users['user']['address'],
                                     style: const TextStyle(
                                       fontSize: 12,
@@ -455,7 +461,7 @@ class _UsersProfileScreenState extends State<UsersProfileScreen> {
                                   ),
                                   Text(
                                     users['user']['phone'].toString().isEmpty
-                                        ? ""
+                                        ? "Unavailable"
                                         : users['user']['phone'],
                                     style: const TextStyle(
                                       fontSize: 12,

@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/postScreen.dart';
 import 'package:national_citizen/main.dart';
-import 'package:national_citizen/utils/apirequest.dart';
+import 'package:national_citizen/utils/api_request.dart';
 import 'package:skeletons/skeletons.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,6 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int pageIndex = 1;
   double value = 0.0;
   int valueI = 0;
+  // int? score22;
+
   Future<dynamic>? feeds;
   List<dynamic> news = <dynamic>[];
   final ScrollController _scrollController = ScrollController();
@@ -30,39 +32,40 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     profilePercentage();
-    //the "feeds" varaible contains the response from the "getNewsData" function
+    //the "feeds" variable contains the response from the "getNewsData" function
     feeds = getNewsData(1);
 
     //This function helps us handle pagination
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent / 1.25) {
-        //If the user scrolls down to 80% of available screen, the "_getMoreData" function should be executed
+        //If the user scrolls down to 80% of the available screen, the "_getMoreData" function will be executed
         _getMoreData();
       }
       if (_scrollController.offset >=
               _scrollController.position.minScrollExtent &&
           !_scrollController.position.outOfRange) {
-        //If user has scrolled down to the available screen data and there are no feeds to display, "setState" should be executed
         setState(() {
-          isLoadingIndicator = true; // Helps render a loading widget on the buttom of the screen
+          isLoadingIndicator =
+              true; // Helps render a loading widget on the buttom of the screen
         });
       }
     });
   }
 
-  //This function calculates the percentage of user profile completion 
+  //This function calculates the percentage of user profile completion
   profilePercentage() {
     int email =
         getX.read(user_details.GETX_EMAIL).toString().isNotEmpty ? 10 : 0;
-    int name = 
-        getX.read(user_details.GETX_NAME).toString().isNotEmpty ? 10 : 0;
+    int name = getX.read(user_details.GETX_NAME).toString().isNotEmpty ? 10 : 0;
     int status =
         getX.read(user_details.GETX_STATUS).toString().isNotEmpty ? 5 : 0;
     int address =
         getX.read(user_details.GETX_ADDRESS).toString().isNotEmpty ? 10 : 0;
     int phoneNumber =
-        getX.read(user_details.GETX_PHONE_NUMBER).toString().isNotEmpty ? 10 : 0;
+        getX.read(user_details.GETX_PHONE_NUMBER).toString().isNotEmpty
+            ? 10
+            : 0;
     int dateOfBirth =
         getX.read(user_details.GETX_DOB).toString().isNotEmpty ? 10 : 0;
     int occupation =
@@ -73,12 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
         getX.read(user_details.GETX_HEIGHT).toString().isNotEmpty ? 5 : 0;
     int interest =
         getX.read(user_details.GETX_INTEREST).toString() == '[]' ? 0 : 5;
-    int bio = 
-        getX.read(user_details.GETX_BIO).toString().isNotEmpty ? 5 : 0;
+    int bio = getX.read(user_details.GETX_BIO).toString().isNotEmpty ? 5 : 0;
     int image =
         getX.read(user_details.GETX_IMAGE).toString().isNotEmpty ? 10 : 0;
     setState(() {
-
       value = (email +
               name +
               status +
@@ -110,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // score22 = 2;
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       body: Padding(
@@ -539,7 +541,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // This widget builds a loading Indicator
+  // This widget builds a loading indicator for pagination
   Widget _buildProgressIndicator() {
     return isLoadingIndicator
         ? const Padding(

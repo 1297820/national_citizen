@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/settingsEdit/editScreen.dart';
 import 'package:national_citizen/main.dart';
-import 'package:national_citizen/utils/apirequest.dart';
+import 'package:national_citizen/utils/api_request.dart';
 
 // ignore: must_be_immutable
 class EditProfileScreen extends StatelessWidget {

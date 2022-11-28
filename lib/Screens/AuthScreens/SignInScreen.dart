@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:national_citizen/Screens/AuthScreens/forgotPassword.dart';
 import 'package:national_citizen/Screens/AuthScreens/signUpScreen.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/bottomNavBar.dart';
-import 'package:national_citizen/customwidgets.dart';
+import 'package:national_citizen/custom_widgets.dart';
 import 'package:national_citizen/main.dart';
-import 'package:national_citizen/utils/apirequest.dart';
+import 'package:national_citizen/utils/api_request.dart';
 import 'package:national_citizen/utils/constants.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -26,7 +26,6 @@ class _SignInScreenState extends State<SignInScreen> {
   //This function acts as the waiter in a resturant and sends the users request to logIn into his already created account
   //then returns a feedback, either the request was succeccful or not.
   logInFunction() async {
-    print('******** rannnnnn');
     Map<String, dynamic> response;
     response = await logInRequest(
       ninController.text.toString().trim(),
@@ -40,7 +39,6 @@ class _SignInScreenState extends State<SignInScreen> {
         loadingState = 2;
       });
       getX.write(user_details.GETX_NAME, response['user']["name"]);
-      print(" name updated  ${getX.read(user_details.GETX_NAME)}");
       getX.write(user_details.GETX_STATUS, response['user']["status"]);
       getX.write(user_details.GETX_ADDRESS, response['user']["address"]);
       getX.write(user_details.GETX_PHONE_NUMBER, response['user']["phone"]);
@@ -52,7 +50,6 @@ class _SignInScreenState extends State<SignInScreen> {
       getX.write(user_details.GETX_INTEREST, response['user']["interest"]);
       getX.write(user_details.GETX_BIO, response['user']["bio"]);
       getX.write(user_details.GETX_IMAGE, response['user']["img"]);
-      print(" image updated  ${getX.read(user_details.GETX_IMAGE)}");
       getX.write(user_details.GETX_TOKEN, response['token']);
       getX.write(user_details.GETX_ISLOGGEDIN, 'true');
       Navigator.of(context).pushAndRemoveUntil(
@@ -129,7 +126,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     hintStyle:
                         const TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
                     errorText: ninController.text.length != 11 && ninController.text.isNotEmpty
-                        ? 'NIN must be 11 digits long'
+                        ? 'NIN must be 11 digits'
                         : '',
                     errorStyle: const TextStyle(fontSize: 11),
                   ),

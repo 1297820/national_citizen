@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/usersProfile.dart';
 import 'package:national_citizen/main.dart';
-import 'package:national_citizen/utils/apirequest.dart';
+import 'package:national_citizen/utils/api_request.dart';
 import 'package:skeletons/skeletons.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -21,8 +22,9 @@ class _SearchScreenState extends State<SearchScreen> {
   int? month;
   int? year;
   int? week_N;
-  String? sort_option;
+  String sort_option = '';
   int date = DateTime.now().day;
+  bool searchLoading = false;
 
   @override
   void initState() {
@@ -53,7 +55,6 @@ class _SearchScreenState extends State<SearchScreen> {
       itemBuilder: (context) => [
         PopupMenuItem(
           enabled: false,
-          // row has two child icon and text.
           child: Row(
             children: const [
               Text(
@@ -207,9 +208,9 @@ class _SearchScreenState extends State<SearchScreen> {
             const SizedBox(
               height: 24,
             ),
-            sort_option!.isNotEmpty
+            sort_option.isNotEmpty
                 ? Text(
-                    "$sort_option",
+                    "Sort by $sort_option",
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
@@ -228,13 +229,18 @@ class _SearchScreenState extends State<SearchScreen> {
                 onChanged: (value) async {
                   if (value.isEmpty) {
                     setState(() {
-                      searchInput = value;
+                      // searchInput = value;
                       search = false;
+                      searchLoading = false;
                     });
                   } else if (value.isNotEmpty) {
+                    setState(() {
+                      searchLoading = true;
+                    });
                     searchUser = await searchUsers(value, 1, week, month, year);
                     setState(() {
                       users = searchUser!['users'];
+                      searchLoading = false;
                       searchInput = value;
                       search = true;
                     });
@@ -242,10 +248,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 },
                 style: const TextStyle(fontSize: 14),
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(
-                    Icons.search,
-                    color: Colors.black45,
-                  ),
+                  prefixIcon: searchLoading
+                      ? const CupertinoActivityIndicator()
+                      : const Icon(
+                          Icons.search,
+                          color: Colors.black45,
+                        ),
                   prefixIconColor: const Color.fromRGBO(45, 38, 75, 1),
                   contentPadding: const EdgeInsets.fromLTRB(15, 0, 5, 5),
                   border: const OutlineInputBorder(borderSide: BorderSide.none),
@@ -260,7 +268,7 @@ class _SearchScreenState extends State<SearchScreen> {
             const SizedBox(
               height: 10,
             ),
-            searchInput.isNotEmpty
+            search
                 ? Text(
                     "Search result: '$searchInput'",
                     style: const TextStyle(
@@ -270,7 +278,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   )
                 : const SizedBox(),
-            searchInput.isNotEmpty
+            search
                 ? searchUser!['msg'] != "success"
                     ? Expanded(
                         child: Center(
@@ -384,7 +392,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               users![i]['name']
                                                       .toString()
                                                       .isEmpty
-                                                  ? 'Unkown'
+                                                  ? 'Unknown'
                                                   : users![i]['name'],
                                               style: const TextStyle(
                                                 fontSize: 13,
@@ -396,7 +404,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               users![i]['email']
                                                       .toString()
                                                       .isEmpty
-                                                  ? 'Unkown@gmail.com'
+                                                  ? 'Unknown@gmail.com'
                                                   : users![i]['email'],
                                               style: const TextStyle(
                                                 fontSize: 11,

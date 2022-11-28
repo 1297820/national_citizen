@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -15,10 +14,8 @@ Future<dynamic>? getNewsData(pageCount) async {
       Uri.parse("$url&pageSize=10&page=$pageCount&$apiKey"),
     );
     var body = jsonDecode(response.body);
-    // print('>>>>>>>>>>> $body');
     return body;
   } catch (e) {
-    // print('Error is $e');
     rethrow;
   }
 }
@@ -27,7 +24,6 @@ String endpointUrl = "fast-woodland-39897.herokuapp.com";
 
 Future<dynamic> signUpRequest(String email, String nin, String password) async {
   try {
-    print("start signUp");
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/auth/signup"),
@@ -36,18 +32,14 @@ Future<dynamic> signUpRequest(String email, String nin, String password) async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-    print("###### $decodedResponse");
-    print(decodedResponse.runtimeType);
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
 Future<dynamic> logInRequest(String nin, String password) async {
   try {
-    print("start signUp");
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/auth/login"),
@@ -56,19 +48,14 @@ Future<dynamic> logInRequest(String nin, String password) async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-    print("###### $decodedResponse");
-    print(decodedResponse.runtimeType);
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
 Future<dynamic> profileRequest() async {
   try {
-    print("start signUp");
-    print('!!!!! ${getX.read(user_details.GETX_TOKEN)} ');
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/profile/view_profile"),
@@ -79,12 +66,9 @@ Future<dynamic> profileRequest() async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-    print("###### $decodedResponse");
-    print(decodedResponse.runtimeType);
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
@@ -106,18 +90,14 @@ Future<dynamic> searchUsers(search, pageCount, week, month, year) async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-    print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
 Future<dynamic> usersProfileRequest(token, userId) async {
   try {
-    print("start signUp");
-    print('!!!!! ${getX.read(user_details.GETX_TOKEN)} ');
     http.Client client = http.Client();
     http.Response response = await client.post(
       Uri.https(endpointUrl, "/user/view_user"),
@@ -126,11 +106,9 @@ Future<dynamic> usersProfileRequest(token, userId) async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-    print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
@@ -146,15 +124,12 @@ Future<dynamic> editName(name) async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-    print("###### $decodedResponse");
     if (decodedResponse["status"] == "ok") {
       getX.write(user_details.GETX_NAME, decodedResponse["user"]["name"]);
-      print(getX.read(user_details.GETX_NAME));
     }
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
@@ -171,11 +146,9 @@ Future<dynamic> editStatus() async {
     );
     dynamic decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-    print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
@@ -192,13 +165,10 @@ Future<dynamic> editAddress(address) async {
         jsonDecode(utf8.decode(response.bodyBytes)) as Map;
     if (decodedResponse["status"] == "ok") {
       getX.write(user_details.GETX_ADDRESS, decodedResponse["user"]["address"]);
-      print(getX.read(user_details.GETX_NAME));
     }
-    print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
@@ -216,11 +186,9 @@ Future<dynamic> editPhoneNumber(phoneNumber) async {
     if (decodedResponse["status"] == "ok") {
       getX.write(user_details.GETX_PHONE_NUMBER, decodedResponse["user"]["phone"]);
     }
-    print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
@@ -238,11 +206,9 @@ Future<dynamic> editEmail(email) async {
     if (decodedResponse["status"] == "ok") {
       getX.write(user_details.GETX_EMAIL, decodedResponse["user"]["email"]);
     }
-    print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
@@ -262,11 +228,9 @@ Future<dynamic> editDateOfBirth(dateOfBirth) async {
     if (decodedResponse["status"] == "ok") {
       getX.write(user_details.GETX_DOB, decodedResponse["user"]["date_of_birth"]);
     }
-    print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
@@ -286,11 +250,9 @@ Future<dynamic> editOccupation(occupation) async {
     if (decodedResponse["status"] == "ok") {
       getX.write(user_details.GETX_OCCUPATION, decodedResponse["user"]["occupation"]);
     }
-    print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
@@ -310,11 +272,9 @@ Future<dynamic> editGender() async {
     if (decodedResponse["status"] == "ok") {
       getX.write(user_details.GETX_GENDER, decodedResponse["user"]["gender"]);
     }
-    print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
@@ -332,11 +292,9 @@ Future<dynamic> editHeight(height) async {
     if (decodedResponse["status"] == "ok") {
       getX.write(user_details.GETX_HEIGHT, decodedResponse["user"]["height"]);
     }
-    print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
@@ -354,11 +312,9 @@ Future<dynamic> editInterest(interest) async {
     if (decodedResponse["status"] == "ok") {
       getX.write(user_details.GETX_INTEREST, decodedResponse["user"]["interest"]);
     }
-    print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }
 
@@ -376,10 +332,8 @@ Future<dynamic> editBio(bio) async {
     if (decodedResponse["status"] == "ok") {
       getX.write(user_details.GETX_BIO, decodedResponse["user"]["bio"]);
     }
-    print("###### $decodedResponse");
     return decodedResponse;
   } catch (e) {
     print(e);
-    // myWidgets.showSnackbar(message: "An error occured", color: Colors.red);
   }
 }

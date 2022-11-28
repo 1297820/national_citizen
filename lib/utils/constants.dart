@@ -1,5 +1,4 @@
 class Constants {
-  // ignore: non_constant_identifier_names
   String GETX_ISLOGGEDIN = "isLoggedIn";
   // ignore: non_constant_identifier_names
   String GETX_TOKEN = "token";

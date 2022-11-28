@@ -4,8 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:national_citizen/Screens/settingsEdit/editProfileScreen.dart';
 import 'package:national_citizen/Screens/settingsEdit/settings.dart';
-import 'package:national_citizen/customwidgets.dart';
-import 'package:national_citizen/utils/apirequest.dart';
+import 'package:national_citizen/custom_widgets.dart';
+import 'package:national_citizen/utils/api_request.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:dio/dio.dart';
 import '../../main.dart';
@@ -33,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     profileDetails = profileRequest();
   }
   
-  //Wiith the help of the "ImagePicker" plugIn, we can select images either from our gallery or camera roll
+  //With the help of the "ImagePicker" plugIn, we can select images either from our gallery or using the phones camera
   Future pickImage(ImageSource imageSource) async {
     try {
       final image = await ImagePicker().pickImage(source: imageSource);
@@ -51,8 +51,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
 
-  //This function helps build the bottomSheet which contains the option to either select image from
-  //from camera roll or gallery.
+  //This function helps build the bottomSheet which contains the option to either select image using
+  //the camera or from your gallery.
   setProfilePicture(BuildContext context) {
     return showModalBottomSheet(
       context: context,
@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: const [
                         CircleAvatar(
                           radius: 25,
-                          backgroundColor: Color.fromRGBO(153, 34, 240, 0.8),
+                          backgroundColor: Color.fromRGBO(242, 34, 172, 1),
                           child: Icon(
                             Icons.camera,
                             color: Colors.white,
@@ -125,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: const [
                         CircleAvatar(
                           radius: 25,
-                          backgroundColor: Color.fromRGBO(153, 34, 240, 0.8),
+                          backgroundColor: Color.fromRGBO(153, 34, 240, 1),
                           child: Icon(
                             Icons.image,
                             color: Colors.white,
@@ -173,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       dio.Dio()
           .post(
-        "https://$endpointUrl/profile/edit_profile",
+        "https://$endpointUrl/profile/edit_profile", //when using dio, 'https://' must be specified in the endpoint url
         data: formData,
         options: dio.Options(
             method: "POST",
@@ -185,8 +185,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       )
           .then((response) {
         var res = response.data;
-        print('^^^^^^^^ $res');
-
         if (res["status"] == "ok") {
           getX.write(user_details.GETX_IMAGE, res["user"]["img"]);
           setState(() {
@@ -198,7 +196,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           setState(() {
             loadingState = false;
           });
-          showToast('Some Error occured', Colors.red[700]);
+          showToast('Some error occured', Colors.red[700]);
         }
       });
     } catch (e) {
@@ -206,7 +204,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         loadingState = false;
       });
-      showToast('Some Error occured', Colors.red[700]);
+      showToast('Some error occured', Colors.red[700]);
     }
   }
 
@@ -275,7 +273,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               if (details["status"] == "error") {
                 return const CircularProgressIndicator();
               } else if (details["status"] == "ok") {
-                print('@@@@@@ $details');
+                
                 return profileBody(
                   getX.read(user_details.GETX_IMAGE).toString().isEmpty
                       ? ''
@@ -417,7 +415,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     bottom: 0,
                     right: 5,
                     child: InkWell(
-                      onTap: () async {
+                      onTap: () {
                         setProfilePicture(context);
                       },
                       child: loadingState == true

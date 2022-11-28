@@ -33,7 +33,7 @@ class StartScreen extends StatelessWidget {
               height: 14,
             ),
             const Text(
-              "let's Get Started",
+              "Let's Get Started",
               style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
@@ -45,9 +45,12 @@ class StartScreen extends StatelessWidget {
               height: 45,
               child: OutlinedButton(
                 style: ButtonStyle(
-                    side: MaterialStateProperty.all<BorderSide>(
-                        const BorderSide(
-                            color: Color.fromRGBO(255, 255, 255, 1)))),
+                  side: MaterialStateProperty.all<BorderSide>(
+                    const BorderSide(
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                    ),
+                  ),
+                ),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -58,9 +61,10 @@ class StartScreen extends StatelessWidget {
                 child: const Text(
                   'Sign Up',
                   style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(255, 255, 255, 1)),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                  ),
                 ),
               ),
             ),
@@ -72,8 +76,10 @@ class StartScreen extends StatelessWidget {
               height: 45,
               child: ElevatedButton(
                 style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        const Color.fromRGBO(255, 255, 255, 1))),
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    const Color.fromRGBO(255, 255, 255, 1),
+                  ),
+                ),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(

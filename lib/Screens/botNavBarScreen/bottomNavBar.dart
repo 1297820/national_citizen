@@ -16,11 +16,8 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  // ignore: non_constant_identifier_names
   int current_index = 0;
 
-  // ignore: non_constant_identifier_names
-  // THe 'update_index' function updates and rerender the "current_index" variable with the current "value" 
   void update_index(int value) {
     setState(() {
       current_index = value;
@@ -37,7 +34,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    //The list "screens" containers the widget of all screens to be accessed from the bottomNavBar
+    //The list "screens" contains all pages to be accessed from the bottomNavBar
     List<Widget> screens = [
       const HomeScreen(),
       const SearchScreen(),
@@ -45,7 +42,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
     ];
 
     return Scaffold(
-      body: IndexedStack(children: screens, index: current_index,),
+      body: IndexedStack(
+        children: screens,
+        index: current_index,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         enableFeedback: false,
         backgroundColor: Colors.grey.shade200,

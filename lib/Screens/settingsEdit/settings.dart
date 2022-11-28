@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:national_citizen/Screens/startScreen.dart';
 import 'package:national_citizen/main.dart';
-import 'package:national_citizen/utils/apirequest.dart';
+import 'package:national_citizen/utils/api_request.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../customwidgets.dart';
+import '../../custom_widgets.dart';
 
 // ignore: must_be_immutable
 class SettingsScreen extends StatelessWidget {
@@ -91,14 +91,18 @@ class SettingsScreen extends StatelessWidget {
                 );
               },
             ),
-            const Spacer(flex: 6,),
+            const Spacer(
+              flex: 6,
+            ),
             Center(
               child: SvgPicture.asset(
                 'assets/images/settings.svg',
                 height: 80,
               ),
             ),
-            const Spacer(flex: 1,)
+            const Spacer(
+              flex: 1,
+            )
           ],
         ),
       ),
@@ -124,9 +128,10 @@ class SettingsScreen extends StatelessWidget {
                 const Text(
                   'Log Out',
                   style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(154, 34, 240, 1)),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromRGBO(154, 34, 240, 1),
+                  ),
                 ),
                 const Spacer(),
                 GestureDetector(
@@ -156,7 +161,9 @@ class SettingsScreen extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                   ),
-                  const SizedBox(width: 20,),
+                  const SizedBox(
+                    width: 20,
+                  ),
                   SizedBox(
                     height: 35,
                     width: 135,

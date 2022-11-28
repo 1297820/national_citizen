@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:national_citizen/Screens/botNavBarScreen/bottomNavBar.dart';
-import 'package:national_citizen/customwidgets.dart';
-import 'package:national_citizen/utils/apirequest.dart';
-import 'package:national_citizen/utils/constants.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:national_citizen/custom_widgets.dart';
+import 'package:national_citizen/utils/api_request.dart';
 import '../../main.dart';
 import 'SignInScreen.dart';
 
@@ -20,24 +18,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController ninController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  // THe ninController, passwordController and emailController contains the nin, password and email inputs
+  // The ninController, passwordController and emailController contains the nin, password and email inputs
+
   bool value = false;
   bool _obscureText = true;
   int loadingState = 0;
   bool errorText = false;
 
-  // ignore: non_constant_identifier_names
-  //This function acts as the waiter in a resturant and sends the users request to signUp thereby creating an account
-  //then returns a feedback, either the request was succeccful or not.
-  SignUpFunction() async {
-    print('******** rannnnnn');
+
+  void signUpFunction() async {
     Map<String, dynamic> response;
     response = await signUpRequest(
-      emailController.text.toString().trim(),
+      emailController.text
+          .toString()
+          .trim(), //trim is used to remove whitespaces in the users input
       ninController.text.toString().trim(),
       passwordController.text.toString().trim(),
     );
-     //The variable 'response' contains the feedback from the back end 
+    //The variable 'response' contains the feedback from the back end
     if (response["status"] == "ok" &&
         response["msg"] == "Successfully created user") {
       //If the request was successful, everthing within this block of code should be executed
@@ -45,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         loadingState = 2;
       });
       getX.write(user_details.GETX_NAME, response['user']["name"]);
-      print(" name updated  ${getX.read(user_details.GETX_NAME)}");
+      
       getX.write(user_details.GETX_STATUS, response['user']["status"]);
       getX.write(user_details.GETX_ADDRESS, response['user']["address"]);
       getX.write(user_details.GETX_PHONE_NUMBER, response['user']["phone"]);
@@ -157,7 +155,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     hintText: 'NIN',
                     hintStyle: const TextStyle(
                         fontSize: 14, fontWeight: FontWeight.w300),
-                    errorText: errorText ? 'NIN must be 11 digits long' : '',
+                    errorText: errorText ? 'NIN must be 11 digits' : '',
                     errorStyle: const TextStyle(fontSize: 11),
                   ),
                 ),
@@ -262,15 +260,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   } else if (!value) {
                     showToast("Accept terms of usage", Colors.red[700]);
                   } else {
-                    // If all conditions required to successfully signUp has been met, then execute everthing 
+                    // If all conditions required to successfully signUp has been met, then execute everthing
                     // in this block of code
                     setState(() {
                       loadingState = 1;
                     });
-                    print(
-                        "${emailController.text.toString()} ${ninController.text.toString()} ${passwordController.text.toString()}");
-                    print("signUp");
-                    SignUpFunction();
+                    // print(
+                    //     "${emailController.text.toString()} ${ninController.text.toString()} ${passwordController.text.toString()}");
+                    // print("signUp");
+                    signUpFunction();
                   }
                 },
               ),

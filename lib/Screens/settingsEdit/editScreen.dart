@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:national_citizen/customwidgets.dart';
-import 'package:national_citizen/utils/apirequest.dart';
+import 'package:national_citizen/custom_widgets.dart';
+import 'package:national_citizen/utils/api_request.dart';
 
 // ignore: must_be_immutable
 class EditScreen extends StatefulWidget {
@@ -24,6 +24,7 @@ class _EditScreenState extends State<EditScreen> {
     false,
     false
   ];
+  
   int day = 11;
   int month = 12;
   int year = 1997;
@@ -555,7 +556,7 @@ class _EditScreenState extends State<EditScreen> {
 
   DateTime currentDate = DateTime.now();
 
-  calender() async {
+  show_calendar() async {
     DateTime? dateOfBirth = await showDatePicker(
       context: context,
       initialDate: DateTime(2020),
@@ -610,7 +611,7 @@ class _EditScreenState extends State<EditScreen> {
           padding: const EdgeInsets.only(top: 35),
           child: GestureDetector(
             onTap: () {
-              calender();
+              show_calendar();
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

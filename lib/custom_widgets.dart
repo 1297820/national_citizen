@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:national_citizen/main.dart';
-import 'package:national_citizen/utils/apirequest.dart';
+import 'package:national_citizen/utils/api_request.dart';
 
 class PasswordCustomTextField extends StatelessWidget {
   PasswordCustomTextField(
@@ -315,7 +315,6 @@ class _GenderState extends State<Gender> {
   }
 }
 
-
 void showToast(msg, backgroundColor) {
   Fluttertoast.showToast(
       msg: msg, // message
@@ -324,4 +323,3 @@ void showToast(msg, backgroundColor) {
       backgroundColor: backgroundColor // location
       );
 }
-
